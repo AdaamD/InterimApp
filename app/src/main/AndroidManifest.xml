@@ -13,6 +13,16 @@
         android:theme="@style/Theme.ADMDInterim"
         tools:targetApi="31">
         <activity
+            android:name=".EspaceCandidatActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ADMDInterim" />
+        <activity
+            android:name=".EspaceEmployeurActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AnonymeActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
