@@ -42,6 +42,11 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+
+    val sqlite_version = "2.3.0"
+    implementation("androidx.sqlite:sqlite:$sqlite_version")
+    implementation("androidx.sqlite:sqlite-framework:$sqlite_version")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
