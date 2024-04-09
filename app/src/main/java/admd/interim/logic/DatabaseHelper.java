@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "interim.db";
@@ -83,6 +86,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count > 0;
     }
 
+    // Vérifier si un employeur existe déjà dans la base de données
+    private boolean employeurExists(String nom, String entreprise, String email, String numeroTelephone, String adresse, String liensPublic) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM employeurs WHERE nom = ? AND entreprise = ? AND email = ? AND numero_telephone = ? AND adresse = ? AND liens_public = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{nom, entreprise, email, numeroTelephone, adresse, liensPublic});
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return count > 0;
+    }
+
+    // Vérifier si une offre existe déjà dans la base de données
+    private boolean offreExists(String titre, String description, String metier, String lieu, String dateDebut, String dateFin, int idEmployeur) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM offres WHERE titre = ? AND description = ? AND metier = ? AND lieu = ? AND date_debut = ? AND date_fin = ? AND id_employeur = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{titre, description, metier, lieu, dateDebut, dateFin, String.valueOf(idEmployeur)});
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return count > 0;
+    }
+
 // Insérer un candidat dans la base de données
     public long insertCandidat(String nom, String prenom, String dateNaissance, String nationalite, String numeroTelephone, String email, String ville, String cv) {
         // Vérifier si le candidat existe déjà
@@ -118,4 +145,123 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             System.out.println("L'insertion a réussi");}
         return newRowId;
     }
+
+    // Insérer un employeur dans la base de données
+    public long insertEmployeur(String nom, String entreprise, String email, String numeroTelephone, String adresse, String liensPublic) {
+        // Vérifier si l'employeur existe déjà
+        if (employeurExists(nom, entreprise, email, numeroTelephone, adresse, liensPublic)) {
+            // L'employeur existe déjà, ne pas l'insérer
+            return -1;
+        }
+
+        // Obtenir une instance de SQLiteDatabase en mode écriture
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Créer un objet ContentValues pour stocker les valeurs de l'employeur
+        ContentValues values = new ContentValues();
+        values.put("nom", nom);
+        values.put("entreprise", entreprise);
+        values.put("email", email);
+        values.put("numero_telephone", numeroTelephone);
+        values.put("adresse", adresse);
+        values.put("liens_public", liensPublic);
+
+        // Insérer l'employeur dans la table "employeurs"
+        long newRowId = db.insert("employeurs", null, values);
+
+        // Fermer la connexion à la base de données
+        db.close();
+
+        return newRowId;
+    }
+    public long insertOffre(String titre, String description, String metier, String lieu, String dateDebut, String dateFin, int idEmployeur) {
+        // Vérifier si l'offre existe déjà
+        if (offreExists(titre, description, metier, lieu, dateDebut, dateFin, idEmployeur)) {
+            // L'offre existe déjà, ne pas l'insérer
+            return -1;
+        }
+
+        // Obtenir une instance de SQLiteDatabase en mode écriture
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Créer un objet ContentValues pour stocker les valeurs de l'offre
+        ContentValues values = new ContentValues();
+        values.put("titre", titre);
+        values.put("description", description);
+        values.put("metier", metier);
+        values.put("lieu", lieu);
+        values.put("date_debut", dateDebut);
+        values.put("date_fin", dateFin);
+        values.put("id_employeur", idEmployeur);
+
+        // Insérer l'offre dans la table "offres"
+        long newRowId = db.insert("offres", null, values);
+
+        // Fermer la connexion à la base de données
+        db.close();
+
+        return newRowId;
+    }
+
+    // Récupérer toutes les offres de la base de données
+    public List<Offre> getAllOffres() {
+        List<Offre> offres = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT * FROM offres";
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Offre offre = new Offre();
+
+                int idIndex = cursor.getColumnIndex("id");
+                if (idIndex != -1) {
+                    offre.setId(cursor.getInt(idIndex));
+                }
+
+                int titreIndex = cursor.getColumnIndex("titre");
+                if (titreIndex != -1) {
+                    offre.setTitre(cursor.getString(titreIndex));
+                }
+
+                int descriptionIndex = cursor.getColumnIndex("description");
+                if (descriptionIndex != -1) {
+                    offre.setDescription(cursor.getString(descriptionIndex));
+                }
+
+                int metierIndex = cursor.getColumnIndex("metier");
+                if (metierIndex != -1) {
+                    offre.setMetier(cursor.getString(metierIndex));
+                }
+
+                int lieuIndex = cursor.getColumnIndex("lieu");
+                if (lieuIndex != -1) {
+                    offre.setLieu(cursor.getString(lieuIndex));
+                }
+
+                int dateDebutIndex = cursor.getColumnIndex("date_debut");
+                if (dateDebutIndex != -1) {
+                    offre.setDateDebut(cursor.getString(dateDebutIndex));
+                }
+
+                int dateFinIndex = cursor.getColumnIndex("date_fin");
+                if (dateFinIndex != -1) {
+                    offre.setDateFin(cursor.getString(dateFinIndex));
+                }
+
+                int idEmployeurIndex = cursor.getColumnIndex("id_employeur");
+                if (idEmployeurIndex != -1) {
+                    offre.setIdEmployeur(cursor.getInt(idEmployeurIndex));
+                }
+
+                offres.add(offre);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return offres;
+    }
+
+
 }

@@ -1,17 +1,17 @@
-package admd.interim;
+package admd.interim.employeur;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import admd.interim.R;
 
-public class EspaceCandidatActivity extends AppCompatActivity {
+
+public class EspaceEmployeurActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_espace_candidat);
-
+        setContentView(R.layout.activity_espace_employeur);
     }
 }

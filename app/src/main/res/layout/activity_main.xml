@@ -9,40 +9,46 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="484dp"
         android:orientation="vertical"
         android:padding="16dp">
 
         <ImageView
-        android:layout_width="206dp"
-        android:layout_height="193dp"
-        android:src="@drawable/travailleur"
-            android:layout_gravity="center"/>
+            android:layout_width="322dp"
+            android:layout_height="271dp"
+            android:layout_gravity="center"
+            android:src="@drawable/travailleur" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView_admd_interim"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="74dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
                 android:text="ADMD INTERIM"
                 android:textAlignment="center"
                 android:textColor="@color/redlight"
-                android:textSize="24sp"
+                android:textSize="30sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView_votre_prochain_emploi"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="63dp"
                 android:text="Votre prochain emploi commence ici !"
-                android:textAlignment="center"
                 android:textColor="@color/redlight"
-                android:textSize="18sp" />
+                android:textSize="20dp"
+                android:layout_gravity="bottom"/>
+
         </LinearLayout>
+
+
     </LinearLayout>
 
     <FrameLayout

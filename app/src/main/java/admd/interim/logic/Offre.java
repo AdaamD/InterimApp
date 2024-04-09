@@ -21,6 +21,10 @@ public class Offre {
         this.idEmployeur = idEmployeur;
     }
 
+    public Offre() {
+
+    }
+
     // Getters et setters
 
     public int getId() {
