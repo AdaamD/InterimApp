@@ -33,7 +33,7 @@
                 android:layout_marginTop="16dp"
                 android:text="ADMD INTERIM"
                 android:textAlignment="center"
-                android:textColor="@color/redlight"
+                android:textColor="@color/lightblue"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="63dp"
                 android:text="Votre prochain emploi commence ici !"
-                android:textColor="@color/redlight"
+                android:textColor="@color/lightblue"
                 android:textSize="20dp"
                 android:layout_gravity="bottom"/>
 
@@ -55,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_button"
-        android:backgroundTint="@color/redlight"
+        android:backgroundTint="@color/lightblue"
         android:padding="16dp">
 
         <LinearLayout

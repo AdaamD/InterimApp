@@ -13,9 +13,9 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:background="@drawable/rounded_button"
-            android:backgroundTint="@color/redlight"
+            android:backgroundTint="@color/lightblue"
             android:padding="16dp">
 
             <TextView
@@ -24,7 +24,6 @@
                 android:layout_gravity="center"
                 android:text="RECHERCHE OFFRES"
                 android:textAlignment="center"
-                android:textColor="@color/white"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </FrameLayout>
@@ -39,7 +38,7 @@
         android:layout_marginTop="51dp"
         android:text="S'inscrire"
         android:textSize="18sp"
-        android:backgroundTint="@color/redlight"/>
+        android:backgroundTint="@color/lightblue"/>
 
     <FrameLayout
         android:layout_width="match_parent"
