@@ -15,8 +15,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import admd.interim.anonyme.AnonymeActivity;
-import admd.interim.candidat.EspaceCandidatActivity;
-import admd.interim.employeur.EspaceEmployeurActivity;
+import admd.interim.candidat.MenuCandidatActivity;
+import admd.interim.employeur.InscriptionEmployeurActivity;
+import admd.interim.employeur.MenuEmployeurActivity;
 import admd.interim.logic.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Rediriger vers l'activité EspaceCandidatActivity
-                Intent intent = new Intent(MainActivity.this, EspaceCandidatActivity.class);
+                Intent intent = new Intent(MainActivity.this, MenuCandidatActivity.class);
                 startActivity(intent);
             }
         });
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Rediriger vers l'activité EspaceEmployeurActivity
-                Intent intent = new Intent(MainActivity.this, EspaceEmployeurActivity.class);
+                Intent intent = new Intent(MainActivity.this, MenuEmployeurActivity.class);
                 startActivity(intent);
             }
         });

@@ -5,12 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView3"
         android:layout_width="400dp"
         android:layout_height="216dp"
-        android:text="Espace CANDIDAT"
+        android:layout_marginStart="24dp"
+        android:text="La connexion a réussie"
         android:textSize="40dp"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="322dp" />
+        tools:layout_editor_absoluteY="386dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

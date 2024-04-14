@@ -146,6 +146,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return newRowId;
     }
 
+    public boolean candidatExistsByEmail(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM candidats WHERE email = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{email});
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return count > 0;
+    }
+
+    public boolean employeurExistsByEmail(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM employeurs WHERE email = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{email});
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return count > 0;
+    }
+
+
+
     // Insérer un employeur dans la base de données
     public long insertEmployeur(String nom, String entreprise, String email, String numeroTelephone, String adresse, String liensPublic) {
         // Vérifier si l'employeur existe déjà

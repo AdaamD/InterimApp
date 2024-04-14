@@ -1,5 +1,8 @@
 package admd.interim.candidat;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -51,13 +54,57 @@ public class InscriptionCandidatActivity extends AppCompatActivity {
         String ville = editTextVille.getText().toString().trim();
         String cv = editTextCV.getText().toString().trim();
 
+        // Vérifier si les champs obligatoires sont remplis
+        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty()) {
+            showMissingFieldsDialog();
+            return;
+        }
+
         long candidatId = databaseHelper.insertCandidat(nom, prenom, dateNaissance, nationalite, numeroTelephone, email, ville, cv);
 
         if (candidatId == -1) {
-            Toast.makeText(this, "Le candidat existe déjà dans la base de données", Toast.LENGTH_SHORT).show();
+            showCandidatExistsDialog();
         } else {
-            Toast.makeText(this, "Candidat inscrit avec succès", Toast.LENGTH_SHORT).show();
-            finish(); // Fermer l'activité après l'inscription réussie
+            showSuccessDialog();
         }
+    }
+
+    // Affiche une boîte de dialogue pour informer l'utilisateur que les champs obligatoires ne sont pas remplis
+    private void showMissingFieldsDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Champs obligatoires manquants");
+        builder.setMessage("Veuillez remplir les champs Nom, Prénom et Email.");
+        builder.setPositiveButton("OK", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    // Affiche une boîte de dialogue pour informer l'utilisateur que le candidat existe déjà
+    private void showCandidatExistsDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Candidat existant");
+        builder.setMessage("Un candidat avec les mêmes informations existe déjà dans la base de données.");
+        builder.setPositiveButton("OK", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    // Affiche une boîte de dialogue pour informer l'utilisateur que l'inscription a réussi
+    private void showSuccessDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Inscription réussie");
+        builder.setMessage("Votre inscription en tant que candidat a été effectuée avec succès. Vous allez être redirigé vers la page d'accueil.");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Rediriger vers MenuCandidatActivity
+                Intent intent = new Intent(InscriptionCandidatActivity.this, MenuCandidatActivity.class);
+                startActivity(intent);
+                finish(); // Fermer l'activité InscriptionCandidatActivity
+            }
+        });
+        builder.setCancelable(false); // Empêcher la fermeture du dialogue en cliquant à l'extérieur
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
