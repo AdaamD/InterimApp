@@ -263,5 +263,64 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return offres;
     }
 
+// Récupérer les offres basées sur le lieu
+    public List<Offre> getOffresParLieu(String lieu) {
+        List<Offre> offres = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM offres WHERE lieu = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{lieu});
+
+        if (cursor.moveToFirst()) {
+            do {
+                Offre offre = new Offre();
+
+                int idIndex = cursor.getColumnIndex("id");
+                if (idIndex != -1) {
+                    offre.setId(cursor.getInt(idIndex));
+                }
+
+                int titreIndex = cursor.getColumnIndex("titre");
+                if (titreIndex != -1) {
+                    offre.setTitre(cursor.getString(titreIndex));
+                }
+
+                int descriptionIndex = cursor.getColumnIndex("description");
+                if (descriptionIndex != -1) {
+                    offre.setDescription(cursor.getString(descriptionIndex));
+                }
+
+                int metierIndex = cursor.getColumnIndex("metier");
+                if (metierIndex != -1) {
+                    offre.setMetier(cursor.getString(metierIndex));
+                }
+
+                int lieuIndex = cursor.getColumnIndex("lieu");
+                if (lieuIndex != -1) {
+                    offre.setLieu(cursor.getString(lieuIndex));
+                }
+
+                int dateDebutIndex = cursor.getColumnIndex("date_debut");
+                if (dateDebutIndex != -1) {
+                    offre.setDateDebut(cursor.getString(dateDebutIndex));
+                }
+
+                int dateFinIndex = cursor.getColumnIndex("date_fin");
+                if (dateFinIndex != -1) {
+                    offre.setDateFin(cursor.getString(dateFinIndex));
+                }
+
+                int idEmployeurIndex = cursor.getColumnIndex("id_employeur");
+                if (idEmployeurIndex != -1) {
+                    offre.setIdEmployeur(cursor.getInt(idEmployeurIndex));
+                }
+
+                offres.add(offre);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return offres;
+    }
+
 
 }

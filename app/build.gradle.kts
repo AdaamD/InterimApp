@@ -42,6 +42,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.play.services.location)
 
     val sqlite_version = "2.3.0"
     implementation("androidx.sqlite:sqlite:$sqlite_version")
