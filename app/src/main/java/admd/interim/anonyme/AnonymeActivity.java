@@ -3,6 +3,7 @@ package admd.interim.anonyme;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,6 +36,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import admd.interim.R;
+import admd.interim.candidat.InscriptionCandidatActivity;
 import admd.interim.logic.DatabaseHelper;
 import admd.interim.logic.Offre;
 
@@ -63,7 +66,20 @@ public class AnonymeActivity extends AppCompatActivity {
         } else {
             getUserLocation();
         }
+
+        Button buttonInscrireCandidat = findViewById(R.id.button_inscrire_candidat);
+        buttonInscrireCandidat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AnonymeActivity.this, InscriptionCandidatActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
+
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

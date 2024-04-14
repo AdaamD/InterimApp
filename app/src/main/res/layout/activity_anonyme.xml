@@ -32,7 +32,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button_sinscrire"
+        android:id="@+id/button_inscrire_candidat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/layout_recherche_offres"
@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
-        android:layout_below="@id/button_sinscrire"
+        android:layout_below="@id/button_inscrire_candidat"
         android:background="@drawable/rounded_button"
         android:backgroundTint="@color/white">
 

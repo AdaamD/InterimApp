@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inscription Candidat"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editText_nom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nom" />
+
+    <EditText
+        android:id="@+id/editText_prenom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Prénom" />
+
+    <EditText
+        android:id="@+id/editText_date_naissance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date de naissance" />
+
+    <EditText
+        android:id="@+id/editText_nationalite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nationalité" />
+
+    <EditText
+        android:id="@+id/editText_numero_telephone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Numéro de téléphone" />
+
+    <EditText
+        android:id="@+id/editText_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email" />
+
+    <EditText
+        android:id="@+id/editText_ville"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ville" />
+
+    <EditText
+        android:id="@+id/editText_cv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="CV" />
+
+    <Button
+        android:id="@+id/button_inscrire"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="S'inscrire" />
+
+</LinearLayout>
