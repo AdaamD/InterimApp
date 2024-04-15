@@ -78,9 +78,6 @@ public class AnonymeActivity extends AppCompatActivity {
 
     }
 
-
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -89,8 +86,8 @@ public class AnonymeActivity extends AppCompatActivity {
                 getUserLocation();
             } else {
                 // L'autorisation de localisation a été refusée
-                // Vous pouvez afficher un message ou prendre d'autres mesures appropriées
-                Toast.makeText(this, "L'autorisation de localisation a été refusée", Toast.LENGTH_SHORT).show();
+                // Afficher toutes les offres disponibles
+                displayAllAds();
             }
         }
     }
@@ -108,8 +105,8 @@ public class AnonymeActivity extends AppCompatActivity {
                             displayLocationBasedAds();
                         } else {
                             // Impossible d'obtenir la localisation
-                            // Vous pouvez afficher un message ou prendre d'autres mesures appropriées
-                            Toast.makeText(AnonymeActivity.this, "Impossible d'obtenir la localisation", Toast.LENGTH_SHORT).show();
+                            // Afficher toutes les offres disponibles
+                            displayAllAds();
                         }
                     }
                 });
@@ -123,9 +120,14 @@ public class AnonymeActivity extends AppCompatActivity {
             updateListView(offres);
         } else {
             // Impossible d'obtenir la localisation
-            // Vous pouvez afficher un message ou prendre d'autres mesures appropriées
-            Toast.makeText(this, "Impossible d'obtenir la localisation", Toast.LENGTH_SHORT).show();
+            // Afficher toutes les offres disponibles
+            displayAllAds();
         }
+    }
+
+    private void displayAllAds() {
+        List<Offre> offres = databaseHelper.getAllOffres();
+        updateListView(offres);
     }
 
     private String getCityFromLocation(Location location) {
