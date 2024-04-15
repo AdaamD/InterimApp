@@ -14,6 +14,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import admd.interim.anonyme.AnonymeActivity;
 import admd.interim.candidat.MenuCandidatActivity;
 import admd.interim.employeur.InscriptionEmployeurActivity;
@@ -95,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
         long Candidat2 = databaseHelper.insertCandidat("Nabil", "Da", "10/10/2001", "marocain", "0622222222", "nabil@mail.fr", "Montpellier", "CV-Nabil");
 
 
-
         // Insérer un nouvel employeur
         long employeurId = databaseHelper.insertEmployeur(
                 "John Doe",
@@ -114,14 +117,73 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Nouvel employeur inséré avec l'ID : " + employeurId, Toast.LENGTH_LONG).show();
         }
 
+        // Création des objets Date pour les dates de début et de fin de chaque offre
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+// Offre 1
+        Date dateDebutOffre1;
+        try {
+            dateDebutOffre1 = sdf.parse("01/06/2023");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        Date dateFinOffre1;
+        try {
+            dateFinOffre1 = sdf.parse("31/12/2023");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+// Offre 2
+        Date dateDebutOffre2;
+        try {
+            dateDebutOffre2 = sdf.parse("01/07/2023");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        Date dateFinOffre2;
+        try {
+            dateFinOffre2 = sdf.parse("31/12/2023");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+// Offre 3
+        Date dateDebutOffre3;
+        try {
+            dateDebutOffre3 = sdf.parse("15/06/2023");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        Date dateFinOffre3;
+        try {
+            dateFinOffre3 = sdf.parse("31/06/2023");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+// Offre 4
+        Date dateDebutOffre4;
+        try {
+            dateDebutOffre4 = sdf.parse("01/08/2023");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        Date dateFinOffre4;
+        try {
+            dateFinOffre4 = sdf.parse("31/12/2023");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
         // Insérer une nouvelle offre
         long offreId = databaseHelper.insertOffre(
-                "Développeur Web",
+                "Developpeur Web",
                 "Nous recherchons un développeur web expérimenté pour rejoindre notre équipe dynamique. Vous serez responsable de la conception, du développement et de la maintenance de nos applications web.",
                 "Développement Web",
                 "Montpellier",
-                "01/06/2023",
-                "31/12/2023",
+                dateDebutOffre1,
+                dateFinOffre1,
                 1
         );
 
@@ -139,8 +201,8 @@ public class MainActivity extends AppCompatActivity {
                 "Nous recherchons un gestionnaire de projet expérimenté pour superviser et coordonner nos projets de développement logiciel. Vous serez responsable de la planification, de l'organisation et du suivi des projets, ainsi que de la gestion de l'équipe et de la communication avec les parties prenantes.",
                 "Gestion de Projet",
                 "Montpellier",
-                "01/07/2023",
-                "31/12/2023",
+                dateDebutOffre2,
+                dateFinOffre2,
                 1 // ID de l'employeur Acme Inc.
         );
 
@@ -157,8 +219,8 @@ public class MainActivity extends AppCompatActivity {
                 "Nous recherchons un analyste commercial expérimenté pour rejoindre notre équipe de vente. Vous serez responsable de l'analyse des données de vente, de l'identification des tendances et des opportunités, ainsi que de la présentation des rapports aux équipes de direction et de vente.",
                 "Analyse Commerciale",
                 "Montpellier",
-                "15/06/2023",
-                "31/12/2023",
+                dateDebutOffre3,
+                dateFinOffre3,
                 1 // ID de l'employeur Acme Inc.
         );
 
@@ -176,8 +238,8 @@ public class MainActivity extends AppCompatActivity {
                 "Nous recherchons un responsable des ressources humaines expérimenté pour gérer et développer notre équipe. Vous serez responsable du recrutement, de la formation, de la gestion des performances et de la conformité aux réglementations en matière d'emploi.",
                 "Ressources Humaines",
                 "Paris",
-                "01/08/2023",
-                "31/12/2023",
+                dateDebutOffre4,
+                dateFinOffre4,
                 1 // ID de l'employeur Acme Inc.
         );
 

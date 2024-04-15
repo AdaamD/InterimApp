@@ -3,6 +3,7 @@ package admd.interim.anonyme;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -31,6 +33,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -48,6 +51,7 @@ public class AnonymeActivity extends AppCompatActivity {
     private Location userLocation;
     private FusedLocationProviderClient fusedLocationClient;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
+    private OffreAdapter adapter; // Ajout d'un attribut pour l'adapter
 
     // Références des EditText pour les filtres
     private EditText editTextMetier, editTextLieu, editTextDateDebut, editTextDateFin;
@@ -97,12 +101,28 @@ public class AnonymeActivity extends AppCompatActivity {
                 String dateFin = editTextDateFin.getText().toString().trim();
 
                 List<Offre> offresFiltered = databaseHelper.getOffresFiltered(metier, lieu, dateDebut, dateFin);
-                updateListView(offresFiltered);
+                if (offresFiltered.isEmpty()) {
+                    showNoOffersDialog();
+                } else {
+                    updateListView(offresFiltered);
+                }
             }
         });
     }
 
-
+    private void showNoOffersDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Aucune offre disponible.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                        // Réinitialiser la vue des offres
+                        listOffres.setAdapter(null);
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -172,7 +192,7 @@ public class AnonymeActivity extends AppCompatActivity {
     }
 
     private void updateListView(List<Offre> offres) {
-        AnonymeActivity.OffreAdapter adapter = new AnonymeActivity.OffreAdapter(this, offres);
+        adapter = new OffreAdapter(this, offres);
         listOffres.setAdapter(adapter);
     }
 
@@ -221,10 +241,15 @@ public class AnonymeActivity extends AppCompatActivity {
             dateDebutOffre.setVisibility(detailsVisible ? View.VISIBLE : View.GONE);
             dateFinOffre.setVisibility(detailsVisible ? View.VISIBLE : View.GONE);
 
+            // Formater les dates
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            String dateDebutFormatted = dateFormat.format(offre.getDateDebut());
+            String dateFinFormatted = dateFormat.format(offre.getDateFin());
+
             if (detailsVisible) {
                 descriptionOffre.setText(Html.fromHtml("<b>Description :</b> " + offre.getDescription()));
-                dateDebutOffre.setText(Html.fromHtml("<b>Date de début :</b> " + offre.getDateDebut()));
-                dateFinOffre.setText(Html.fromHtml("<b>Date de fin :</b> " + offre.getDateFin()));
+                dateDebutOffre.setText(Html.fromHtml("<b>Date de début :</b> " + dateDebutFormatted));
+                dateFinOffre.setText(Html.fromHtml("<b>Date de fin :</b> " + dateFinFormatted));
             }
 
             buttonPlus.setOnClickListener(new View.OnClickListener() {

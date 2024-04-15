@@ -1,17 +1,19 @@
 package admd.interim.logic;
 
+import java.util.Date;
+
 public class Offre {
     private int id;
     private String titre;
     private String description;
     private String metier;
     private String lieu;
-    private String dateDebut;
-    private String dateFin;
+    private Date dateDebut;
+    private Date dateFin;
     private int idEmployeur;
 
     // Constructeur
-    public Offre(String titre, String description, String metier, String lieu, String dateDebut, String dateFin, int idEmployeur) {
+    public Offre(String titre, String description, String metier, String lieu, Date dateDebut, Date dateFin, int idEmployeur) {
         this.titre = titre;
         this.description = description;
         this.metier = metier;
@@ -67,19 +69,19 @@ public class Offre {
         this.lieu = lieu;
     }
 
-    public String getDateDebut() {
+    public Date getDateDebut() {
         return dateDebut;
     }
 
-    public void setDateDebut(String dateDebut) {
+    public void setDateDebut(Date dateDebut) {
         this.dateDebut = dateDebut;
     }
 
-    public String getDateFin() {
+    public Date getDateFin() {
         return dateFin;
     }
 
-    public void setDateFin(String dateFin) {
+    public void setDateFin(Date dateFin) {
         this.dateFin = dateFin;
     }
 
