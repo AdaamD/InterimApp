@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,6 +49,9 @@ public class AnonymeActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
 
+    // Références des EditText pour les filtres
+    private EditText editTextMetier, editTextLieu, editTextDateDebut, editTextDateFin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +62,12 @@ public class AnonymeActivity extends AppCompatActivity {
 
         // Récupérer la référence à la ListView
         listOffres = findViewById(R.id.list_offers);
+
+        // Récupérer les références des EditText pour les filtres
+        editTextMetier = findViewById(R.id.editText_metier);
+        editTextLieu = findViewById(R.id.editText_lieu);
+        editTextDateDebut = findViewById(R.id.editText_date_debut);
+        editTextDateFin = findViewById(R.id.editText_date_fin);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -76,7 +86,23 @@ public class AnonymeActivity extends AppCompatActivity {
             }
         });
 
+        // Ajouter un OnClickListener pour le bouton "Filtrer"
+        Button buttonFiltrer = findViewById(R.id.button_filtrer);
+        buttonFiltrer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String metier = editTextMetier.getText().toString().trim();
+                String lieu = editTextLieu.getText().toString().trim();
+                String dateDebut = editTextDateDebut.getText().toString().trim();
+                String dateFin = editTextDateFin.getText().toString().trim();
+
+                List<Offre> offresFiltered = databaseHelper.getOffresFiltered(metier, lieu, dateDebut, dateFin);
+                updateListView(offresFiltered);
+            }
+        });
     }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

@@ -6,8 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -287,7 +291,96 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return offres;
     }
 
-// Récupérer les offres basées sur le lieu
+    public List<Offre> getOffresFiltered(String metier, String lieu, String dateDebut, String dateFin) {
+        List<Offre> offres = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM offres WHERE ";
+        List<String> conditions = new ArrayList<>();
+
+        if (!metier.isEmpty()) {
+            conditions.add("metier LIKE '%" + metier + "%'");
+        }
+
+        if (!lieu.isEmpty()) {
+            conditions.add("lieu LIKE '%" + lieu + "%'");
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+        if (!dateDebut.isEmpty() && !dateFin.isEmpty()) {
+            try {
+                Date dateDebutObj = dateFormat.parse(dateDebut);
+                Date dateFinObj = dateFormat.parse(dateFin);
+                conditions.add("date_debut >= '" + dateFormat.format(dateDebutObj) + "' AND date_fin <= '" + dateFormat.format(dateFinObj) + "'");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else if (!dateDebut.isEmpty()) {
+            try {
+                Date dateDebutObj = dateFormat.parse(dateDebut);
+                conditions.add("date_debut >= '" + dateFormat.format(dateDebutObj) + "'");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else if (!dateFin.isEmpty()) {
+            try {
+                Date dateFinObj = dateFormat.parse(dateFin);
+                conditions.add("date_fin <= '" + dateFormat.format(dateFinObj) + "'");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (!conditions.isEmpty()) {
+            query += String.join(" AND ", conditions);
+        } else {
+            query += "1"; // Retourner toutes les offres si aucun filtre n'est spécifié
+        }
+
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Offre offre = new Offre();
+                int idIndex = cursor.getColumnIndex("id");
+                if (idIndex != -1) {
+                    offre.setId(cursor.getInt(idIndex));
+                }
+                int titreIndex = cursor.getColumnIndex("titre");
+                if (titreIndex != -1) {
+                    offre.setTitre(cursor.getString(titreIndex));
+                }
+                int descriptionIndex = cursor.getColumnIndex("description");
+                if (descriptionIndex != -1) {
+                    offre.setDescription(cursor.getString(descriptionIndex));
+                }
+                int metierIndex = cursor.getColumnIndex("metier");
+                if (metierIndex != -1) {
+                    offre.setMetier(cursor.getString(metierIndex));
+                }
+                int lieuIndex = cursor.getColumnIndex("lieu");
+                if (lieuIndex != -1) {
+                    offre.setLieu(cursor.getString(lieuIndex));
+                }
+                int dateDebutIndex = cursor.getColumnIndex("date_debut");
+                if (dateDebutIndex != -1) {
+                    offre.setDateDebut(cursor.getString(dateDebutIndex));
+                }
+                int dateFinIndex = cursor.getColumnIndex("date_fin");
+                if (dateFinIndex != -1) {
+                    offre.setDateFin(cursor.getString(dateFinIndex));
+                }
+                int idEmployeurIndex = cursor.getColumnIndex("id_employeur");
+                if (idEmployeurIndex != -1) {
+                    offre.setIdEmployeur(cursor.getInt(idEmployeurIndex));
+                }
+                offres.add(offre);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return offres;
+    }
+
+
+    // Récupérer les offres basées sur le lieu
     public List<Offre> getOffresParLieu(String lieu) {
         List<Offre> offres = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
