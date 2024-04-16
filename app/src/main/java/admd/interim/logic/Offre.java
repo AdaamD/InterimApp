@@ -1,8 +1,9 @@
 package admd.interim.logic;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Offre {
+public class Offre implements Serializable {
     private int id;
     private String titre;
     private String description;

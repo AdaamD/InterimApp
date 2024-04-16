@@ -145,6 +145,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count > 0;
     }
 
+    public Candidat getCandidatByEmail(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM candidats WHERE email = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{email});
+        Candidat candidat = null;
+        if (cursor.moveToFirst()) {
+            candidat = new Candidat();
+            candidat.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            candidat.setNom(cursor.getString(cursor.getColumnIndex("nom")));
+            candidat.setPrenom(cursor.getString(cursor.getColumnIndex("prenom")));
+            candidat.setDateNaissance(cursor.getString(cursor.getColumnIndex("date_naissance")));
+            candidat.setNationalite(cursor.getString(cursor.getColumnIndex("nationalite")));
+            candidat.setNumeroTelephone(cursor.getString(cursor.getColumnIndex("numero_telephone")));
+            candidat.setEmail(cursor.getString(cursor.getColumnIndex("email")));
+            candidat.setVille(cursor.getString(cursor.getColumnIndex("ville")));
+            candidat.setCv(cursor.getString(cursor.getColumnIndex("cv")));
+        }
+        cursor.close();
+        return candidat;
+    }
+
+
     public boolean employeurExistsByEmail(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT COUNT(*) FROM employeurs WHERE email = ?";

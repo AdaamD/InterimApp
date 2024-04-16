@@ -24,6 +24,10 @@ public class Candidat {
         this.cv = cv;
     }
 
+    public Candidat() {
+
+    }
+
     public int getId() {
         return id;
     }

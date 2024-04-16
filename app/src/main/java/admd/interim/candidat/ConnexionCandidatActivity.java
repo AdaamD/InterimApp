@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import admd.interim.R;
+import admd.interim.logic.Candidat;
 import admd.interim.logic.DatabaseHelper;
 
 public class ConnexionCandidatActivity extends AppCompatActivity {
@@ -34,9 +34,12 @@ public class ConnexionCandidatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = editTextEmail.getText().toString().trim();
 
-                if (databaseHelper.candidatExistsByEmail(email)) {
-                    // Connexion réussie, démarrer EspaceCandidatActivity
-                    showSuccessDialog();
+                // Récupérer les informations du candidat depuis la base de données
+                Candidat candidat = databaseHelper.getCandidatByEmail(email);
+
+                if (candidat != null) {
+                    // Connexion réussie
+                    showSuccessDialog(candidat);
                 } else {
                     // Adresse email invalide
                     showInvalidCredentialsDialog();
@@ -56,15 +59,24 @@ public class ConnexionCandidatActivity extends AppCompatActivity {
     }
 
     // Affiche une boîte de dialogue pour informer l'utilisateur que la connexion a réussi
-    private void showSuccessDialog() {
+    private void showSuccessDialog(Candidat candidat) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Connexion réussie");
-        builder.setMessage("Vous allez être redirigé vers l'espace candidat.");
+        builder.setMessage("Bienvenue " + candidat.getPrenom() + " " + candidat.getNom() + ", vous allez être redirigé vers l'espace candidat.");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Démarrer EspaceCandidatActivity
                 Intent intent = new Intent(ConnexionCandidatActivity.this, EspaceCandidatActivity.class);
+                intent.putExtra("candidat_id", candidat.getId());
+                intent.putExtra("candidat_nom", candidat.getNom());
+                intent.putExtra("candidat_prenom", candidat.getPrenom());
+                intent.putExtra("candidat_date_naissance", candidat.getDateNaissance());
+                intent.putExtra("candidat_nationalite", candidat.getNationalite());
+                intent.putExtra("candidat_numero_telephone", candidat.getNumeroTelephone());
+                intent.putExtra("candidat_email", candidat.getEmail());
+                intent.putExtra("candidat_ville", candidat.getVille());
+                intent.putExtra("candidat_cv", candidat.getCv());
                 startActivity(intent);
             }
         });
@@ -72,6 +84,4 @@ public class ConnexionCandidatActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
-
 }

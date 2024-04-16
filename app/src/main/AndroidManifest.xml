@@ -51,6 +51,8 @@
             android:exported="false" />
         <activity android:name=".candidat.ConnexionCandidatActivity"
             android:exported="false" />
+        <activity android:name=".candidat.CandidaturePage"
+            android:exported="false" />
 
         <!-- Espace ANONYME -->
         <activity
