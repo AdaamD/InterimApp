@@ -7,4 +7,8 @@
     <color name="redlight">#ef4136</color>
 
   <color name="lightblue">#6F9FAA</color>
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="light_gray">#F5F5F5</color>
+    <color name="light_blue">#2196F3</color>
 </resources>
