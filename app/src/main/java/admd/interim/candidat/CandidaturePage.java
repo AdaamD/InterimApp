@@ -1,5 +1,6 @@
 package admd.interim.candidat;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
@@ -12,10 +13,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import admd.interim.R;
 import admd.interim.logic.Candidat;
+import admd.interim.logic.Candidature;
 import admd.interim.logic.DatabaseHelper;
 import admd.interim.logic.Offre;
 
@@ -60,7 +63,7 @@ public class CandidaturePage extends AppCompatActivity {
         buttonCandidater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                soumettreCandidat();
+                soumettreCandidat(candidatId);
             }
         });
     }
@@ -107,7 +110,7 @@ public class CandidaturePage extends AppCompatActivity {
         builder.show();
     }
 
-    private void soumettreCandidat() {
+    private void soumettreCandidat(long candidatId) {
         String nom = editTextNom.getText().toString();
         String prenom = editTextPrenom.getText().toString();
         String dateNaissance = editTextDateNaissance.getText().toString();
@@ -117,13 +120,27 @@ public class CandidaturePage extends AppCompatActivity {
         String ville = editTextVille.getText().toString();
         String cv = editTextCV.getText().toString();
 
-        Candidat candidat = new Candidat(nom, prenom, dateNaissance, nationalite, numeroTelephone, email, ville, cv);
-        // databaseHelper.enregistrerCandidat(candidat);
 
-        // Enregistrer la candidature pour l'offre sélectionnée
-        // enregistrerCandidature(candidat, (Offre) getIntent().getSerializableExtra("offre"));
+        Offre offre = (Offre) getIntent().getSerializableExtra("offre");
+        Candidature candidature = new Candidature(
+                offre.getId(),
+                candidatId,
+                nom,
+                prenom,
+                email,
+                cv,
+                new Date(),
+                "en attente"
+        );
+        databaseHelper.insertCandidature(candidature);
 
-        // Afficher un message de confirmation
+        // Envoyer une notification à l'employeur
+        notifierEmployeur(offre, candidature);
         Toast.makeText(this, "Candidature envoyée avec succès", Toast.LENGTH_SHORT).show();
+    }
+
+    private void notifierEmployeur(Offre offre, Candidature candidature) {
+        // Implémentez la logique d'envoi de notification à l'employeur
+        // (e-mail, notification push, mise à jour dans une interface dédiée, etc.)
     }
 }

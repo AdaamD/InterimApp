@@ -64,13 +64,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (id_employeur) REFERENCES employeurs(id)" +
                 ")";
         db.execSQL(createOffresTable);
+
+        // Créer la table "candidatures"
+        String createCandidaturesTable = "CREATE TABLE candidatures (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "id_offre INTEGER," +
+                "id_candidat INTEGER," +
+                "nom_candidat TEXT," +
+                "prenom_candidat TEXT," +
+                "email_candidat TEXT," +
+                "cv_candidat TEXT," +
+                "date_candidature TEXT," +
+                "statut_candidature TEXT," +
+                "FOREIGN KEY (id_offre) REFERENCES offres(id)," +
+                "FOREIGN KEY (id_candidat) REFERENCES candidats(id)" +
+                ")";
+        db.execSQL(createCandidaturesTable);
     }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS candidats");
         db.execSQL("DROP TABLE IF EXISTS employeurs");
         db.execSQL("DROP TABLE IF EXISTS offres");
+        db.execSQL("DROP TABLE IF EXISTS candidatures");
 
         onCreate(db);
     }
@@ -226,6 +244,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return newRowId;
     }
+
+    public void insertCandidature(Candidature candidature) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id_offre", candidature.getIdOffre());
+        values.put("id_candidat", candidature.getIdCandidat());
+        values.put("nom_candidat", candidature.getNomCandidat());
+        values.put("prenom_candidat", candidature.getPrenomCandidat());
+        values.put("email_candidat", candidature.getEmailCandidat());
+        values.put("cv_candidat", candidature.getCvCandidat());
+        values.put("date_candidature", candidature.getDateCandidat().getTime());
+        values.put("statut_candidature", candidature.getStatutCandidat());
+        db.insert("candidatures", null, values);
+        db.close();
+    }
+
+
 
     public List<Offre> getAllOffres() {
         List<Offre> offres = new ArrayList<>();
