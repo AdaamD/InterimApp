@@ -38,6 +38,10 @@
             android:exported="false" />
         <activity android:name=".employeur.EspaceEmployeurActivity"
             android:exported="false" />
+        <activity
+            android:name=".logic.DetailsCandidatActivity"
+            android:exported="false" />
+
 
         <activity android:name=".employeur.CreationOffreActivity">
             <!--  Add any intent filters or other activity configuration here if needed  -->
@@ -68,18 +72,8 @@
             android:exported="false" />
 
         <!-- Espace ANONYME -->
-        <activity android:name=".employeur.CreationOffreActivity">
-            <!--  Add any intent filters or other activity configuration here if needed  -->
-        </activity>
-        <activity android:name=".employeur.GestionOffreActivity">
-            <!--  Add any intent filters or other activity configuration here if needed  -->
-        </activity>
-        <activity android:name=".employeur.GestionCandidatureActivity">
-            <!--  Add any intent filters or other activity configuration here if needed  -->
-        </activity>
-        <activity android:name=".employeur.CandidaturesAccepteesActivity">
-            <!--  Add any intent filters or other activity configuration here if needed  -->
-        </activity>        <activity
+
+        <activity
             android:name=".anonyme.AnonymeActivity"
             android:exported="false" />
 
