@@ -70,6 +70,10 @@
             android:exported="false" />
         <activity android:name=".candidat.CandidaturePage"
             android:exported="false" />
+        <activity
+            android:name=".candidat.MesCandidaturesActivity"
+            android:exported="false" />
+
 
         <!-- Espace ANONYME -->
 

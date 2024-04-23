@@ -393,4 +393,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return offres;
     }
 
+    public List<Candidature> getCandidaturesParCandidat(long candidatId) {
+        List<Candidature> candidatures = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("Candidatures",
+                new String[]{"id", "id_offre", "id_candidat", "nom_candidat", "prenom_candidat", "email_candidat", "cv_candidat", "date_candidature", "statut_candidature"},
+                "id_candidat = ?",
+                new String[]{String.valueOf(candidatId)},
+                null, null, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Candidature candidature = new Candidature(
+                        cursor.getInt(1),
+                        cursor.getLong(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        cursor.getString(5),
+                        cursor.getString(6),
+                        new Date(cursor.getLong(7)),
+                        cursor.getString(8)
+                );
+                candidatures.add(candidature);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return candidatures;
+    }
+
+
 }

@@ -160,19 +160,19 @@
             android:layout_height="match_parent">
 
             <ImageButton
-                android:id="@+id/button_mes_offres"
+                android:id="@+id/buttonMesCandidatures"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/mallette" />
 
             <TextView
-                android:id="@+id/textView_mes_offres"
+                android:id="@+id/textViewMesCandidatures"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/button_mes_offres"
+                android:layout_toEndOf="@id/buttonMesCandidatures"
                 android:text="Mes Candidateure"
                 android:textColor="@color/black"
                 android:textSize="16sp"

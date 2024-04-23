@@ -30,6 +30,7 @@ import admd.interim.logic.Candidat;
 public class EspaceCandidatActivity extends AppCompatActivity {
     private EditText editTextMetier, editTextLieu, editTextDateDebut, editTextDateFin;
     private Button buttonFiltrer;
+    private ImageButton buttonMesCandidatures ;
     private ListView listOffres;
     private DatabaseHelper databaseHelper;
     private OffreAdapter adapter;
@@ -73,6 +74,16 @@ public class EspaceCandidatActivity extends AppCompatActivity {
                 updateListView(offres);
             }
         });
+
+        ImageButton buttonMesCandidatures = findViewById(R.id.buttonMesCandidatures);
+        buttonMesCandidatures.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EspaceCandidatActivity.this, MesCandidaturesActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         // Récupérer les informations du candidat à partir de l'Intent
         nom = getIntent().getStringExtra("candidat_nom");

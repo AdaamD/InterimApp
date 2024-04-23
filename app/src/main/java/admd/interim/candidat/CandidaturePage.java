@@ -64,6 +64,7 @@ public class CandidaturePage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 soumettreCandidat(candidatId);
+                finish();
             }
         });
     }
