@@ -245,7 +245,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return newRowId;
     }
 
-    public void insertCandidature(Candidature candidature) {
+    public long insertCandidature(Candidature candidature) {
+        // Vérifier si la candidature n'a pas déjà été déposée
+        if (candidatureExists(candidature.getIdOffre(), candidature.getIdCandidat())) {
+            // La candidature existe déjà, ne rien insérer et retourner -1
+            return -1;
+        }
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("id_offre", candidature.getIdOffre());
@@ -256,9 +262,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("cv_candidat", candidature.getCvCandidat());
         values.put("date_candidature", candidature.getDateCandidat().getTime());
         values.put("statut_candidature", candidature.getStatutCandidat());
-        db.insert("candidatures", null, values);
+
+        long newRowId = db.insert("candidatures", null, values);
         db.close();
+
+        return newRowId;
     }
+
+    private boolean candidatureExists(int idOffre, long idCandidat) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("Candidatures",
+                new String[]{"id"},
+                "id_offre = ? AND id_candidat = ?",
+                new String[]{String.valueOf(idOffre), String.valueOf(idCandidat)},
+                null, null, null);
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        db.close();
+        return exists;
+    }
+
 
 
 
@@ -393,6 +416,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return offres;
     }
 
+    public String getOffreParId(int idOffre) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("Offres",
+                new String[]{"titre"},
+                "id = ?",
+                new String[]{String.valueOf(idOffre)},
+                null, null, null);
+        if (cursor.moveToFirst()) {
+            String titreOffre = cursor.getString(cursor.getColumnIndex("titre"));
+            cursor.close();
+            db.close();
+            return titreOffre;
+        } else {
+            cursor.close();
+            db.close();
+            return null;
+        }
+    }
+
     public List<Candidature> getCandidaturesParCandidat(long candidatId) {
         List<Candidature> candidatures = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -404,15 +446,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Candidature candidature = new Candidature(
-                        cursor.getInt(1),
-                        cursor.getLong(2),
-                        cursor.getString(3),
-                        cursor.getString(4),
-                        cursor.getString(5),
-                        cursor.getString(6),
-                        new Date(cursor.getLong(7)),
-                        cursor.getString(8)
+                        cursor.getInt(cursor.getColumnIndex("id_offre")),
+                        cursor.getLong(cursor.getColumnIndex("id_candidat")),
+                        cursor.getString(cursor.getColumnIndex("nom_candidat")),
+                        cursor.getString(cursor.getColumnIndex("prenom_candidat")),
+                        cursor.getString(cursor.getColumnIndex("email_candidat")),
+                        cursor.getString(cursor.getColumnIndex("cv_candidat")),
+                        new Date(cursor.getLong(cursor.getColumnIndex("date_candidature"))),
+                        cursor.getString(cursor.getColumnIndex("statut_candidature"))
                 );
+                candidature.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 candidatures.add(candidature);
             } while (cursor.moveToNext());
         }
@@ -420,6 +463,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return candidatures;
     }
+
+
+
 
 
 }

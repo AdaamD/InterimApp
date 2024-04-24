@@ -80,6 +80,7 @@ public class EspaceCandidatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EspaceCandidatActivity.this, MesCandidaturesActivity.class);
+                intent.putExtra("candidat_id", candidatId);
                 startActivity(intent);
             }
         });
@@ -95,6 +96,7 @@ public class EspaceCandidatActivity extends AppCompatActivity {
         email = getIntent().getStringExtra("candidat_email");
         ville = getIntent().getStringExtra("candidat_ville");
         cv = getIntent().getStringExtra("candidat_cv");
+
     }
 
     private void displayAllOffres() {

@@ -22,21 +22,27 @@ public class MesCandidaturesActivity extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
     private RecyclerView recyclerViewCandidatures;
     private CandidatureAdapter candidatureAdapter;
+    private TextView textViewCandidatId;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_candidat_mes_candidatures);
 
         databaseHelper = new DatabaseHelper(this);
 
-        long candidatId = getIntent().getLongExtra("candidat_id", 0);
+        // Récupérer l'ID du candidat depuis l'Intent
+        int candidatId = getIntent().getIntExtra("candidat_id", 0);
+
         List<Candidature> candidatures = databaseHelper.getCandidaturesParCandidat(candidatId);
 
         recyclerViewCandidatures = findViewById(R.id.recyclerViewCandidatures);
         recyclerViewCandidatures.setLayoutManager(new LinearLayoutManager(this));
         candidatureAdapter = new CandidatureAdapter(candidatures);
         recyclerViewCandidatures.setAdapter(candidatureAdapter);
+
+        // Afficher l'ID du candidat dans un TextView
+        textViewCandidatId = findViewById(R.id.textViewCandidatId);
+        textViewCandidatId.setText("ID Candidat : " + candidatId);
     }
 
     private class CandidatureAdapter extends RecyclerView.Adapter<CandidatureViewHolder> {
@@ -64,20 +70,38 @@ public class MesCandidaturesActivity extends AppCompatActivity {
         }
     }
 
-    private class CandidatureViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewOffre;
+    public class CandidatureViewHolder extends RecyclerView.ViewHolder {
+        private TextView textViewOffreNumero;
+        private TextView textViewOffreTitre;
+        private TextView textViewNumeroCandidat;
+        private TextView textViewNomCandidat;
+        private TextView textViewPrenomCandidat;
+        private TextView textViewEmailCandidat;
+        private TextView textViewCV;
         private TextView textViewStatut;
         private TextView textViewDate;
 
         public CandidatureViewHolder(View itemView) {
             super(itemView);
-            textViewOffre = itemView.findViewById(R.id.textViewOffre);
+            textViewOffreNumero = itemView.findViewById(R.id.textViewOffreNumero);
+            textViewOffreTitre = itemView.findViewById(R.id.textViewOffreTitre);
+            textViewNumeroCandidat = itemView.findViewById(R.id.textViewNumeroCandidat);
+            textViewNomCandidat = itemView.findViewById(R.id.textViewNomCandidat);
+            textViewPrenomCandidat = itemView.findViewById(R.id.textViewPrenomCandidat);
+            textViewEmailCandidat = itemView.findViewById(R.id.textViewEmailCandidat);
+            textViewCV = itemView.findViewById(R.id.textViewCV);
             textViewStatut = itemView.findViewById(R.id.textViewStatut);
             textViewDate = itemView.findViewById(R.id.textViewDate);
         }
 
         public void bind(Candidature candidature) {
-            textViewOffre.setText(candidature.getNomCandidat() + " - " + candidature.getPrenomCandidat());
+            textViewOffreNumero.setText("Offre n°" + candidature.getIdOffre());
+            textViewOffreTitre.setText(databaseHelper.getOffreParId(candidature.getIdOffre()));
+            textViewNumeroCandidat.setText("Numéro de candidature : " + candidature.getId());
+            textViewNomCandidat.setText(candidature.getNomCandidat());
+            textViewPrenomCandidat.setText(candidature.getPrenomCandidat());
+            textViewEmailCandidat.setText(candidature.getEmailCandidat());
+            textViewCV.setText("CV : " + candidature.getCvCandidat());
             textViewStatut.setText(candidature.getStatutCandidat());
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
