@@ -40,9 +40,7 @@ public class MesCandidaturesActivity extends AppCompatActivity {
         candidatureAdapter = new CandidatureAdapter(candidatures);
         recyclerViewCandidatures.setAdapter(candidatureAdapter);
 
-        // Afficher l'ID du candidat dans un TextView
-        textViewCandidatId = findViewById(R.id.textViewCandidatId);
-        textViewCandidatId.setText("ID Candidat : " + candidatId);
+
     }
 
     private class CandidatureAdapter extends RecyclerView.Adapter<CandidatureViewHolder> {
@@ -73,7 +71,6 @@ public class MesCandidaturesActivity extends AppCompatActivity {
     public class CandidatureViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewOffreNumero;
         private TextView textViewOffreTitre;
-        private TextView textViewNumeroCandidat;
         private TextView textViewNomCandidat;
         private TextView textViewPrenomCandidat;
         private TextView textViewEmailCandidat;
@@ -85,7 +82,6 @@ public class MesCandidaturesActivity extends AppCompatActivity {
             super(itemView);
             textViewOffreNumero = itemView.findViewById(R.id.textViewOffreNumero);
             textViewOffreTitre = itemView.findViewById(R.id.textViewOffreTitre);
-            textViewNumeroCandidat = itemView.findViewById(R.id.textViewNumeroCandidat);
             textViewNomCandidat = itemView.findViewById(R.id.textViewNomCandidat);
             textViewPrenomCandidat = itemView.findViewById(R.id.textViewPrenomCandidat);
             textViewEmailCandidat = itemView.findViewById(R.id.textViewEmailCandidat);
@@ -97,11 +93,10 @@ public class MesCandidaturesActivity extends AppCompatActivity {
         public void bind(Candidature candidature) {
             textViewOffreNumero.setText("Offre n°" + candidature.getIdOffre());
             textViewOffreTitre.setText(databaseHelper.getOffreParId(candidature.getIdOffre()));
-            textViewNumeroCandidat.setText("Numéro de candidature : " + candidature.getId());
             textViewNomCandidat.setText(candidature.getNomCandidat());
             textViewPrenomCandidat.setText(candidature.getPrenomCandidat());
             textViewEmailCandidat.setText(candidature.getEmailCandidat());
-            textViewCV.setText("CV : " + candidature.getCvCandidat());
+            textViewCV.setText(candidature.getCvCandidat());
             textViewStatut.setText(candidature.getStatutCandidat());
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
