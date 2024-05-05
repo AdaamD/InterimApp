@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,10 +31,13 @@ import admd.interim.logic.Candidat;
 public class EspaceCandidatActivity extends AppCompatActivity {
     private EditText editTextMetier, editTextLieu, editTextDateDebut, editTextDateFin;
     private Button buttonFiltrer;
-    private ImageButton buttonMesCandidatures ;
+    private ImageButton buttonMesCandidatures;
     private ListView listOffres;
     private DatabaseHelper databaseHelper;
     private OffreAdapter adapter;
+    private boolean filtersVisible = false;
+    private LinearLayout layoutFiltresDetails;
+    private ImageButton buttonPlus;
 
     private String nom;
     private String prenom;
@@ -85,7 +89,6 @@ public class EspaceCandidatActivity extends AppCompatActivity {
             }
         });
 
-
         // Récupérer les informations du candidat à partir de l'Intent
         nom = getIntent().getStringExtra("candidat_nom");
         prenom = getIntent().getStringExtra("candidat_prenom");
@@ -97,6 +100,26 @@ public class EspaceCandidatActivity extends AppCompatActivity {
         ville = getIntent().getStringExtra("candidat_ville");
         cv = getIntent().getStringExtra("candidat_cv");
 
+        layoutFiltresDetails = findViewById(R.id.layout_filtres_details);
+
+        buttonPlus = findViewById(R.id.button_plus);
+        buttonPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleFiltersVisibility(layoutFiltresDetails);
+            }
+        });
+    }
+
+    private void toggleFiltersVisibility(LinearLayout layoutFiltresDetails) {
+        if (filtersVisible) {
+            layoutFiltresDetails.setVisibility(View.GONE);
+            buttonPlus.setImageResource(R.drawable.plus);
+        } else {
+            layoutFiltresDetails.setVisibility(View.VISIBLE);
+            buttonPlus.setImageResource(R.drawable.moins);
+        }
+        filtersVisible = !filtersVisible;
     }
 
     private void displayAllOffres() {
@@ -177,7 +200,7 @@ public class EspaceCandidatActivity extends AppCompatActivity {
             buttonPlus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    toggleDetailsVisibility(position);
+                    toggleDetailsVisibility(position, buttonPlus);
                 }
             });
 
@@ -195,9 +218,14 @@ public class EspaceCandidatActivity extends AppCompatActivity {
             return convertView;
         }
 
-        private void toggleDetailsVisibility(int position) {
+        private void toggleDetailsVisibility(int position, ImageButton buttonPlus) {
             boolean detailsVisible = detailsVisibles.containsKey(position) && detailsVisibles.get(position);
             detailsVisibles.put(position, !detailsVisible);
+            if (detailsVisible) {
+                buttonPlus.setImageResource(R.drawable.plus);
+            } else {
+                buttonPlus.setImageResource(R.drawable.moins);
+            }
             notifyDataSetChanged();
         }
 
