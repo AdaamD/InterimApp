@@ -31,13 +31,13 @@ import admd.interim.logic.Candidat;
 public class EspaceCandidatActivity extends AppCompatActivity {
     private EditText editTextMetier, editTextLieu, editTextDateDebut, editTextDateFin;
     private Button buttonFiltrer;
-    private ImageButton buttonMesCandidatures;
+    private TextView textViewMesCandidatures, textViewMonProfil;
     private ListView listOffres;
     private DatabaseHelper databaseHelper;
     private OffreAdapter adapter;
     private boolean filtersVisible = false;
     private LinearLayout layoutFiltresDetails;
-    private ImageButton buttonPlus;
+    private ImageButton buttonPlus,buttonMesCandidatures;
     private String nom;
     private String prenom;
     private String dateNaissance;
@@ -88,6 +88,16 @@ public class EspaceCandidatActivity extends AppCompatActivity {
             }
         });
 
+         textViewMesCandidatures = findViewById(R.id.textViewMesCandidatures);
+        textViewMesCandidatures.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EspaceCandidatActivity.this, MesCandidaturesActivity.class);
+                intent.putExtra("candidat_id", candidatId);
+                startActivity(intent);
+            }
+        });
+
         // Récupérer les informations du candidat à partir de l'Intent
         nom = getIntent().getStringExtra("candidat_nom");
         prenom = getIntent().getStringExtra("candidat_prenom");
@@ -108,6 +118,44 @@ public class EspaceCandidatActivity extends AppCompatActivity {
                 toggleFiltersVisibility(layoutFiltresDetails);
             }
         });
+
+
+        ImageButton buttonMonProfil = findViewById(R.id.buttonMonProfil);
+        buttonMonProfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EspaceCandidatActivity.this, MonProfilActivity.class);
+                intent.putExtra("candidat_nom", nom);
+                intent.putExtra("candidat_prenom", prenom);
+                intent.putExtra("candidat_date_naissance", dateNaissance);
+                intent.putExtra("candidat_id", candidatId);
+                intent.putExtra("candidat_nationalite", nationalite);
+                intent.putExtra("candidat_numero_telephone", numeroTelephone);
+                intent.putExtra("candidat_email", email);
+                intent.putExtra("candidat_ville", ville);
+                intent.putExtra("candidat_cv", cv);
+                startActivity(intent);
+            }
+        });
+
+        textViewMonProfil = findViewById(R.id.textViewMonProfil);
+        textViewMonProfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EspaceCandidatActivity.this, MonProfilActivity.class);
+                intent.putExtra("candidat_nom", nom);
+                intent.putExtra("candidat_prenom", prenom);
+                intent.putExtra("candidat_date_naissance", dateNaissance);
+                intent.putExtra("candidat_id", candidatId);
+                intent.putExtra("candidat_nationalite", nationalite);
+                intent.putExtra("candidat_numero_telephone", numeroTelephone);
+                intent.putExtra("candidat_email", email);
+                intent.putExtra("candidat_ville", ville);
+                intent.putExtra("candidat_cv", cv);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void toggleFiltersVisibility(LinearLayout layoutFiltresDetails) {

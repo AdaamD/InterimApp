@@ -73,6 +73,10 @@
         <activity
             android:name=".candidat.MesCandidaturesActivity"
             android:exported="false" />
+        <activity
+            android:name=".candidat.MonProfilActivity"
+            android:exported="false" />
+
 
 
         <!-- Espace ANONYME -->

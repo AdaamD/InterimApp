@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    android:padding="16dp">
+
+    <FrameLayout
+        android:id="@+id/frameLayout_titre"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/lightblue"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Mon Profil"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout_profil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/frameLayout_titre"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/white"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewNomCandidat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="nom candidat"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewPrenomCandidat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="prenom candidat"
+                android:layout_marginTop="8dp"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textViewDateNaissanceCandidat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="date naissance"
+                android:layout_marginTop="8dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewNationaliteCandidat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="nationalite"
+                android:layout_marginTop="8dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewNumeroTelephoneCandidat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="numero telephone"
+                android:layout_marginTop="8dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewEmailCandidat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="email"
+                android:layout_marginTop="8dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewVilleCandidat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ville"
+                android:layout_marginTop="8dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewCVCandidat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cv "
+                android:layout_marginTop="8dp"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</RelativeLayout>
