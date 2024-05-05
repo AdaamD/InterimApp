@@ -38,7 +38,6 @@ public class EspaceCandidatActivity extends AppCompatActivity {
     private boolean filtersVisible = false;
     private LinearLayout layoutFiltresDetails;
     private ImageButton buttonPlus;
-
     private String nom;
     private String prenom;
     private String dateNaissance;

@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +53,9 @@ public class AnonymeActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private OffreAdapter adapter; // Ajout d'un attribut pour l'adapter
+    private ImageButton buttonPlus;
+    private LinearLayout layoutFiltresDetails;
+    private boolean filtersVisible = false;
 
     // Références des EditText pour les filtres
     private EditText editTextMetier, editTextLieu, editTextDateDebut, editTextDateFin;
@@ -108,6 +112,26 @@ public class AnonymeActivity extends AppCompatActivity {
                 }
             }
         });
+
+        buttonPlus = findViewById(R.id.button_plus);
+        layoutFiltresDetails = findViewById(R.id.layout_filtres_details);
+        buttonPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleFiltersVisibility(layoutFiltresDetails);
+            }
+        });
+    }
+
+    private void toggleFiltersVisibility(LinearLayout layoutFiltresDetails) {
+        if (filtersVisible) {
+            layoutFiltresDetails.setVisibility(View.GONE);
+            buttonPlus.setImageResource(R.drawable.plus);
+        } else {
+            layoutFiltresDetails.setVisibility(View.VISIBLE);
+            buttonPlus.setImageResource(R.drawable.moins);
+        }
+        filtersVisible = !filtersVisible;
     }
 
     private void showNoOffersDialog() {
@@ -255,16 +279,21 @@ public class AnonymeActivity extends AppCompatActivity {
             buttonPlus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    toggleDetailsVisibility(position);
+                    toggleDetailsVisibility(position, buttonPlus);
                 }
             });
 
             return convertView;
         }
 
-        private void toggleDetailsVisibility(int position) {
+        private void toggleDetailsVisibility(int position, ImageButton buttonPlus) {
             boolean detailsVisible = detailsVisibles.containsKey(position) && detailsVisibles.get(position);
             detailsVisibles.put(position, !detailsVisible);
+            if (detailsVisible) {
+                buttonPlus.setImageResource(R.drawable.plus);
+            } else {
+                buttonPlus.setImageResource(R.drawable.moins);
+            }
             notifyDataSetChanged();
         }
     }
