@@ -28,6 +28,9 @@ public class Candidat {
 
     }
 
+    public Candidat(int candidatId, String nouveauNom, String nouveauPrenom, String nouveaueDateNaissance, String nouvelleNationalite, String nouveauNumeroTelephone, String nouveauEmail, String nouvelleVille, String nouveauCV) {
+    }
+
     public int getId() {
         return id;
     }

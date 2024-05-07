@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -463,6 +462,132 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return candidatures;
     }
+
+
+    public int updateCandidat(int candidatId, String nouveauNom, String nouveauPrenom, String nouveaueDateNaissance, String nouvelleNationalite, String nouveauNumeroTelephone, String nouveauEmail, String nouvelleVille, String nouveauCV) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Récupérer les informations actuelles du candidat
+        Candidat candidatActuel = getCandidatByID(candidatId);
+
+        // Afficher toutes les nouvelles valeurs
+        System.out.println("Nouvelles valeurs :");
+        System.out.println("nom : " + nouveauNom);
+        System.out.println("prenom : " + nouveauPrenom);
+        System.out.println("date_naissance : " + nouveaueDateNaissance);
+        System.out.println("nationalite : " + nouvelleNationalite);
+        System.out.println("numero_telephone : " + nouveauNumeroTelephone);
+        System.out.println("email : " + nouveauEmail);
+        System.out.println("ville : " + nouvelleVille);
+        System.out.println("cv : " + nouveauCV);
+
+        // Afficher toutes les anciennes valeurs
+        System.out.println("Anciennes valeurs :");
+        System.out.println("nom : " + candidatActuel.getNom());
+        System.out.println("prenom : " + candidatActuel.getPrenom());
+        System.out.println("date_naissance : " + candidatActuel.getDateNaissance());
+        System.out.println("nationalite : " + candidatActuel.getNationalite());
+        System.out.println("numero_telephone : " + candidatActuel.getNumeroTelephone());
+        System.out.println("email : " + candidatActuel.getEmail());
+        System.out.println("ville : " + candidatActuel.getVille());
+        System.out.println("cv : " + candidatActuel.getCv());
+
+        ContentValues values = new ContentValues();
+
+        // Mettre à jour uniquement les champs modifiés
+        if (!nouveauNom.isEmpty() && !nouveauNom.equals(candidatActuel.getNom())) {
+            values.put("nom", nouveauNom);
+        } else {
+            values.put("nom", candidatActuel.getNom());
+        }
+
+        if (!nouveauPrenom.isEmpty() && !nouveauPrenom.equals(candidatActuel.getPrenom())) {
+            values.put("prenom", nouveauPrenom);
+        } else {
+            values.put("prenom", candidatActuel.getPrenom());
+        }
+
+        if (!nouveaueDateNaissance.isEmpty() && !nouveaueDateNaissance.equals(candidatActuel.getDateNaissance())) {
+            values.put("date_naissance", nouveaueDateNaissance);
+        } else {
+            values.put("date_naissance", candidatActuel.getDateNaissance());
+        }
+
+        if (!nouvelleNationalite.isEmpty() && !nouvelleNationalite.equals(candidatActuel.getNationalite())) {
+            values.put("nationalite", nouvelleNationalite);
+        } else {
+            values.put("nationalite", candidatActuel.getNationalite());
+        }
+
+        if (!nouveauNumeroTelephone.isEmpty() && !nouveauNumeroTelephone.equals(candidatActuel.getNumeroTelephone())) {
+            values.put("numero_telephone", nouveauNumeroTelephone);
+        } else {
+            values.put("numero_telephone", candidatActuel.getNumeroTelephone());
+        }
+
+        if (!nouveauEmail.isEmpty() && !nouveauEmail.equals(candidatActuel.getEmail())) {
+            values.put("email", nouveauEmail);
+        } else {
+            values.put("email", candidatActuel.getEmail());
+        }
+
+        if (!nouvelleVille.isEmpty() && !nouvelleVille.equals(candidatActuel.getVille())) {
+            values.put("ville", nouvelleVille);
+        } else {
+            values.put("ville", candidatActuel.getVille());
+        }
+
+        if (!nouveauCV.isEmpty() && !nouveauCV.equals(candidatActuel.getCv())) {
+            values.put("cv", nouveauCV);
+        } else {
+            values.put("cv", candidatActuel.getCv());
+        }
+
+        int rowsUpdated = db.update("candidats", values, "id = ?", new String[]{String.valueOf(candidatId)});
+        db.close();
+
+        if (rowsUpdated > 0) {
+            System.out.println("Mise à jour réussie pour le candidat avec l'id : " + candidatId);
+        } else {
+            System.out.println("Mise à jour échouée pour le candidat avec l'id : " + candidatId);
+        }
+
+        return rowsUpdated;
+    }
+
+
+
+
+
+    public Candidat getCandidatByID(int candidatId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM candidats WHERE id = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(candidatId)});
+
+        Candidat candidat = null;
+        if (cursor.moveToFirst()) {
+            candidat = new Candidat();
+            candidat.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            candidat.setNom(cursor.getString(cursor.getColumnIndex("nom")));
+            candidat.setPrenom(cursor.getString(cursor.getColumnIndex("prenom")));
+            candidat.setDateNaissance(cursor.getString(cursor.getColumnIndex("date_naissance")));
+            candidat.setNationalite(cursor.getString(cursor.getColumnIndex("nationalite")));
+            candidat.setNumeroTelephone(cursor.getString(cursor.getColumnIndex("numero_telephone")));
+            candidat.setEmail(cursor.getString(cursor.getColumnIndex("email")));
+            candidat.setVille(cursor.getString(cursor.getColumnIndex("ville")));
+            candidat.setCv(cursor.getString(cursor.getColumnIndex("cv")));
+        }
+
+        cursor.close();
+        //db.close();
+
+        return candidat;
+    }
+
+
+
+
+
 
 
 

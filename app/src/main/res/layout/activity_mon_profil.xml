@@ -19,6 +19,7 @@
             android:layout_gravity="center"
             android:text="Mon Profil"
             android:textAlignment="center"
+            android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold" />
     </FrameLayout>
@@ -42,68 +43,126 @@
                 android:id="@+id/textViewNomCandidat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="nom candidat"
                 android:textSize="24sp"
                 android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editTextNom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textViewPrenomCandidat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="prenom candidat"
                 android:layout_marginTop="8dp"
                 android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/editTextPrenom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textViewDateNaissanceCandidat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="date naissance"
                 android:layout_marginTop="8dp"
                 android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editTextDateNaissance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textViewNationaliteCandidat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="nationalite"
                 android:layout_marginTop="8dp"
                 android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editTextNationalite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textViewNumeroTelephoneCandidat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="numero telephone"
                 android:layout_marginTop="8dp"
                 android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editTextNumeroTelephone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textViewEmailCandidat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="email"
                 android:layout_marginTop="8dp"
                 android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textViewVilleCandidat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ville"
                 android:layout_marginTop="8dp"
                 android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editTextVille"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textViewCVCandidat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="cv "
                 android:layout_marginTop="8dp"
                 android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editTextCV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/buttonEnregistrer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="16dp"
+                android:text="Enregistrer"
+                android:visibility="gone" />
 
         </LinearLayout>
 
     </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/buttonModifier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/frameLayout_profil"
+        android:layout_gravity="end"
+        android:background="@color/white"
+        android:src="@drawable/mallette" />
 
 </RelativeLayout>
