@@ -39,17 +39,31 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <ImageButton
+                android:id="@+id/buttonModifier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@color/white"
+                android:src="@drawable/crayonmodifier" />
+
             <TextView
                 android:id="@+id/textViewNomCandidat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="Nom"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextNom"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/grey_rounded_button"
+                android:hint=" Nom "
+                android:layout_marginBottom="5dp"
+                android:padding="8dp"
                 android:visibility="gone" />
 
             <TextView
@@ -57,12 +71,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="5dp"
+                android:text="Prénom"
                 android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/editTextPrenom"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/grey_rounded_button"
+                android:hint=" Prénom "
+                android:layout_marginBottom="5dp"
+                android:padding="8dp"
                 android:visibility="gone" />
 
             <TextView
@@ -70,12 +90,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="5dp"
+                android:text="Date de naissance"
                 android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/editTextDateNaissance"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/grey_rounded_button"
+                android:hint=" Date de naissance "
+                android:layout_marginBottom="5dp"
+                android:padding="8dp"
                 android:visibility="gone" />
 
             <TextView
@@ -83,12 +109,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="5dp"
+                android:text="Nationalité"
                 android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/editTextNationalite"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/grey_rounded_button"
+                android:hint=" Nationalité "
+                android:layout_marginBottom="5dp"
+                android:padding="8dp"
                 android:visibility="gone" />
 
             <TextView
@@ -96,12 +128,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="5dp"
+                android:text="Numéro de téléphone"
                 android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/editTextNumeroTelephone"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/grey_rounded_button"
+                android:hint=" Numéro de téléphone"
+                android:layout_marginBottom="5dp"
+                android:padding="8dp"
                 android:visibility="gone" />
 
             <TextView
@@ -109,12 +147,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="5dp"
+                android:text="Email"
                 android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/editTextEmail"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/grey_rounded_button"
+                android:hint=" Email "
+                android:layout_marginBottom="5dp"
+                android:padding="8dp"
                 android:visibility="gone" />
 
             <TextView
@@ -122,12 +166,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="5dp"
+                android:text="Ville"
                 android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/editTextVille"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/grey_rounded_button"
+                android:hint=" Ville "
+                android:layout_marginBottom="5dp"
+                android:padding="8dp"
                 android:visibility="gone" />
 
             <TextView
@@ -135,12 +185,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="5dp"
+                android:text="CV"
                 android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/editTextCV"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/grey_rounded_button"
+                android:hint=" CV "
+                android:layout_marginBottom="5dp"
+                android:padding="8dp"
                 android:visibility="gone" />
 
             <Button
@@ -149,20 +205,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="@color/light_grey"
+                android:padding="8dp"
                 android:text="Enregistrer"
+                android:textColor="@color/black"
                 android:visibility="gone" />
 
         </LinearLayout>
 
     </FrameLayout>
 
-    <ImageButton
-        android:id="@+id/buttonModifier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/frameLayout_profil"
-        android:layout_gravity="end"
-        android:background="@color/white"
-        android:src="@drawable/mallette" />
+
 
 </RelativeLayout>

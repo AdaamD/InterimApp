@@ -96,6 +96,7 @@ public class MonProfilActivity extends AppCompatActivity {
 
     private void displayCandidatInfo(String nom, String prenom, String dateNaissance, String nationalite,
                                      String numeroTelephone, String email, String ville, String cv) {
+
         textViewNomCandidat.setText(nom);
         textViewPrenomCandidat.setText(prenom);
         textViewDateNaissanceCandidat.setText(Html.fromHtml("<b>Date de naissance :</b> " + dateNaissance));
@@ -104,6 +105,7 @@ public class MonProfilActivity extends AppCompatActivity {
         textViewEmailCandidat.setText(Html.fromHtml("<b>Email :</b> " + email));
         textViewVilleCandidat.setText(Html.fromHtml("<b>Ville :</b> " + ville));
         textViewCVCandidat.setText(Html.fromHtml("<b>CV :</b> " + cv));
+
 
         // Masquer les EditText en mode "Affichage"
         editTextNom.setVisibility(View.GONE);
@@ -120,15 +122,16 @@ public class MonProfilActivity extends AppCompatActivity {
     private void toggleEditMode() {
         if (isEditMode) {
             // Passer en mode "Affichage"
-            displayCandidatInfo(textViewNomCandidat.getText().toString(),
-                    textViewPrenomCandidat.getText().toString(),
-                    textViewDateNaissanceCandidat.getText().toString().replace("<b>Date de naissance :</b> ", ""),
-                    textViewNationaliteCandidat.getText().toString().replace("<b>Nationalité :</b> ", ""),
-                    textViewNumeroTelephoneCandidat.getText().toString().replace("<b>Numéro de téléphone :</b> ", ""),
-                    textViewEmailCandidat.getText().toString().replace("<b>Email :</b> ", ""),
-                    textViewVilleCandidat.getText().toString().replace("<b>Ville :</b> ", ""),
-                    textViewCVCandidat.getText().toString().replace("<b>CV :</b> ", ""));
-            buttonModifier.setImageResource(R.drawable.mallette);
+            editTextNom.setVisibility(View.GONE);
+            editTextPrenom.setVisibility(View.GONE);
+            editTextDateNaissance.setVisibility(View.GONE);
+            editTextNationalite.setVisibility(View.GONE);
+            editTextNumeroTelephone.setVisibility(View.GONE);
+            editTextEmail.setVisibility(View.GONE);
+            editTextVille.setVisibility(View.GONE);
+            editTextCV.setVisibility(View.GONE);
+            buttonEnregistrer.setVisibility(View.GONE);
+            buttonModifier.setImageResource(R.drawable.crayonmodifier);
         } else {
             // Passer en mode "Modification"
             editTextNom.setVisibility(View.VISIBLE);
@@ -140,7 +143,7 @@ public class MonProfilActivity extends AppCompatActivity {
             editTextVille.setVisibility(View.VISIBLE);
             editTextCV.setVisibility(View.VISIBLE);
             buttonEnregistrer.setVisibility(View.VISIBLE);
-            buttonModifier.setImageResource(R.drawable.monprofil);
+            buttonModifier.setImageResource(R.drawable.annuler);
         }
         isEditMode = !isEditMode;
     }
@@ -161,13 +164,16 @@ public class MonProfilActivity extends AppCompatActivity {
 
         if (rowsUpdated > 0) {
             System.out.println("Mise à jour réussie pour le candidat avec l'id : " + candidatId);
-            Toast.makeText(this, "Informations mises à jour avec succès", Toast.LENGTH_SHORT).show();
+
+            // Afficher une boîte de dialogue pour indiquer que les informations ont été mises à jour avec succès
+            new android.app.AlertDialog.Builder(this)
+                    .setTitle("Informations mises à jour")
+                    .setMessage("Les informations du candidat ont été mises à jour avec succès.")
+                    .setPositiveButton("OK", null)
+                    .show();
         } else {
             System.out.println("Mise à jour échouée pour le candidat avec l'id : " + candidatId);
         }
     }
-
-
-
 
 }
