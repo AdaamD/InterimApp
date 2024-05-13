@@ -108,48 +108,46 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    public Employeur getEmployeurById(long idEmployeur) {
+    public Employeur getEmployeurById(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_EMPLOYEURS + " WHERE id = ?";
-        Cursor cursor = db.rawQuery(query, new String[] { String.valueOf(idEmployeur) });
-
-        Employeur employeur = null;
-        if (cursor.moveToFirst()) {
-            employeur = new Employeur(
+        Cursor cursor = db.query("employeur", new String[]{"id", "nom", "entreprise", "numeroTelephone", "adresse", "liensPublic", "email", "password"}, "id=?", new String[]{String.valueOf(id)}, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            Employeur employeur = new Employeur(
                     cursor.getInt(cursor.getColumnIndex("id")),
                     cursor.getString(cursor.getColumnIndex("nom")),
                     cursor.getString(cursor.getColumnIndex("entreprise")),
-                    cursor.getString(cursor.getColumnIndex("numero_telephone")),
+                    cursor.getString(cursor.getColumnIndex("numeroTelephone")),
                     cursor.getString(cursor.getColumnIndex("adresse")),
-                    cursor.getString(cursor.getColumnIndex("liens_public")),
-                    cursor.getString(cursor.getColumnIndex("email"))
+                    cursor.getString(cursor.getColumnIndex("liensPublic")),
+                    cursor.getString(cursor.getColumnIndex("email")),
+                    cursor.getString(cursor.getColumnIndex("password"))
             );
+            cursor.close();
+            db.close();
+            return employeur;
         }
-        cursor.close();
+        if (cursor != null) {
+            cursor.close();
+        }
         db.close();
-        return employeur;
+        return null;
     }
 
 
     public long insertEmployeur(String nom, String entreprise, String numeroTelephone, String adresse, String liensPublic, String email, String password) {
-        if (employeurExists(email)) {
-            Log.d("DatabaseHelper", "Employeur avec l'email " + email + " existe déjà.");
-            return -1;  // Indique que l'employeur existe déjà
-        }
-
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("nom", nom);
         values.put("entreprise", entreprise);
-        values.put("numero_telephone", numeroTelephone);
+        values.put("numeroTelephone", numeroTelephone);
         values.put("adresse", adresse);
-        values.put("liens_public", liensPublic);
+        values.put("liensPublic", liensPublic);
         values.put("email", email);
         values.put("password", password);
 
-        long newRowId = db.insert("employeurs", null, values);
+        long id = db.insert("employeur", null, values);
         db.close();
-        return newRowId;
+        return id;
     }
 
 

@@ -29,6 +29,7 @@ public class EspaceEmployeurActivity extends AppCompatActivity {
 
     private void displayEmployeurDetails() {
         long employeurId = getIntent().getLongExtra("EMPLOYEUR_ID", -1);
+        Log.d("EspaceEmployeurActivity", "Received Employeur ID: " + employeurId);
         if (employeurId != -1) {
             DatabaseHelper db = new DatabaseHelper(this);
             Employeur employeur = db.getEmployeurById(employeurId);
@@ -36,8 +37,8 @@ public class EspaceEmployeurActivity extends AppCompatActivity {
                 TextView tvNom = findViewById(R.id.textViewEmployeurNom);
                 TextView tvDetails = findViewById(R.id.textViewEmployeurDetails);
                 tvNom.setText(employeur.getNom());
-                tvDetails.setText(String.format("Entreprise: %s\nEmail: %s\nTéléphone: %s",
-                        employeur.getEntreprise(), employeur.getEmail(), employeur.getNumeroTelephone()));
+                tvDetails.setText(String.format("Entreprise: %s\nEmail: %s\nTéléphone: %s\nAdresse: %s\nLiens Public: %s",
+                        employeur.getEntreprise(), employeur.getEmail(), employeur.getNumeroTelephone(), employeur.getAdresse(), employeur.getLiensPublic()));
             } else {
                 Log.e("EspaceEmployeurActivity", "Aucune donnée pour l'employeur");
             }
@@ -45,6 +46,7 @@ public class EspaceEmployeurActivity extends AppCompatActivity {
             Log.e("EspaceEmployeurActivity", "ID employeur non trouvé");
         }
     }
+
 
 
 
