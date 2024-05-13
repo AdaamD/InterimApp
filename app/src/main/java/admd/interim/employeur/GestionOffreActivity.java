@@ -1,41 +1,41 @@
 package admd.interim.employeur;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
-import android.widget.TextView;
-import android.widget.Button;
-
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import admd.interim.R;
+import admd.interim.logic.DatabaseHelper;
+import admd.interim.logic.Offre;
 import admd.interim.logic.OffreAdapter;
 
-// GestionOffreActivity.java
 public class GestionOffreActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private OffreAdapter offreAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gestion_offre);
 
-        RecyclerView recyclerViewOffers = findViewById(R.id.recyclerViewOffers);
-        List<String> offres = new ArrayList<>(); // Remplacez ceci par votre liste d'offres
+        recyclerView = findViewById(R.id.recyclerViewOffers);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Remplissez la liste d'offres (exemple)
-        offres.add("Offre 1");
-        offres.add("Offre 2");
-        offres.add("Offre 3");
+        // Récupérer les offres depuis la base de données
+        List<Offre> offres = retrieveOffresFromDatabase();
 
-        OffreAdapter adapter = new OffreAdapter(offres);
-        recyclerViewOffers.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewOffers.setAdapter(adapter);
+        // Afficher les offres dans la RecyclerView
+        offreAdapter = new OffreAdapter(offres);
+        recyclerView.setAdapter(offreAdapter);
+    }
+
+    private List<Offre> retrieveOffresFromDatabase() {
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        return dbHelper.getAllOffres();
     }
 }
-

@@ -1,6 +1,7 @@
 package admd.interim.logic;
 
-
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import admd.interim.R;
+import admd.interim.employeur.ConsulterOffreActivity;
+import admd.interim.employeur.ModifierOffreActivity;
 
 public class OffreAdapter extends RecyclerView.Adapter<OffreAdapter.OffreViewHolder> {
+    private List<Offre> offres; // Complete list of offers with details
 
-    private List<String> offres; // Liste des titres d'offres
-
-    public OffreAdapter(List<String> offres) {
+    public OffreAdapter(List<Offre> offres) {
         this.offres = offres;
     }
 
@@ -32,8 +34,8 @@ public class OffreAdapter extends RecyclerView.Adapter<OffreAdapter.OffreViewHol
 
     @Override
     public void onBindViewHolder(@NonNull OffreViewHolder holder, int position) {
-        String titreOffre = offres.get(position);
-        holder.bind(titreOffre);
+        Offre offre = offres.get(position);
+        holder.bind(offre);
     }
 
     @Override
@@ -42,10 +44,10 @@ public class OffreAdapter extends RecyclerView.Adapter<OffreAdapter.OffreViewHol
     }
 
     static class OffreViewHolder extends RecyclerView.ViewHolder {
-        TextView textOfferTitle;
-        Button buttonConsulter;
-        Button buttonModifier;
-        Button buttonSupprimer;
+        private TextView textOfferTitle;
+        private Button buttonConsulter;
+        private Button buttonModifier;
+        private Button buttonSupprimer;
 
         OffreViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -55,22 +57,32 @@ public class OffreAdapter extends RecyclerView.Adapter<OffreAdapter.OffreViewHol
             buttonSupprimer = itemView.findViewById(R.id.buttonSupprimer);
         }
 
-        void bind(String titreOffre) {
-            textOfferTitle.setText(titreOffre);
+        void bind(Offre offre) {
+            textOfferTitle.setText(offre.getTitre());
 
             buttonConsulter.setOnClickListener(v -> {
-                Toast.makeText(itemView.getContext(), "Consulter: " + titreOffre, Toast.LENGTH_SHORT).show();
+                Context context = itemView.getContext();
+                Intent intent = new Intent(context, ConsulterOffreActivity.class);
+                intent.putExtra("offre_id", offre.getId()); // Ensure this data is used in the activity
+                context.startActivity(intent);
             });
 
+
             buttonModifier.setOnClickListener(v -> {
-                Toast.makeText(itemView.getContext(), "Modifier: " + titreOffre, Toast.LENGTH_SHORT).show();
+                Context context = itemView.getContext();
+                Intent intent = new Intent(context, ModifierOffreActivity.class);
+                intent.putExtra("offre", offre); // Ensure Offer is Parcelable or Serializable
+                context.startActivity(intent);
             });
 
             buttonSupprimer.setOnClickListener(v -> {
-                Toast.makeText(itemView.getContext(), "Supprimer: " + titreOffre, Toast.LENGTH_SHORT).show();
+                Context context = itemView.getContext();
+                DatabaseHelper dbHelper = new DatabaseHelper(context);
+                dbHelper.deleteOffre(offre.getId());
+                Toast.makeText(context, "Offre supprimée: " + offre.getTitre(), Toast.LENGTH_SHORT).show();
+                // Implement a method to refresh the list after deletion
+                // e.g., listener.onItemDeleted(getAdapterPosition());
             });
-
         }
     }
 }
-

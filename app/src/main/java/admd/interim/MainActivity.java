@@ -103,10 +103,11 @@ public class MainActivity extends AppCompatActivity {
         long employeurId = databaseHelper.insertEmployeur(
                 "John Doe",
                 "Acme Inc.",
-                "john.doe@acme.com",
                 "0612345678",
                 "123 Main Street, Anytown USA",
-                "https://www.acme.com"
+                "https://www.acme.com",
+                "john.doe@acme.com",
+                "John"
         );
 
         if (employeurId == -1) {

@@ -2,80 +2,63 @@ package admd.interim.employeur;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import admd.interim.R;
-import android.widget.Button;
-
+import admd.interim.logic.DatabaseHelper;
+import admd.interim.logic.Employeur;
 
 public class EspaceEmployeurActivity extends AppCompatActivity {
 
-    private Button buttonCreerOffre;
-    private  Button buttonGererOffre;
-    private Button buttonGererCandidatures;
-
-    private Button buttonGererCandidaturesAcceptes;
+    private Button buttonCreerOffre, buttonGererOffre, buttonGererCandidatures, buttonGererCandidaturesAcceptes;
+    private TextView textViewEmployeurNom, textViewEmployeurDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_espace_employeur);
 
-        // Récupérer le TextView pour afficher le message de réussite
-        TextView textViewConnectionSuccess = findViewById(R.id.textViewConnectionSuccess);
+        setupButtons();
+        displayEmployeurDetails();
+    }
 
-        // Récupérer le nom de l'employeur inscrit avec succès depuis l'intent
-        String nomEmployeur = getIntent().getStringExtra("NOM_ENTREPRISE"); // Remplacez "NOM_ENTREPRISE" par la clé appropriée
-
-        // Personnaliser le message de réussite avec le nom de l'employeur
-        if (nomEmployeur != null && !nomEmployeur.isEmpty()) {
-            String messageSuccess = "Bienvenue, " + nomEmployeur + " ! Inscription réussie.";
-            textViewConnectionSuccess.setText(messageSuccess);
-        } else {
-            textViewConnectionSuccess.setText("Inscription réussie.");
-        }
-
-        buttonCreerOffre = findViewById(R.id.buttonCreerOffre);
-        buttonCreerOffre.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Créer une Intent pour naviguer vers CreationOffreActivity
-                Intent intent = new Intent(EspaceEmployeurActivity.this, CreationOffreActivity.class);
-                startActivity(intent);
+    private void displayEmployeurDetails() {
+        long employeurId = getIntent().getLongExtra("EMPLOYEUR_ID", -1);
+        if (employeurId != -1) {
+            DatabaseHelper db = new DatabaseHelper(this);
+            Employeur employeur = db.getEmployeurById(employeurId);
+            if (employeur != null) {
+                TextView tvNom = findViewById(R.id.textViewEmployeurNom);
+                TextView tvDetails = findViewById(R.id.textViewEmployeurDetails);
+                tvNom.setText(employeur.getNom());
+                tvDetails.setText(String.format("Entreprise: %s\nEmail: %s\nTéléphone: %s",
+                        employeur.getEntreprise(), employeur.getEmail(), employeur.getNumeroTelephone()));
+            } else {
+                Log.e("EspaceEmployeurActivity", "Aucune donnée pour l'employeur");
             }
-        });
+        } else {
+            Log.e("EspaceEmployeurActivity", "ID employeur non trouvé");
+        }
+    }
+
+
+
+    private void setupButtons() {
+        buttonCreerOffre = findViewById(R.id.buttonCreerOffre);
+        buttonCreerOffre.setOnClickListener(v -> startActivity(new Intent(this, CreationOffreActivity.class)));
 
         buttonGererOffre = findViewById(R.id.buttonGererOffre);
-        buttonGererOffre.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Créer une Intent pour naviguer vers GestionOffreActivity
-                Intent intent = new Intent(EspaceEmployeurActivity.this, GestionOffreActivity.class);
-                startActivity(intent);
-            }
-        });
+        buttonGererOffre.setOnClickListener(v -> startActivity(new Intent(this, GestionOffreActivity.class)));
 
         buttonGererCandidatures = findViewById(R.id.buttonGererCandidatures);
-        buttonGererCandidatures.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(EspaceEmployeurActivity.this, GestionCandidatureActivity.class);
-                startActivity(intent);
-            }
-        });
+        buttonGererCandidatures.setOnClickListener(v -> startActivity(new Intent(this, GestionCandidatureActivity.class)));
 
         buttonGererCandidaturesAcceptes = findViewById(R.id.buttonGererCandidaturesAcceptes);
-        buttonGererCandidaturesAcceptes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(EspaceEmployeurActivity.this, CandidaturesAccepteesActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
+        buttonGererCandidaturesAcceptes.setOnClickListener(v -> startActivity(new Intent(this, CandidaturesAccepteesActivity.class)));
     }
 }

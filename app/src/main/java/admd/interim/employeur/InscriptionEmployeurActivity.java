@@ -4,18 +4,24 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-
 import admd.interim.R;
 import admd.interim.logic.DatabaseHelper;
 
 public class InscriptionEmployeurActivity extends AppCompatActivity {
 
     private EditText editTextNom, editTextEntreprise, editTextEmail, editTextTelephone, editTextAdresse, editTextLienPublic;
+    private EditText editTextPassword, editTextConfirmPassword;
+    private TextView textViewToggle;
+    private boolean isPasswordVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,85 +29,140 @@ public class InscriptionEmployeurActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inscription_employeur);
 
         // Référencer les vues
+        setupViews();
+
+        // Setup listeners
+        setupListeners();
+    }
+
+    private void setupViews() {
         editTextNom = findViewById(R.id.editTextNom);
         editTextEntreprise = findViewById(R.id.editTextEntreprise);
-        editTextEmail = findViewById(R.id.editTextEmail);
         editTextTelephone = findViewById(R.id.editTextTelephone);
         editTextAdresse = findViewById(R.id.editTextAdresse);
         editTextLienPublic = findViewById(R.id.editTextLienPublic);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
+        textViewToggle = findViewById(R.id.textViewToggle);
+    }
 
+    private void setupListeners() {
         Button buttonEnregistrer = findViewById(R.id.buttonEnregistrer);
         buttonEnregistrer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Récupérer les valeurs saisies par l'utilisateur
-                String nom = editTextNom.getText().toString().trim();
-                String entreprise = editTextEntreprise.getText().toString().trim();
-                String email = editTextEmail.getText().toString().trim();
-                String telephone = editTextTelephone.getText().toString().trim();
-                String adresse = editTextAdresse.getText().toString().trim();
-                String lienPublic = editTextLienPublic.getText().toString().trim();
-
-                // Vérifier si les champs obligatoires sont remplis
-                if (nom.isEmpty() || email.isEmpty()) {
-                    showMissingFieldsDialog();
-                    return;
+                if (validateForm()) {
+                    enregistrerEmployeur();
                 }
+            }
+        });
 
-                // Enregistrez les informations dans votre base de données
-                enregistrerEmployeur(nom, entreprise, email, telephone, adresse, lienPublic);
+        textViewToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                togglePasswordVisibility();
+            }
+        });
+
+        editTextConfirmPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!editTextConfirmPassword.getText().toString().equals(editTextPassword.getText().toString())) {
+                    editTextConfirmPassword.setError("Les mots de passe ne correspondent pas");
+                }
             }
         });
     }
 
-    private void enregistrerEmployeur(String nom, String entreprise, String email, String telephone, String adresse, String lienPublic) {
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        long employeurId = databaseHelper.insertEmployeur(nom, entreprise, email, telephone, adresse, lienPublic);
+    private boolean validateForm() {
+        // Add validation for each field
+        if (editTextNom.getText().toString().trim().isEmpty() ||
+                editTextEntreprise.getText().toString().trim().isEmpty() ||
+                editTextAdresse.getText().toString().trim().isEmpty() ||
+                !Patterns.EMAIL_ADDRESS.matcher(editTextEmail.getText().toString().trim()).matches() ||
+                !Patterns.PHONE.matcher(editTextTelephone.getText().toString().trim()).matches() ||
+                !Patterns.WEB_URL.matcher(editTextLienPublic.getText().toString().trim()).matches() ||
+                editTextPassword.getText().toString().trim().isEmpty() ||
+                !editTextPassword.getText().toString().equals(editTextConfirmPassword.getText().toString())) {
+            showMissingFieldsDialog();
+            return false;
+        }
+        return true;
+    }
 
-        if (employeurId == -1) {
-            // L'employeur existe déjà, afficher une boîte de dialogue
-            showEmployeurExistsDialog();
+    private void enregistrerEmployeur() {
+        String nom = editTextNom.getText().toString().trim();
+        String entreprise = editTextEntreprise.getText().toString().trim();
+        String telephone = editTextTelephone.getText().toString().trim();
+        String adresse = editTextAdresse.getText().toString().trim();
+        String lienPublic = editTextLienPublic.getText().toString().trim();
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        long employeurId = databaseHelper.insertEmployeur(nom, entreprise, telephone, adresse, lienPublic, email, password);
+        if (employeurId != -1) {
+            showSuccessDialog(employeurId);
         } else {
-            // L'employeur a été inséré avec succès, afficher une boîte de dialogue de succès
-            showSuccessDialog();
+            showFailedRegistrationDialog();
         }
     }
 
-    // Affiche une boîte de dialogue pour informer l'utilisateur que les champs obligatoires ne sont pas remplis
+    private void togglePasswordVisibility() {
+        if (isPasswordVisible) {
+            editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            textViewToggle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_off, 0);
+            isPasswordVisible = false;
+        } else {
+            editTextPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            textViewToggle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility, 0);
+            isPasswordVisible = true;
+        }
+        editTextPassword.setSelection(editTextPassword.getText().length());
+    }
+
     private void showMissingFieldsDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Champs obligatoires manquants");
-        builder.setMessage("Veuillez remplir les champs Nom et Email.");
+        builder.setMessage("Veuillez remplir tous les champs requis et vous assurer que les mots de passe correspondent.");
         builder.setPositiveButton("OK", null);
         AlertDialog dialog = builder.create();
         dialog.show();
     }
 
-    // Affiche une boîte de dialogue pour informer l'utilisateur que l'employeur existe déjà
-    private void showEmployeurExistsDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Employeur existant");
-        builder.setMessage("Un employeur avec les mêmes informations existe déjà dans la base de données.");
-        builder.setPositiveButton("OK", null);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-    // Affiche une boîte de dialogue pour informer l'utilisateur que l'inscription a réussi
-    private void showSuccessDialog() {
+    private void showSuccessDialog(final long employeurId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Inscription réussie");
         builder.setMessage("Votre inscription en tant qu'employeur a été effectuée avec succès. Vous allez être redirigé vers l'espace employeur.");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Rediriger vers EspaceEmployeurActivity
                 Intent intent = new Intent(InscriptionEmployeurActivity.this, EspaceEmployeurActivity.class);
+                intent.putExtra("EMPLOYEUR_ID", employeurId); // Passer l'ID de l'employeur
                 startActivity(intent);
-                finish(); // Fermer l'activité InscriptionEmployeurActivity
+                finish();
             }
         });
-        builder.setCancelable(false); // Empêcher la fermeture du dialogue en cliquant à l'extérieur
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
+
+    private void showFailedRegistrationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Échec de l'inscription");
+        builder.setMessage("Une erreur est survenue lors de l'enregistrement. Veuillez réessayer.");
+        builder.setPositiveButton("OK", null);
         AlertDialog dialog = builder.create();
         dialog.show();
     }

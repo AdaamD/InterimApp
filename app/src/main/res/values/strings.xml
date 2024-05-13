@@ -5,6 +5,9 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="show_password">Show Password</string>
+    <string name="avatar">Avatar de l\'employeur</string>
+
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
@@ -42,4 +45,10 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string-array name="country_codes">
+        <item>+33 France</item>
+        <item>+1 USA</item>
+        <item>+44 UK</item>
+    </string-array>
+
 </resources>

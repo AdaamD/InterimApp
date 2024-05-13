@@ -11,4 +11,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="light_gray">#F5F5F5</color>
     <color name="light_blue">#2196F3</color>
+    <color name="primary_text">#DE000000</color> <!-- Very dark gray (almost black) for primary text -->
+    <color name="secondary_text">#89000000</color> <!-- Dark gray for secondary text -->
+    <color name="background_color">#FFFFFF</color> <!-- White background -->
+    <color name="red">#DC1313</color> <!-- White background -->
+
 </resources>
