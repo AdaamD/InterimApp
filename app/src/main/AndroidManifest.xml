@@ -41,6 +41,10 @@
         <activity
             android:name=".logic.DetailsCandidatActivity"
             android:exported="false" />
+        <activity android:name=".employeur.ModifierOffreActivity"
+            android:exported="false" />
+        <activity android:name=".employeur.ConsulterOffreActivity"
+            android:exported="false" />
 
 
         <activity android:name=".employeur.CreationOffreActivity">
