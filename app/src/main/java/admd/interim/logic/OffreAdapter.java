@@ -63,15 +63,14 @@ public class OffreAdapter extends RecyclerView.Adapter<OffreAdapter.OffreViewHol
             buttonConsulter.setOnClickListener(v -> {
                 Context context = itemView.getContext();
                 Intent intent = new Intent(context, ConsulterOffreActivity.class);
-                intent.putExtra("offre_id", offre.getId()); // Ensure this data is used in the activity
+                intent.putExtra("offre_id", offre.getId());
                 context.startActivity(intent);
             });
-
 
             buttonModifier.setOnClickListener(v -> {
                 Context context = itemView.getContext();
                 Intent intent = new Intent(context, ModifierOffreActivity.class);
-                intent.putExtra("offre", offre); // Ensure Offer is Parcelable or Serializable
+                intent.putExtra("offre_id", offre.getId()); // Passer l'ID de l'offre à modifier
                 context.startActivity(intent);
             });
 

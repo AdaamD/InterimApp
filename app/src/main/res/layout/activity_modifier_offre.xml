@@ -1,29 +1,64 @@
-<!-- activity_modifier_offre.xml -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Modifier l'offre"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
     <EditText
         android:id="@+id/editTextTitre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Titre de l'offre"
-        android:inputType="text"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp" />
+        android:hint="Titre"
+        android:inputType="text" />
 
-    <!-- Ajoutez d'autres EditText ou d'autres vues pour permettre la modification des détails -->
-
-    <Button
-        android:id="@+id/buttonEnregistrer"
+    <EditText
+        android:id="@+id/editTextDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enregistrer les modifications"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@color/lightblue"
-        android:padding="16dp" />
+        android:hint="Description"
+        android:inputType="textMultiLine" />
+
+    <EditText
+        android:id="@+id/editTextMetier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Métier"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/editTextLieu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Lieu"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/editTextDateDebut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date de début"
+        android:inputType="date" />
+
+    <EditText
+        android:id="@+id/editTextDateFin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date de fin"
+        android:inputType="date" />
+
+    <Button
+        android:id="@+id/buttonModifier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="Modifier" />
 
 </LinearLayout>

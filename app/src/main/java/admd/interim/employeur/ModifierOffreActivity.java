@@ -1,8 +1,8 @@
 package admd.interim.employeur;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -12,10 +12,15 @@ import admd.interim.R;
 import admd.interim.logic.DatabaseHelper;
 import admd.interim.logic.Offre;
 
+import java.util.Date;
+
 public class ModifierOffreActivity extends AppCompatActivity {
 
-    private Offre offre;
+    private EditText editTextTitre, editTextDescription, editTextMetier, editTextLieu, editTextDateDebut, editTextDateFin;
+    private Button buttonModifier;
+
     private DatabaseHelper dbHelper;
+    private int offreId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,51 +29,74 @@ public class ModifierOffreActivity extends AppCompatActivity {
 
         dbHelper = new DatabaseHelper(this);
 
-        offre = getIntent().getParcelableExtra("offre");
+        // Récupérer l'ID de l'offre à modifier depuis l'Intent
+        offreId = getIntent().getIntExtra("offre_id", 0);
+
+        // Récupérer les informations de l'offre depuis la base de données
+        Offre offre = dbHelper.getOffreById(offreId);
+
+        // Vérifier si l'objet Offre n'est pas null
         if (offre != null) {
-            afficherDetailsOffre();
+            // Initialiser les vues
+            editTextTitre = findViewById(R.id.editTextTitre);
+            editTextDescription = findViewById(R.id.editTextDescription);
+            editTextMetier = findViewById(R.id.editTextMetier);
+            editTextLieu = findViewById(R.id.editTextLieu);
+            editTextDateDebut = findViewById(R.id.editTextDateDebut);
+            editTextDateFin = findViewById(R.id.editTextDateFin);
+            buttonModifier = findViewById(R.id.buttonModifier);
+
+            // Remplir les champs avec les informations de l'offre
+            editTextTitre.setText(offre.getTitre());
+            editTextDescription.setText(offre.getDescription());
+            editTextMetier.setText(offre.getMetier());
+            editTextLieu.setText(offre.getLieu());
+            editTextDateDebut.setText(offre.getDateDebut().toString());
+            editTextDateFin.setText(offre.getDateFin().toString());
+
+
+            // Afficher les informations de l'offre récupérée
+            System.out.println("Offre ID : " + offre.getId());
+            System.out.println("Titre : " + offre.getTitre());
+            System.out.println("Description : " + offre.getDescription());
+            System.out.println("Métier : " + offre.getMetier());
+            System.out.println("Lieu : " + offre.getLieu());
+            System.out.println("Date de début : " + offre.getDateDebut());
+            System.out.println("Date de fin : " + offre.getDateFin());
+            System.out.println("Employeur ID : " + offre.getIdEmployeur());
+
+            // Ajouter un OnClickListener pour le bouton "Modifier"
+            buttonModifier.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    modifierOffre(offre.getIdEmployeur());
+                }
+            });
+        } else {
+            // Gérer le cas où l'objet Offre est null (afficher un message d'erreur, fermer l'activité, etc.)
+            Toast.makeText(this, "Erreur : Offre introuvable", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 
-    private void afficherDetailsOffre() {
-        EditText editTextTitre = findViewById(R.id.editTextTitre);
-        editTextTitre.setText(offre.getTitre());
+    private void modifierOffre(int idEmployeurExistant) {
+        String nouveauTitre = editTextTitre.getText().toString();
+        String nouvelleDescription = editTextDescription.getText().toString();
+        String nouveauMetier = editTextMetier.getText().toString();
+        String nouveauLieu = editTextLieu.getText().toString();
+        Date nouvelleDateDebut = new Date(editTextDateDebut.getText().toString());
+        Date nouvelleDateFin = new Date(editTextDateFin.getText().toString());
 
-        // Affichez d'autres détails de l'offre ici en fonction de vos besoins
-        // Exemple : editTextDescription.setText(offre.getDescription());
-    }
+        // Créer un nouvel objet Offre avec les nouvelles valeurs et l'ID de l'employeur existant
+        Offre offre = new Offre(nouveauTitre, nouvelleDescription, nouveauMetier, nouveauLieu, nouvelleDateDebut, nouvelleDateFin, idEmployeurExistant);
+        offre.setId(offreId);
 
-    public void sauvegarderModifications(View view) {
-        String nouveauTitre = ((EditText) findViewById(R.id.editTextTitre)).getText().toString();
-        // Récupérez d'autres valeurs mises à jour ici si nécessaire
-
-        // Mettez à jour l'objet Offre avec les nouvelles valeurs
-        offre.setTitre(nouveauTitre);
-        // Mettez à jour d'autres attributs d'offre ici si nécessaire
-
-        // Enregistrez les modifications dans la base de données
-        dbHelper.updateOffre(
-                (int) offre.getId(),                    // Offre ID
-                offre.getTitre(),                       // Nouveau titre
-                offre.getDescription(),                 // Nouvelle description
-                offre.getMetier(),                      // Nouveau métier
-                offre.getLieu(),                        // Nouveau lieu
-                offre.getDateDebut(),                   // Nouvelle date de début
-                offre.getDateFin(),                     // Nouvelle date de fin
-                (int) offre.getIdEmployeur()            // Nouvel ID employeur
-        );
-
-
-        Log.d("ModifierOffreActivity", "Mise à jour de l'offre réussie.");
-
-// Ou bien, si vous souhaitez effectuer une action conditionnelle en fonction du succès de la mise à jour, vous pouvez le faire directement sans utiliser de variable intermédiaire
-// Par exemple, afficher un message ou effectuer d'autres actions
-        Toast.makeText(ModifierOffreActivity.this, "Mise à jour de l'offre réussie.", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        dbHelper.close(); // Assurez-vous de fermer la connexion à la base de données lorsque vous n'en avez plus besoin
+        int rowsUpdated = dbHelper.updateOffre(offreId, nouveauTitre, nouvelleDescription, nouveauMetier, nouveauLieu, nouvelleDateDebut, nouvelleDateFin, idEmployeurExistant);
+        if (rowsUpdated > 0) {
+            Toast.makeText(this, "Offre modifiée avec succès", Toast.LENGTH_SHORT).show();
+            finish(); // Fermer l'activité après la modification
+        } else {
+            Toast.makeText(this, "Échec de la modification de l'offre", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -423,6 +423,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             offre.setDescription(cursor.getString(cursor.getColumnIndex("description")));
             offre.setDateDebut(new Date(cursor.getLong(cursor.getColumnIndex("date_debut"))));
             offre.setDateFin(new Date(cursor.getLong(cursor.getColumnIndex("date_fin"))));
+            offre.setIdEmployeur(cursor.getInt(cursor.getColumnIndex("id_employeur")));
+
             Log.d("DatabaseHelper", "Offre loaded: " + offre.toString()); // Make sure Offre has a proper toString() method
         }
         if (cursor != null) {
@@ -431,6 +433,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return offre;
     }
+
 
     @SuppressLint("Range")
     public List<Offre> getAllOffres() {
@@ -630,7 +633,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void updateOffre(int offreId, String nouveauTitre, String nouvelleDescription, String nouveauMetier, String nouveauLieu, Date nouvelleDateDebut, Date nouvelleDateFin, int nouvelIdEmployeur) {
+    public int updateOffre(int offreId, String nouveauTitre, String nouvelleDescription, String nouveauMetier, String nouveauLieu, Date nouvelleDateDebut, Date nouvelleDateFin, int nouvelIdEmployeur) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -653,6 +656,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d("DatabaseHelper", "Nombre de lignes mises à jour : " + count);
 
         db.close(); // Fermer la connexion à la base de données
+        return count;
     }
 
     // ======== CANDIDATURES METHODS ========
