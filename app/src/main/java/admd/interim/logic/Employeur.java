@@ -29,6 +29,13 @@ public class Employeur {
     }
 
     public Employeur(int id, String nom, String entreprise, String numeroTelephone, String adresse, String liensPublic, String email) {
+        this.id = id;
+        this.nom = nom;
+        this.entreprise = entreprise;
+        this.numeroTelephone = numeroTelephone;
+        this.adresse = adresse;
+        this.liensPublic = liensPublic;
+        this.email = email;
     }
 
 

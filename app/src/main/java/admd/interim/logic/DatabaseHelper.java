@@ -107,28 +107,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count > 0;
     }
 
-    @SuppressLint("Range")
-    public Employeur getEmployeurById(long idEmployeur) {
+
+    public Employeur getEmployeurByEmail(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_EMPLOYEURS + " WHERE id = ?";
-        Cursor cursor = db.rawQuery(query, new String[] { String.valueOf(idEmployeur) });
+        String query = "SELECT * FROM employeurs WHERE email = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{email});
+        Employeur employeur = null;
+        if (cursor.moveToFirst()) {
+            employeur = new Employeur();
+            employeur.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            employeur.setNom(cursor.getString(cursor.getColumnIndex("nom")));
+            employeur.setEntreprise(cursor.getString(cursor.getColumnIndex("entreprise")));
+            employeur.setEmail(cursor.getString(cursor.getColumnIndex("email")));
+            employeur.setNumeroTelephone(cursor.getString(cursor.getColumnIndex("numero_telephone")));
+            // Ajoutez d'autres champs de l'employeur si nécessaire
+        }
+        cursor.close();
+        return employeur;
+    }
+
+
+    public Employeur getEmployeurById(int employeurId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM employeurs WHERE id = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(employeurId)});
 
         Employeur employeur = null;
         if (cursor.moveToFirst()) {
-            employeur = new Employeur(
-                    cursor.getInt(cursor.getColumnIndex("id")),
-                    cursor.getString(cursor.getColumnIndex("nom")),
-                    cursor.getString(cursor.getColumnIndex("entreprise")),
-                    cursor.getString(cursor.getColumnIndex("numero_telephone")),
-                    cursor.getString(cursor.getColumnIndex("adresse")),
-                    cursor.getString(cursor.getColumnIndex("liens_public")),
-                    cursor.getString(cursor.getColumnIndex("email"))
-            );
+            employeur = new Employeur();
+            employeur.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            employeur.setNom(cursor.getString(cursor.getColumnIndex("nom")));
+            employeur.setEntreprise(cursor.getString(cursor.getColumnIndex("entreprise")));
+            employeur.setNumeroTelephone(cursor.getString(cursor.getColumnIndex("numero_telephone")));
+            employeur.setAdresse(cursor.getString(cursor.getColumnIndex("adresse")));
+            employeur.setLiensPublic(cursor.getString(cursor.getColumnIndex("liens_public")));
+            employeur.setEmail(cursor.getString(cursor.getColumnIndex("email")));
         }
+
         cursor.close();
-        db.close();
+        //db.close();
+
         return employeur;
     }
+
 
 
     public long insertEmployeur(String nom, String entreprise, String numeroTelephone, String adresse, String liensPublic, String email, String password) {

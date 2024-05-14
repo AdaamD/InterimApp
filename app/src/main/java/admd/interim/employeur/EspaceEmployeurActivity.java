@@ -2,7 +2,6 @@ package admd.interim.employeur;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,24 +27,24 @@ public class EspaceEmployeurActivity extends AppCompatActivity {
     }
 
     private void displayEmployeurDetails() {
-        long employeurId = getIntent().getLongExtra("EMPLOYEUR_ID", -1);
+        int employeurId = getIntent().getIntExtra("EMPLOYEUR_ID", -1);
+        System.out.println("EspaceEmployeurActivity: Employeur ID: " + employeurId);
         if (employeurId != -1) {
             DatabaseHelper db = new DatabaseHelper(this);
             Employeur employeur = db.getEmployeurById(employeurId);
             if (employeur != null) {
-                TextView tvNom = findViewById(R.id.textViewEmployeurNom);
-                TextView tvDetails = findViewById(R.id.textViewEmployeurDetails);
-                tvNom.setText(employeur.getNom());
-                tvDetails.setText(String.format("Entreprise: %s\nEmail: %s\nTéléphone: %s",
-                        employeur.getEntreprise(), employeur.getEmail(), employeur.getNumeroTelephone()));
+                textViewEmployeurNom = findViewById(R.id.textViewEmployeurNom);
+                textViewEmployeurDetails = findViewById(R.id.textViewEmployeurDetails);
+                textViewEmployeurNom.setText(employeur.getNom());
+                textViewEmployeurDetails.setText("Entreprise: " + employeur.getEntreprise());
+
             } else {
-                Log.e("EspaceEmployeurActivity", "Aucune donnée pour l'employeur");
+                System.out.println("EspaceEmployeurActivity: Aucune donnée pour l'employeur");
             }
         } else {
-            Log.e("EspaceEmployeurActivity", "ID employeur non trouvé");
+            System.out.println("EspaceEmployeurActivity: ID employeur non trouvé");
         }
     }
-
 
 
     private void setupButtons() {

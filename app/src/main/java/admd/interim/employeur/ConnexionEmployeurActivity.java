@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import admd.interim.R;
 import admd.interim.logic.DatabaseHelper;
+import admd.interim.logic.Employeur;
 
 public class ConnexionEmployeurActivity extends AppCompatActivity {
 
@@ -63,7 +64,12 @@ public class ConnexionEmployeurActivity extends AppCompatActivity {
         String password = editTextPassword.getText().toString().trim();
 
         if (databaseHelper.verifyEmployeurCredentials(email, password)) {
-            showSuccessDialog();
+            Employeur employeur = databaseHelper.getEmployeurByEmail(email);
+            if (employeur != null) {
+                showSuccessDialog(employeur);
+            } else {
+                showInvalidCredentialsDialog();
+            }
         } else {
             showInvalidCredentialsDialog();
         }
@@ -78,23 +84,29 @@ public class ConnexionEmployeurActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void showSuccessDialog() {
+    private void showSuccessDialog(Employeur employeur) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Connexion réussie");
-        builder.setMessage("Vous allez être redirigé vers l'espace employeur.");
+        builder.setMessage("Bienvenue " + employeur.getNom() + ", vous allez être redirigé vers l'espace employeur.");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Retrieve the employer's name from the editText or any other source
-                String nomEmployeur = editTextEmail.getText().toString().trim();  // Simplified for demonstration
-                Intent intent = new Intent(ConnexionEmployeurActivity.this, EspaceEmployeurActivity.class);
-                intent.putExtra("NOM_ENTREPRISE", nomEmployeur);  // Pass the employer's name to the next activity
-                startActivity(intent);
+                String email = editTextEmail.getText().toString().trim();
+                Employeur employeur = databaseHelper.getEmployeurByEmail(email);
+                if (employeur != null) {
+                    int employeurId = employeur.getId();
+                    Intent intent = new Intent(ConnexionEmployeurActivity.this, EspaceEmployeurActivity.class);
+                    intent.putExtra("EMPLOYEUR_ID", employeurId);
+                    System.out.println("ConnexionEmployeurActivity: ID employeur trouvé: " + employeurId);
+                    startActivity(intent);
+                } else {
+                    // Gérer le cas où l'employeur n'est pas trouvé dans la base de données
+                    System.out.println("ConnexionEmployeurActivity: Aucun employeur n'a été trouvé avec ces informations de connexion.");
+                }
             }
         });
         builder.setCancelable(false);
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
 }
