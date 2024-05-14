@@ -96,6 +96,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    // ======== EMPLOYEURS METHODS ========
+
     private boolean employeurExists(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT COUNT(*) FROM employeurs WHERE email = ?";
@@ -107,7 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count > 0;
     }
 
-
+    @SuppressLint("Range")
     public Employeur getEmployeurByEmail(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM employeurs WHERE email = ?";
@@ -126,7 +128,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return employeur;
     }
 
-
+    @SuppressLint("Range")
     public Employeur getEmployeurById(int employeurId) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM employeurs WHERE id = ?";
@@ -145,12 +147,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        //db.close();
-
         return employeur;
-
     }
-
 
     public long insertEmployeur(String nom, String entreprise, String numeroTelephone, String adresse, String liensPublic, String email, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -168,6 +166,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
+    public boolean verifyEmployeurCredentials(String email, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT password FROM employeurs WHERE email = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{email});
+        boolean isAuthenticated = false;
+        if (cursor.moveToFirst()) {
+            @SuppressLint("Range") String storedPassword = cursor.getString(cursor.getColumnIndex("password"));
+            isAuthenticated = storedPassword.equals(password); // For actual use, replace with secure password verification
+        }
+        cursor.close();
+        db.close();
+        return isAuthenticated;
+    }
+
+    // ======== CANDIDATS METHODS ========
 
     public boolean candidatExists(String nom, String prenom, String dateNaissance, String nationalite, String numeroTelephone, String email, String ville, String cv) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -179,21 +192,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return count > 0;
     }
-
-    private boolean offreExists(String titre, String description, String metier, String lieu, Date dateDebut, Date dateFin, int idEmployeur) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT COUNT(*) FROM offres WHERE titre = ? AND description = ? AND metier = ? AND lieu = ? AND date_debut = ? AND date_fin = ? AND id_employeur = ?";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String dateDebutStr = dateFormat.format(dateDebut);
-        String dateFinStr = dateFormat.format(dateFin);
-        Cursor cursor = db.rawQuery(query, new String[]{titre, description, metier, lieu, dateDebutStr, dateFinStr, String.valueOf(idEmployeur)});
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-        db.close();
-        return count > 0;
-    }
-
 
     public long insertCandidat(String nom, String prenom, String dateNaissance, String nationalite, String numeroTelephone, String email, String ville, String cv) {
         if (candidatExists(nom, prenom, dateNaissance, nationalite, numeroTelephone, email, ville, cv)) {
@@ -229,32 +227,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    public Offre getOffreById(int id) {
-        Offre offre = null;
-        // Assuming you have a method to get a readable database
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query("Offres", null, "id = ?", new String[] {String.valueOf(id)}, null, null, null);
-
-        if (cursor != null && cursor.moveToFirst()) {
-            offre = new Offre();
-            offre.setId(cursor.getInt(cursor.getColumnIndex("id")));
-            offre.setTitre(cursor.getString(cursor.getColumnIndex("titre")));
-            offre.setMetier(cursor.getString(cursor.getColumnIndex("metier")));
-            offre.setLieu(cursor.getString(cursor.getColumnIndex("lieu")));
-            offre.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-            offre.setDateDebut(new Date(cursor.getLong(cursor.getColumnIndex("date_debut"))));
-            offre.setDateFin(new Date(cursor.getLong(cursor.getColumnIndex("date_fin"))));
-            Log.d("DatabaseHelper", "Offre loaded: " + offre.toString()); // Make sure Offre has a proper toString() method
-        }
-        if (cursor != null) {
-            cursor.close();
-        }
-        db.close();
-        return offre;
-    }
-
-
-    @SuppressLint("Range")
     public Candidat getCandidatByEmail(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM candidats WHERE email = ?";
@@ -274,86 +246,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return candidat;
-    }
-
-    public boolean verifyEmployeurCredentials(String email, String password) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT password FROM employeurs WHERE email = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{email});
-        boolean isAuthenticated = false;
-        if (cursor.moveToFirst()) {
-            @SuppressLint("Range") String storedPassword = cursor.getString(cursor.getColumnIndex("password"));
-            isAuthenticated = storedPassword.equals(password); // For actual use, replace with secure password verification
-        }
-        cursor.close();
-        db.close();
-        return isAuthenticated;
-    }
-
-    public long insertOffre(String titre, String description, String metier, String lieu, Date dateDebut, Date dateFin, int idEmployeur) {
-        // Vérifier si une offre similaire existe déjà
-        if (offreExists(titre, description, metier, lieu, dateDebut, dateFin, idEmployeur)) {
-            // Offre existante, ne rien insérer et retourner -1 ou gérer l'erreur de votre manière
-            return -1;
-        }
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("titre", titre);
-        values.put("description", description);
-        values.put("metier", metier);
-        values.put("lieu", lieu);
-
-        // Formater les dates en chaînes de caractères
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String dateDebutStr = dateFormat.format(dateDebut);
-        String dateFinStr = dateFormat.format(dateFin);
-
-        values.put("date_debut", dateDebutStr);
-        values.put("date_fin", dateFinStr);
-        values.put("id_employeur", idEmployeur);
-
-        long newRowId = db.insert("offres", null, values);
-        db.close();
-
-        return newRowId;
-    }
-
-    public long insertCandidature(Candidature candidature) {
-        // Vérifier si la candidature n'a pas déjà été déposée
-        if (candidatureExists(candidature.getIdOffre(), candidature.getIdCandidat())) {
-            // La candidature existe déjà, ne rien insérer et retourner -1
-            return -1;
-        }
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("id_offre", candidature.getIdOffre());
-        values.put("id_candidat", candidature.getIdCandidat());
-        values.put("nom_candidat", candidature.getNomCandidat());
-        values.put("prenom_candidat", candidature.getPrenomCandidat());
-        values.put("email_candidat", candidature.getEmailCandidat());
-        values.put("cv_candidat", candidature.getCvCandidat());
-        values.put("date_candidature", candidature.getDateCandidat().getTime());
-        values.put("statut_candidature", candidature.getStatutCandidat());
-
-        long newRowId = db.insert("candidatures", null, values);
-        db.close();
-
-        return newRowId;
-    }
-
-    private boolean candidatureExists(int idOffre, long idCandidat) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query("Candidatures",
-                new String[]{"id"},
-                "id_offre = ? AND id_candidat = ?",
-                new String[]{String.valueOf(idOffre), String.valueOf(idCandidat)},
-                null, null, null);
-        boolean exists = cursor.getCount() > 0;
-        cursor.close();
-        db.close();
-        return exists;
     }
 
     public int updateCandidat(int candidatId, String nouveauNom, String nouveauPrenom, String nouveaueDateNaissance, String nouvelleNationalite, String nouveauNumeroTelephone, String nouveauEmail, String nouvelleVille, String nouveauCV) {
@@ -447,6 +339,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rowsUpdated;
     }
 
+    @SuppressLint("Range")
     public Candidat getCandidatByID(int candidatId) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM candidats WHERE id = ?";
@@ -467,9 +360,76 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        //db.close();
-
         return candidat;
+    }
+
+    // ======== OFFRES METHODS ========
+
+    private boolean offreExists(String titre, String description, String metier, String lieu, Date dateDebut, Date dateFin, int idEmployeur) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM offres WHERE titre = ? AND description = ? AND metier = ? AND lieu = ? AND date_debut = ? AND date_fin = ? AND id_employeur = ?";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String dateDebutStr = dateFormat.format(dateDebut);
+        String dateFinStr = dateFormat.format(dateFin);
+        Cursor cursor = db.rawQuery(query, new String[]{titre, description, metier, lieu, dateDebutStr, dateFinStr, String.valueOf(idEmployeur)});
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return count > 0;
+    }
+
+    public long insertOffre(String titre, String description, String metier, String lieu, Date dateDebut, Date dateFin, int idEmployeur) {
+        // Vérifier si une offre similaire existe déjà
+        if (offreExists(titre, description, metier, lieu, dateDebut, dateFin, idEmployeur)) {
+            // Offre existante, ne rien insérer et retourner -1 ou gérer l'erreur de votre manière
+            return -1;
+        }
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("titre", titre);
+        values.put("description", description);
+        values.put("metier", metier);
+        values.put("lieu", lieu);
+
+        // Formater les dates en chaînes de caractères
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String dateDebutStr = dateFormat.format(dateDebut);
+        String dateFinStr = dateFormat.format(dateFin);
+
+        values.put("date_debut", dateDebutStr);
+        values.put("date_fin", dateFinStr);
+        values.put("id_employeur", idEmployeur);
+
+        long newRowId = db.insert("offres", null, values);
+        db.close();
+
+        return newRowId;
+    }
+
+    @SuppressLint("Range")
+    public Offre getOffreById(int id) {
+        Offre offre = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("Offres", null, "id = ?", new String[] {String.valueOf(id)}, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            offre = new Offre();
+            offre.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            offre.setTitre(cursor.getString(cursor.getColumnIndex("titre")));
+            offre.setMetier(cursor.getString(cursor.getColumnIndex("metier")));
+            offre.setLieu(cursor.getString(cursor.getColumnIndex("lieu")));
+            offre.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+            offre.setDateDebut(new Date(cursor.getLong(cursor.getColumnIndex("date_debut"))));
+            offre.setDateFin(new Date(cursor.getLong(cursor.getColumnIndex("date_fin"))));
+            Log.d("DatabaseHelper", "Offre loaded: " + offre.toString()); // Make sure Offre has a proper toString() method
+        }
+        if (cursor != null) {
+            cursor.close();
+        }
+        db.close();
+        return offre;
     }
 
     @SuppressLint("Range")
@@ -625,6 +585,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    @SuppressLint("Range")
     public List<Offre> getOffresByEmployeurId(int employeurId) {
         List<Offre> offres = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -662,7 +623,76 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return offres;
     }
 
+    public void deleteOffre(int offreId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_OFFRES, COLUMN_ID + " = ?",
+                new String[]{String.valueOf(offreId)});
+        db.close();
+    }
 
+    public void updateOffre(int offreId, String nouveauTitre, String nouvelleDescription, String nouveauMetier, String nouveauLieu, Date nouvelleDateDebut, Date nouvelleDateFin, int nouvelIdEmployeur) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("titre", nouveauTitre);
+        values.put("description", nouvelleDescription);
+        values.put("metier", nouveauMetier);
+        values.put("lieu", nouveauLieu);
+        // Convertir les dates en format adapté pour la base de données
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        values.put("date_debut", dateFormat.format(nouvelleDateDebut));
+        values.put("date_fin", dateFormat.format(nouvelleDateFin));
+        values.put("id_employeur", nouvelIdEmployeur);
+
+        // Clause WHERE pour identifier quelle offre mettre à jour
+        String selection = "id = ?";
+        String[] selectionArgs = { String.valueOf(offreId) };
+
+        // Effectuer la mise à jour
+        int count = db.update("offres", values, selection, selectionArgs);
+        Log.d("DatabaseHelper", "Nombre de lignes mises à jour : " + count);
+
+        db.close(); // Fermer la connexion à la base de données
+    }
+
+    // ======== CANDIDATURES METHODS ========
+
+    private boolean candidatureExists(int idOffre, long idCandidat) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("Candidatures",
+                new String[]{"id"},
+                "id_offre = ? AND id_candidat = ?",
+                new String[]{String.valueOf(idOffre), String.valueOf(idCandidat)},
+                null, null, null);
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        db.close();
+        return exists;
+    }
+
+    public long insertCandidature(Candidature candidature) {
+        // Vérifier si la candidature n'a pas déjà été déposée
+        if (candidatureExists(candidature.getIdOffre(), candidature.getIdCandidat())) {
+            // La candidature existe déjà, ne rien insérer et retourner -1
+            return -1;
+        }
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id_offre", candidature.getIdOffre());
+        values.put("id_candidat", candidature.getIdCandidat());
+        values.put("nom_candidat", candidature.getNomCandidat());
+        values.put("prenom_candidat", candidature.getPrenomCandidat());
+        values.put("email_candidat", candidature.getEmailCandidat());
+        values.put("cv_candidat", candidature.getCvCandidat());
+        values.put("date_candidature", candidature.getDateCandidat().getTime());
+        values.put("statut_candidature", candidature.getStatutCandidat());
+
+        long newRowId = db.insert("candidatures", null, values);
+        db.close();
+
+        return newRowId;
+    }
 
     @SuppressLint("Range")
     public List<Candidature> getCandidaturesParCandidat(long candidatId) {
@@ -693,46 +723,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return candidatures;
     }
-
-
-
-
-    public void deleteOffre(int offreId) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_OFFRES, COLUMN_ID + " = ?",
-                new String[]{String.valueOf(offreId)});
-        db.close();
-    }
-
-
-    public void updateOffre(int offreId, String nouveauTitre, String nouvelleDescription, String nouveauMetier, String nouveauLieu, Date nouvelleDateDebut, Date nouvelleDateFin, int nouvelIdEmployeur) {
-        // Le corps de la méthode reste le même que ce que vous avez déjà
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put("titre", nouveauTitre);
-        values.put("description", nouvelleDescription);
-        values.put("metier", nouveauMetier);
-        values.put("lieu", nouveauLieu);
-        // Convertir les dates en format adapté pour la base de données
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        values.put("date_debut", dateFormat.format(nouvelleDateDebut));
-        values.put("date_fin", dateFormat.format(nouvelleDateFin));
-        values.put("id_employeur", nouvelIdEmployeur);
-
-        // Clause WHERE pour identifier quelle offre mettre à jour
-        String selection = "id = ?";
-        String[] selectionArgs = { String.valueOf(offreId) };
-
-        // Effectuer la mise à jour
-        int count = db.update("offres", values, selection, selectionArgs);
-        Log.d("DatabaseHelper", "Nombre de lignes mises à jour : " + count);
-
-        db.close(); // Fermer la connexion à la base de données
-    }
-
-
-
-
-
 }
