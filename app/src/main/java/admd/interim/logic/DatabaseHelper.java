@@ -157,13 +157,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("nom", nom);
         values.put("entreprise", entreprise);
-        values.put("numeroTelephone", numeroTelephone);
+        values.put("numero_telephone", numeroTelephone);
         values.put("adresse", adresse);
-        values.put("liensPublic", liensPublic);
+        values.put("liens_public", liensPublic);
         values.put("email", email);
         values.put("password", password);
 
-        long id = db.insert("employeur", null, values);
+        long id = db.insert("employeurs", null, values);
         db.close();
         return id;
     }
