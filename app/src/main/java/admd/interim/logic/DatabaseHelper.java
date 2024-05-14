@@ -727,4 +727,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return candidatures;
     }
+
+    @SuppressLint("Range")
+    public List<Candidature> getCandidaturesParOffre(int offreId) {
+        List<Candidature> candidatures = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM candidatures WHERE id_offre = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(offreId)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                Candidature candidature = new Candidature(
+                        cursor.getInt(cursor.getColumnIndex("id_offre")),
+                        cursor.getLong(cursor.getColumnIndex("id_candidat")),
+                        cursor.getString(cursor.getColumnIndex("nom_candidat")),
+                        cursor.getString(cursor.getColumnIndex("prenom_candidat")),
+                        cursor.getString(cursor.getColumnIndex("email_candidat")),
+                        cursor.getString(cursor.getColumnIndex("cv_candidat")),
+                        new Date(cursor.getLong(cursor.getColumnIndex("date_candidature"))),
+                        cursor.getString(cursor.getColumnIndex("statut_candidature"))
+                );
+                candidature.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                candidatures.add(candidature);
+                Log.d("DatabaseHelper", "Candidature loaded: " + candidature.getNomCandidat() + " " + candidature.getPrenomCandidat());
+            } while (cursor.moveToNext());
+        } else {
+            Log.d("DatabaseHelper", "No candidatures found for offer ID: " + offreId);
+        }
+        cursor.close();
+        return candidatures;
+    }
+
 }

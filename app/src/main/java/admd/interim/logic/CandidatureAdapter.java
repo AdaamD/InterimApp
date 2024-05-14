@@ -1,5 +1,6 @@
 package admd.interim.logic;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,11 @@ import java.util.List;
 
 import admd.interim.R;
 
-public class CandidatureAdapter extends RecyclerView.Adapter<CandidatureAdapter.ViewHolder> {
+public class CandidatureAdapter extends RecyclerView.Adapter<CandidatureAdapter.CandidatureViewHolder> {
 
-    private List<Candidat> candidatures;
+    private List<Candidature> candidatures;
+    private Context context;
+    private DatabaseHelper databaseHelper;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
@@ -24,24 +27,26 @@ public class CandidatureAdapter extends RecyclerView.Adapter<CandidatureAdapter.
         void onRespondClick(int position);
     }
 
-    public CandidatureAdapter(List<Candidat> candidatures) {
-        this.candidatures = candidatures;
-    }
-
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
+    public CandidatureAdapter(Context context, List<Candidature> candidatures) {
+        this.context = context;
+        this.candidatures = candidatures;
+        this.databaseHelper = new DatabaseHelper(context);
+    }
+
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CandidatureViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_candidature, parent, false);
-        return new ViewHolder(view);
+        return new CandidatureViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Candidat candidature = candidatures.get(position);
+    public void onBindViewHolder(@NonNull CandidatureViewHolder holder, int position) {
+        Candidature candidature = candidatures.get(position);
         holder.bind(candidature);
     }
 
@@ -50,25 +55,24 @@ public class CandidatureAdapter extends RecyclerView.Adapter<CandidatureAdapter.
         return candidatures.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class CandidatureViewHolder extends RecyclerView.ViewHolder {
+        private TextView textViewNomCandidat;
+        private TextView textViewEmailCandidat;
+        private TextView textViewOffreTitre;
+        private Button buttonAccept;
+        private Button buttonReject;
+        private Button buttonRespond;
 
-        private TextView textViewNom;
-        private TextView textViewPrenom;
-        private TextView textViewEmail;
-        private Button buttonAccepter;
-        private Button buttonRefuser;
-        private Button buttonRepondre;
-
-        public ViewHolder(@NonNull View itemView) {
+        CandidatureViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewNom = itemView.findViewById(R.id.textViewNom);
-            textViewPrenom = itemView.findViewById(R.id.textViewPrenom);
-            textViewEmail = itemView.findViewById(R.id.textViewEmail);
-            buttonAccepter = itemView.findViewById(R.id.buttonAccepter);
-            buttonRefuser = itemView.findViewById(R.id.buttonRefuser);
-            buttonRepondre = itemView.findViewById(R.id.buttonRepondre);
+            textViewNomCandidat = itemView.findViewById(R.id.textViewNomCandidat);
+            textViewEmailCandidat = itemView.findViewById(R.id.textViewEmailCandidat);
+            textViewOffreTitre = itemView.findViewById(R.id.textViewOffreTitre);
+            buttonAccept = itemView.findViewById(R.id.buttonAccept);
+            buttonReject = itemView.findViewById(R.id.buttonReject);
+            buttonRespond = itemView.findViewById(R.id.buttonRespond);
 
-            buttonAccepter.setOnClickListener(v -> {
+            buttonAccept.setOnClickListener(v -> {
                 if (listener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
@@ -77,7 +81,7 @@ public class CandidatureAdapter extends RecyclerView.Adapter<CandidatureAdapter.
                 }
             });
 
-            buttonRefuser.setOnClickListener(v -> {
+            buttonReject.setOnClickListener(v -> {
                 if (listener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
@@ -86,7 +90,7 @@ public class CandidatureAdapter extends RecyclerView.Adapter<CandidatureAdapter.
                 }
             });
 
-            buttonRepondre.setOnClickListener(v -> {
+            buttonRespond.setOnClickListener(v -> {
                 if (listener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
@@ -94,16 +98,18 @@ public class CandidatureAdapter extends RecyclerView.Adapter<CandidatureAdapter.
                     }
                 }
             });
-
-
         }
 
+        void bind(Candidature candidature) {
+            textViewNomCandidat.setText(candidature.getNomCandidat());
+            textViewEmailCandidat.setText(candidature.getEmailCandidat());
 
-        public void bind(Candidat candidature) {
-            textViewNom.setText(candidature.getNom());
-            textViewPrenom.setText(candidature.getPrenom());
-            textViewEmail.setText(candidature.getEmail());
+            Offre offre = databaseHelper.getOffreById(candidature.getIdOffre());
+            if (offre != null) {
+                textViewOffreTitre.setText("Offre: " + offre.getTitre());
+            } else {
+                textViewOffreTitre.setText("Offre: non trouvée");
+            }
         }
     }
 }
-
