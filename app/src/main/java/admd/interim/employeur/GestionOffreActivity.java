@@ -36,6 +36,28 @@ public class GestionOffreActivity extends AppCompatActivity {
 
     private List<Offre> retrieveOffresFromDatabase() {
         DatabaseHelper dbHelper = new DatabaseHelper(this);
-        return dbHelper.getAllOffres();
+
+        // Récupérer l'ID de l'employeur à partir de l'intent
+        int employeurId = getIntent().getIntExtra("EMPLOYEUR_ID", -1);
+
+        // Récupérer les offres de l'employeur depuis la base de données
+        List<Offre> offres = dbHelper.getOffresByEmployeurId(employeurId);
+
+        // Afficher les informations des offres récupérées dans le LogCat
+        for (Offre offre : offres) {
+            System.out.println("Offre ID: " + offre.getId());
+            System.out.println("Titre: " + offre.getTitre());
+            System.out.println("Description: " + offre.getDescription());
+            System.out.println("Métier: " + offre.getMetier());
+            System.out.println("Lieu: " + offre.getLieu());
+            System.out.println("Date de début: " + offre.getDateDebut());
+            System.out.println("Date de fin: " + offre.getDateFin());
+            System.out.println("ID Employeur: " + offre.getIdEmployeur());
+            System.out.println("-------------------");
+        }
+
+        return offres;
     }
+
+
 }

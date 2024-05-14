@@ -8,13 +8,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import admd.interim.logic.DatabaseHelper;
 import admd.interim.R;
+import admd.interim.logic.DatabaseHelper;
 
 public class CreationOffreActivity extends AppCompatActivity {
 
@@ -25,6 +24,10 @@ public class CreationOffreActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creation_offre);
+
+        // Récupérer l'ID de l'employeur à partir de l'intent
+        int employeurId = getIntent().getIntExtra("EMPLOYEUR_ID", -1);
+        System.out.println("CreationOffreActivity: ID employeur reçu : " + employeurId);
 
         // Récupération des références des vues
         editTextTitre = findViewById(R.id.editTextTitre);
@@ -54,8 +57,7 @@ public class CreationOffreActivity extends AppCompatActivity {
                     dateFin = dateFormat.parse(dateFinStr);
 
                     // Enregistrer l'offre dans la base de données
-                    int idEmployeur = 1; // Exemple : ID de l'employeur actuellement connecté
-                    long result = insertOffre(titre, description, metier, lieu, dateDebut, dateFin, idEmployeur);
+                    long result = insertOffre(titre, description, metier, lieu, dateDebut, dateFin, employeurId);
 
                     if (result != -1) {
                         Toast.makeText(CreationOffreActivity.this, "Offre créée avec succès", Toast.LENGTH_SHORT).show();

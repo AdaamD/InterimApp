@@ -50,16 +50,35 @@ public class EspaceEmployeurActivity extends AppCompatActivity {
 
 
     private void setupButtons() {
+        int employeurId = getIntent().getIntExtra("EMPLOYEUR_ID", -1);
+
         buttonCreerOffre = findViewById(R.id.buttonCreerOffre);
-        buttonCreerOffre.setOnClickListener(v -> startActivity(new Intent(this, CreationOffreActivity.class)));
+        buttonCreerOffre.setOnClickListener(v -> {
+            Intent intent = new Intent(this, CreationOffreActivity.class);
+            intent.putExtra("EMPLOYEUR_ID", employeurId);
+            startActivity(intent);
+        });
 
         buttonGererOffre = findViewById(R.id.buttonGererOffre);
-        buttonGererOffre.setOnClickListener(v -> startActivity(new Intent(this, GestionOffreActivity.class)));
+        buttonGererOffre.setOnClickListener(v -> {
+            Intent intent = new Intent(this, GestionOffreActivity.class);
+            intent.putExtra("EMPLOYEUR_ID", employeurId);
+            startActivity(intent);
+        });
 
         buttonGererCandidatures = findViewById(R.id.buttonGererCandidatures);
-        buttonGererCandidatures.setOnClickListener(v -> startActivity(new Intent(this, GestionCandidatureActivity.class)));
+        buttonGererCandidatures.setOnClickListener(v -> {
+            Intent intent = new Intent(this, GestionCandidatureActivity.class);
+            intent.putExtra("EMPLOYEUR_ID", employeurId);
+            startActivity(intent);
+        });
 
         buttonGererCandidaturesAcceptes = findViewById(R.id.buttonGererCandidaturesAcceptes);
-        buttonGererCandidaturesAcceptes.setOnClickListener(v -> startActivity(new Intent(this, CandidaturesAccepteesActivity.class)));
+        buttonGererCandidaturesAcceptes.setOnClickListener(v -> {
+            Intent intent = new Intent(this, CandidaturesAccepteesActivity.class);
+            intent.putExtra("EMPLOYEUR_ID", employeurId);
+            startActivity(intent);
+        });
     }
+
 }

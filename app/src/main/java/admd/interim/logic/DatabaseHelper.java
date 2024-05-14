@@ -625,6 +625,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public List<Offre> getOffresByEmployeurId(int employeurId) {
+        List<Offre> offres = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT * FROM offres WHERE id_employeur = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(employeurId)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                Offre offre = new Offre();
+                offre.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                offre.setTitre(cursor.getString(cursor.getColumnIndex("titre")));
+                offre.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+                offre.setMetier(cursor.getString(cursor.getColumnIndex("metier")));
+                offre.setLieu(cursor.getString(cursor.getColumnIndex("lieu")));
+
+                // Conversion des dates
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                try {
+                    Date dateDebut = dateFormat.parse(cursor.getString(cursor.getColumnIndex("date_debut")));
+                    Date dateFin = dateFormat.parse(cursor.getString(cursor.getColumnIndex("date_fin")));
+                    offre.setDateDebut(dateDebut);
+                    offre.setDateFin(dateFin);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                offre.setIdEmployeur(cursor.getInt(cursor.getColumnIndex("id_employeur")));
+
+                offres.add(offre);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return offres;
+    }
+
+
+
     @SuppressLint("Range")
     public List<Candidature> getCandidaturesParCandidat(long candidatId) {
         List<Candidature> candidatures = new ArrayList<>();
