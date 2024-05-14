@@ -1,5 +1,6 @@
 package admd.interim.employeur;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,9 +50,13 @@ public class GestionCandidatureActivity extends AppCompatActivity {
         candidatureAdapter.setOnItemClickListener(new CandidatureAdapter.OnItemClickListener() {
             @Override
             public void onAcceptClick(int position) {
-                // Traitement pour accepter la candidature à la position donnée
                 Candidature candidatureAcceptee = candidatures.get(position);
-                // Implémentez la logique nécessaire pour accepter la candidature
+
+                // Passer les informations du candidat à l'activité CandidaturesAccepteesActivity
+                Intent intent = new Intent(GestionCandidatureActivity.this, CandidaturesAccepteesActivity.class);
+                intent.putExtra("NOM_PRENOM", candidatureAcceptee.getNomCandidat() + " " + candidatureAcceptee.getPrenomCandidat());
+                intent.putExtra("EMAIL", candidatureAcceptee.getEmailCandidat());
+                startActivity(intent);
             }
 
             @Override

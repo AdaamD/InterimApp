@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import admd.interim.R;
 import admd.interim.logic.DetailsCandidatActivity;
 
-
 public class CandidaturesAccepteesActivity extends AppCompatActivity {
 
     private TextView textViewNomPrenom;
@@ -24,9 +23,10 @@ public class CandidaturesAccepteesActivity extends AppCompatActivity {
         textViewNomPrenom = findViewById(R.id.textViewNomPrenom);
         textViewEmail = findViewById(R.id.textViewEmail);
 
-        // Récupérer les informations du candidat accepté (à remplacer par vos données)
-        String nomPrenom = "Nabil Dafaoui";
-        String email = "Nabil.da@gmail.com";
+        // Récupérer les informations du candidat accepté depuis l'Intent
+        Intent intent = getIntent();
+        String nomPrenom = intent.getStringExtra("NOM_PRENOM");
+        String email = intent.getStringExtra("EMAIL");
 
         // Afficher les informations du candidat dans les TextView
         textViewNomPrenom.setText(nomPrenom);
@@ -35,6 +35,7 @@ public class CandidaturesAccepteesActivity extends AppCompatActivity {
 
     public void consulterCandidat(View view) {
         Intent intent = new Intent(this, DetailsCandidatActivity.class);
+        // Passez les informations nécessaires pour afficher les détails du candidat
         intent.putExtra("NOM", "John");
         intent.putExtra("PRENOM", "Doe");
         intent.putExtra("EMAIL", "john.doe@example.com");
@@ -76,5 +77,4 @@ public class CandidaturesAccepteesActivity extends AppCompatActivity {
 
         builder.show();
     }
-
 }
