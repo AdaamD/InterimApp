@@ -8,50 +8,50 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 import admd.interim.R;
 import admd.interim.logic.DatabaseHelper;
 import admd.interim.logic.Employeur;
+import admd.interim.logic.Offre;
 
 public class EspaceEmployeurActivity extends AppCompatActivity {
 
     private Button buttonCreerOffre, buttonGererOffre, buttonGererCandidatures, buttonGererCandidaturesAcceptes;
     private TextView textViewEmployeurNom, textViewEmployeurDetails;
+    private List<Offre> offres; // Liste pour stocker les offres
+    private int selectedOffreId; // ID de l'offre sélectionnée
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_espace_employeur);
 
-        setupButtons();
-        displayEmployeurDetails();
-    }
-
-    private void displayEmployeurDetails() {
         int employeurId = getIntent().getIntExtra("EMPLOYEUR_ID", -1);
         System.out.println("EspaceEmployeurActivity: Employeur ID: " + employeurId);
 
-        if (employeurId != -1) {
-            DatabaseHelper db = new DatabaseHelper(this);
-            Employeur employeur = db.getEmployeurById(employeurId);
-            if (employeur != null) {
-                textViewEmployeurNom = findViewById(R.id.textViewEmployeurNom);
-                textViewEmployeurDetails = findViewById(R.id.textViewEmployeurDetails);
-                textViewEmployeurNom.setText(employeur.getNom());
-                textViewEmployeurDetails.setText("Entreprise: " + employeur.getEntreprise());
+        // Initialiser les offres pour cet employeur
+        DatabaseHelper db = new DatabaseHelper(this);
+        offres = db.getOffresByEmployeurId(employeurId);
 
+        setupButtons(employeurId);
+        displayEmployeurDetails(employeurId);
+    }
 
-            } else {
-                System.out.println("EspaceEmployeurActivity: Aucune donnée pour l'employeur");
-            }
+    private void displayEmployeurDetails(int employeurId) {
+        DatabaseHelper db = new DatabaseHelper(this);
+        Employeur employeur = db.getEmployeurById(employeurId);
+        if (employeur != null) {
+            textViewEmployeurNom = findViewById(R.id.textViewEmployeurNom);
+            textViewEmployeurDetails = findViewById(R.id.textViewEmployeurDetails);
+            textViewEmployeurNom.setText(employeur.getNom());
+            textViewEmployeurDetails.setText("Entreprise: " + employeur.getEntreprise());
         } else {
-            System.out.println("EspaceEmployeurActivity: ID employeur non trouvé");
+            System.out.println("EspaceEmployeurActivity: Aucune donnée pour l'employeur");
         }
     }
 
-
-    private void setupButtons() {
-        int employeurId = getIntent().getIntExtra("EMPLOYEUR_ID", -1);
-
+    private void setupButtons(int employeurId) {
         buttonCreerOffre = findViewById(R.id.buttonCreerOffre);
         buttonCreerOffre.setOnClickListener(v -> {
             Intent intent = new Intent(this, CreationOffreActivity.class);
@@ -68,9 +68,16 @@ public class EspaceEmployeurActivity extends AppCompatActivity {
 
         buttonGererCandidatures = findViewById(R.id.buttonGererCandidatures);
         buttonGererCandidatures.setOnClickListener(v -> {
-            Intent intent = new Intent(this, GestionCandidatureActivity.class);
-            intent.putExtra("EMPLOYEUR_ID", employeurId);
-            startActivity(intent);
+            // Sélectionner une offre ici, par exemple, la première offre de la liste
+            if (offres != null && !offres.isEmpty()) {
+                selectedOffreId = offres.get(0).getId(); // Utiliser la première offre comme exemple
+                Intent intent = new Intent(this, GestionCandidatureActivity.class);
+                intent.putExtra("EMPLOYEUR_ID", employeurId);
+                startActivity(intent);
+
+            } else {
+                System.out.println("Aucune offre disponible pour cet employeur");
+            }
         });
 
         buttonGererCandidaturesAcceptes = findViewById(R.id.buttonGererCandidaturesAcceptes);
@@ -80,5 +87,4 @@ public class EspaceEmployeurActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
-
 }
