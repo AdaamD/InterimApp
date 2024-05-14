@@ -142,11 +142,11 @@ public class InscriptionEmployeurActivity extends AppCompatActivity {
     private void showSuccessDialog(final long employeurId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Inscription réussie");
-        builder.setMessage("Votre inscription en tant qu'employeur a été effectuée avec succès. Vous allez être redirigé vers l'espace employeur.");
+        builder.setMessage("Votre inscription en tant qu'employeur a été effectuée avec succès. Vous allez être redirigé vers la page de connexion.");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(InscriptionEmployeurActivity.this, EspaceEmployeurActivity.class);
+                Intent intent = new Intent(InscriptionEmployeurActivity.this, ConnexionEmployeurActivity.class);
                 intent.putExtra("EMPLOYEUR_ID", employeurId); // Passer l'ID de l'employeur
                 startActivity(intent);
                 finish();
