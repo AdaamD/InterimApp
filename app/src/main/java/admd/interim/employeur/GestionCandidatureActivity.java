@@ -18,7 +18,7 @@ public class GestionCandidatureActivity extends AppCompatActivity {
     private RecyclerView recyclerViewCandidatures;
     private CandidatureAdapter candidatureAdapter;
     private DatabaseHelper databaseHelper;
-    private int offreId;
+    private int employeurId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,17 +28,17 @@ public class GestionCandidatureActivity extends AppCompatActivity {
         recyclerViewCandidatures = findViewById(R.id.recyclerViewCandidatures);
         recyclerViewCandidatures.setLayoutManager(new LinearLayoutManager(this));
 
-        // Récupérer l'ID de l'offre à partir de l'Intent
-        offreId = getIntent().getIntExtra("offre_id", 0);
-        Log.d("GestionCandidature", "Offer ID: " + offreId);
+        // Récupérer l'ID de l'employeur à partir de l'Intent
+        employeurId = getIntent().getIntExtra("EMPLOYEUR_ID", 0);
+        Log.d("GestionCandidature", "Employeur ID: " + employeurId);
 
         databaseHelper = new DatabaseHelper(this);
 
-        // Récupérer les candidatures pour l'offre spécifique
-        List<Candidature> candidatures = databaseHelper.getCandidaturesParOffre(offreId);
+        // Récupérer les candidatures pour l'employeur spécifique
+        List<Candidature> candidatures = databaseHelper.getCandidaturesParEmployeur(employeurId);
 
         if (candidatures.isEmpty()) {
-            Log.d("GestionCandidature", "No candidatures found for offer ID: " + offreId);
+            Log.d("GestionCandidature", "No candidatures found for employer ID: " + employeurId);
         } else {
             Log.d("GestionCandidature", "Candidatures found: " + candidatures.size());
         }
