@@ -148,29 +148,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //db.close();
 
         return employeur;
+
     }
 
 
-
     public long insertEmployeur(String nom, String entreprise, String numeroTelephone, String adresse, String liensPublic, String email, String password) {
-        if (employeurExists(email)) {
-            Log.d("DatabaseHelper", "Employeur avec l'email " + email + " existe déjà.");
-            return -1;  // Indique que l'employeur existe déjà
-        }
-
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("nom", nom);
         values.put("entreprise", entreprise);
-        values.put("numero_telephone", numeroTelephone);
+        values.put("numeroTelephone", numeroTelephone);
         values.put("adresse", adresse);
-        values.put("liens_public", liensPublic);
+        values.put("liensPublic", liensPublic);
         values.put("email", email);
         values.put("password", password);
 
-        long newRowId = db.insert("employeurs", null, values);
+        long id = db.insert("employeur", null, values);
         db.close();
-        return newRowId;
+        return id;
     }
 
 

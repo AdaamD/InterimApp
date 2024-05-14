@@ -29,6 +29,7 @@ public class EspaceEmployeurActivity extends AppCompatActivity {
     private void displayEmployeurDetails() {
         int employeurId = getIntent().getIntExtra("EMPLOYEUR_ID", -1);
         System.out.println("EspaceEmployeurActivity: Employeur ID: " + employeurId);
+
         if (employeurId != -1) {
             DatabaseHelper db = new DatabaseHelper(this);
             Employeur employeur = db.getEmployeurById(employeurId);
@@ -37,6 +38,7 @@ public class EspaceEmployeurActivity extends AppCompatActivity {
                 textViewEmployeurDetails = findViewById(R.id.textViewEmployeurDetails);
                 textViewEmployeurNom.setText(employeur.getNom());
                 textViewEmployeurDetails.setText("Entreprise: " + employeur.getEntreprise());
+
 
             } else {
                 System.out.println("EspaceEmployeurActivity: Aucune donnée pour l'employeur");
