@@ -62,6 +62,9 @@
             <!--  Add any intent filters or other activity configuration here if needed  -->
         </activity>
 
+        <activity android:name=".logic.DetailsCandidatActivityEmployeur"
+            android:exported="false" />
+
         <!-- Espace CANDIDAT -->
         <activity
             android:name=".candidat.EspaceCandidatActivity"

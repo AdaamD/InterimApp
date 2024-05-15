@@ -15,7 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import java.util.List;
 
 import admd.interim.R;
-import admd.interim.logic.DetailsCandidatActivity;
+import admd.interim.logic.DetailsCandidatActivityEmployeur;
 
 public class CandidatureAccepteeAdapter extends RecyclerView.Adapter<CandidatureAccepteeAdapter.CandidatureViewHolder> {
 
@@ -46,10 +46,24 @@ public class CandidatureAccepteeAdapter extends RecyclerView.Adapter<Candidature
         holder.textViewNomOffre.setText(nomOffre);
 
         holder.buttonConsulter.setOnClickListener(v -> {
-            Intent intent = new Intent(context, DetailsCandidatActivity.class);
+            Intent intent = new Intent(context, DetailsCandidatActivityEmployeur.class);
             intent.putExtra("NOM", candidature.getNomCandidat());
             intent.putExtra("PRENOM", candidature.getPrenomCandidat());
             intent.putExtra("EMAIL", candidature.getEmailCandidat());
+            //intent.putExtra("NUMERO_TELEPHONE", candidature.getNumeroTelephone());
+            //intent.putExtra("DATE_NAISSANCE", candidature.getDateNaissance());
+            //intent.putExtra("NATIONALITE", candidature.getNationalite());
+            //intent.putExtra("VILLE", candidature.getVille());
+            intent.putExtra("CV", candidature.getCvCandidat());
+
+            Offre offre = databaseHelper.getOffreById(candidature.getIdOffre());
+            intent.putExtra("TITRE_OFFRE", offre.getTitre());
+            intent.putExtra("DESCRIPTION_OFFRE", offre.getDescription());
+            intent.putExtra("METIER", offre.getMetier());
+            intent.putExtra("LIEU", offre.getLieu());
+            intent.putExtra("DATE_DEBUT", offre.getDateDebut().toString());
+            intent.putExtra("DATE_FIN", offre.getDateFin().toString());
+
             context.startActivity(intent);
         });
 
