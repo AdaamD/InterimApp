@@ -1,6 +1,8 @@
 package admd.interim.logic;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -61,7 +64,6 @@ public class CandidatureAdapter extends RecyclerView.Adapter<CandidatureAdapter.
         private TextView textViewOffreTitre;
         private Button buttonAccept;
         private Button buttonReject;
-        private Button buttonRespond;
 
         CandidatureViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,15 +72,13 @@ public class CandidatureAdapter extends RecyclerView.Adapter<CandidatureAdapter.
             textViewOffreTitre = itemView.findViewById(R.id.textViewOffreTitre);
             buttonAccept = itemView.findViewById(R.id.buttonAccept);
             buttonReject = itemView.findViewById(R.id.buttonReject);
-            buttonRespond = itemView.findViewById(R.id.buttonRespond);
 
             buttonAccept.setOnClickListener(v -> {
                 if (listener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         Candidature candidature = candidatures.get(position);
-                        updateCandidatureStatus(candidature, "acceptée");
-                        listener.onAcceptClick(position);
+                        showStatusDialog("Candidature acceptée", "La candidature a été acceptée.", candidature, "acceptée");
                     }
                 }
             });
@@ -88,26 +88,35 @@ public class CandidatureAdapter extends RecyclerView.Adapter<CandidatureAdapter.
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         Candidature candidature = candidatures.get(position);
-                        updateCandidatureStatus(candidature, "refusée");
-                        listener.onRejectClick(position);
+                        showStatusDialog("Candidature refusée", "La candidature a été refusée.", candidature, "refusée");
                     }
                 }
             });
+        }
 
-            buttonRespond.setOnClickListener(v -> {
-                if (listener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onRespondClick(position);
-                    }
-                }
-            });
+        private void showStatusDialog(String title, String message, Candidature candidature, String nouveauStatut) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(title)
+                    .setMessage(message)
+                    .setPositiveButton("OK", (dialog, which) -> {
+                        updateCandidatureStatus(candidature, nouveauStatut);
+                        reloadActivity();
+                    })
+                    .setCancelable(false)
+                    .show();
         }
 
         private void updateCandidatureStatus(Candidature candidature, String nouveauStatut) {
             databaseHelper.updateStatutCandidature(candidature.getId(), nouveauStatut);
             candidature.setStatutCandidature(nouveauStatut);
             notifyItemChanged(candidatures.indexOf(candidature));
+        }
+
+        private void reloadActivity() {
+            Activity activity = (Activity) context;
+            Intent intent = activity.getIntent();
+            activity.finish();
+            activity.startActivity(intent);
         }
 
         void bind(Candidature candidature) {

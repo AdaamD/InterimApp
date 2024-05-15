@@ -46,11 +46,6 @@
             android:text="Refuser"
             android:layout_marginStart="8dp" />
 
-        <Button
-            android:id="@+id/buttonRespond"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Répondre"
-            android:layout_marginStart="8dp" />
+
     </LinearLayout>
 </LinearLayout>

@@ -80,7 +80,9 @@ public class GestionCandidatureActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Aucune candidature en attente")
                 .setMessage("Il n'y a aucune candidature en attente pour le moment.")
-                .setPositiveButton("OK", null)
+                .setPositiveButton("OK", (dialog, which) -> finish())
+                .setCancelable(false) // Empêche la fermeture du dialogue en cliquant en dehors
                 .show();
     }
+
 }
