@@ -45,6 +45,8 @@
             android:exported="false" />
         <activity android:name=".employeur.ConsulterOffreActivity"
             android:exported="false" />
+        <activity android:name=".employeur.MonProfilEmployeurActivity"
+            android:exported="false" />
 
 
         <activity android:name=".employeur.CreationOffreActivity">

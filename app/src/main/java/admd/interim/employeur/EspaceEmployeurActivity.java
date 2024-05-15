@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ public class EspaceEmployeurActivity extends AppCompatActivity {
 
     private Button buttonCreerOffre, buttonGererOffre, buttonGererCandidatures, buttonGererCandidaturesAcceptes;
     private TextView textViewEmployeurNom, textViewEmployeurDetails;
+    private ImageButton buttonDeconnexion, buttonMonProfil;
     private List<Offre> offres; // Liste pour stocker les offres
     private int selectedOffreId; // ID de l'offre sélectionnée
 
@@ -86,5 +88,20 @@ public class EspaceEmployeurActivity extends AppCompatActivity {
             intent.putExtra("EMPLOYEUR_ID", employeurId);
             startActivity(intent);
         });
+
+        buttonDeconnexion = findViewById(R.id.buttonMesCandidatures);
+        buttonDeconnexion.setOnClickListener(v -> {
+            finish();
+        });
+
+        buttonMonProfil = findViewById(R.id.buttonMonProfil);
+        buttonMonProfil.setOnClickListener(v -> {
+            // Logique pour afficher le profil de l'employeur
+            // Par exemple, ouvrir une nouvelle activité pour afficher les détails du profil
+            Intent intent = new Intent(this, MonProfilEmployeurActivity.class);
+            startActivity(intent);
+        });
     }
+
+
 }
