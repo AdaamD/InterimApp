@@ -48,23 +48,23 @@ public class GestionCandidatureActivity extends AppCompatActivity {
             recyclerViewCandidatures.setAdapter(candidatureAdapter);
 
             candidatureAdapter.setOnItemClickListener(new CandidatureAdapter.OnItemClickListener() {
-                @Override
-                public void onAcceptClick(int position) {
-                    Candidature candidatureAcceptee = candidatures.get(position);
 
-                    // Passer les informations du candidat à l'activité CandidaturesAccepteesActivity
-                    Intent intent = new Intent(GestionCandidatureActivity.this, CandidaturesAccepteesActivity.class);
-                    intent.putExtra("EMPLOYEUR_ID", employeurId);
+                    @Override
+                    public void onAcceptClick(int position) {
+                        Candidature candidatureAcceptee = candidatures.get(position);
+                        databaseHelper.updateStatutCandidature(candidatureAcceptee.getId(), "acceptée");
 
-                    startActivity(intent);
-                }
+                        // Passer les informations du candidat à l'activité CandidaturesAccepteesActivity
+                        Intent intent = new Intent(GestionCandidatureActivity.this, CandidaturesAccepteesActivity.class);
+                        intent.putExtra("EMPLOYEUR_ID", employeurId);
+                        startActivity(intent);
+                    }
 
-                @Override
-                public void onRejectClick(int position) {
-                    // Traitement pour refuser la candidature à la position donnée
-                    Candidature candidatureRejetee = candidatures.get(position);
-                    // Implémentez la logique nécessaire pour refuser la candidature
-                }
+                    @Override
+                    public void onRejectClick(int position) {
+                        Candidature candidatureRejetee = candidatures.get(position);
+                        databaseHelper.updateStatutCandidature(candidatureRejetee.getId(), "rejetée");
+                    }
 
                 @Override
                 public void onRespondClick(int position) {
