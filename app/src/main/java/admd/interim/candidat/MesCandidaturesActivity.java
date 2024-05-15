@@ -97,7 +97,7 @@ public class MesCandidaturesActivity extends AppCompatActivity {
             textViewPrenomCandidat.setText(candidature.getPrenomCandidat());
             textViewEmailCandidat.setText(candidature.getEmailCandidat());
             textViewCV.setText(candidature.getCvCandidat());
-            textViewStatut.setText(candidature.getStatutCandidat());
+            textViewStatut.setText(candidature.getStatutCandidature());
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             String dateFormatted = dateFormat.format(candidature.getDateCandidat());

@@ -76,6 +76,8 @@ public class CandidatureAdapter extends RecyclerView.Adapter<CandidatureAdapter.
                 if (listener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
+                        Candidature candidature = candidatures.get(position);
+                        updateCandidatureStatus(candidature, "acceptée");
                         listener.onAcceptClick(position);
                     }
                 }
@@ -85,6 +87,8 @@ public class CandidatureAdapter extends RecyclerView.Adapter<CandidatureAdapter.
                 if (listener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
+                        Candidature candidature = candidatures.get(position);
+                        updateCandidatureStatus(candidature, "refusée");
                         listener.onRejectClick(position);
                     }
                 }
@@ -100,6 +104,12 @@ public class CandidatureAdapter extends RecyclerView.Adapter<CandidatureAdapter.
             });
         }
 
+        private void updateCandidatureStatus(Candidature candidature, String nouveauStatut) {
+            databaseHelper.updateStatutCandidature(candidature.getId(), nouveauStatut);
+            candidature.setStatutCandidature(nouveauStatut);
+            notifyItemChanged(candidatures.indexOf(candidature));
+        }
+
         void bind(Candidature candidature) {
             textViewNomCandidat.setText(candidature.getNomCandidat());
             textViewEmailCandidat.setText(candidature.getEmailCandidat());
@@ -110,6 +120,12 @@ public class CandidatureAdapter extends RecyclerView.Adapter<CandidatureAdapter.
             } else {
                 textViewOffreTitre.setText("Offre: non trouvée");
             }
+
+            // Afficher le statut de la candidature dans le LogCat
+            String statut = candidature.getStatutCandidature();
+            System.out.println("Candidature ID: " + candidature.getId());
+            System.out.println("Statut: " + statut);
+            System.out.println("-------------------");
         }
     }
 }

@@ -11,9 +11,9 @@ public class Candidature {
     private String emailCandidat;
     private String cvCandidat;
     private Date dateCandidat;
-    private String statutCandidat;
+    private String statutCandidature;
 
-    public Candidature(int idOffre, long idCandidat, String nomCandidat, String prenomCandidat, String emailCandidat, String cvCandidat, Date dateCandidat, String statutCandidat) {
+    public Candidature(int idOffre, long idCandidat, String nomCandidat, String prenomCandidat, String emailCandidat, String cvCandidat, Date dateCandidat, String statutCandidature) {
         this.idOffre = idOffre;
         this.idCandidat = idCandidat;
         this.nomCandidat = nomCandidat;
@@ -21,7 +21,7 @@ public class Candidature {
         this.emailCandidat = emailCandidat;
         this.cvCandidat = cvCandidat;
         this.dateCandidat = dateCandidat;
-        this.statutCandidat = statutCandidat;
+        this.statutCandidature = statutCandidature;
     }
 
     // Getters et setters
@@ -90,11 +90,11 @@ public class Candidature {
         this.dateCandidat = dateCandidat;
     }
 
-    public String getStatutCandidat() {
-        return statutCandidat;
+    public String getStatutCandidature() {
+        return statutCandidature;
     }
 
-    public void setStatutCandidat(String statutCandidat) {
-        this.statutCandidat = statutCandidat;
+    public void setStatutCandidature(String statutCandidature) {
+        this.statutCandidature = statutCandidature;
     }
 }

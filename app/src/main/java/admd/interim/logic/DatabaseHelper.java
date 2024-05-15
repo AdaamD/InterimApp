@@ -689,7 +689,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("email_candidat", candidature.getEmailCandidat());
         values.put("cv_candidat", candidature.getCvCandidat());
         values.put("date_candidature", candidature.getDateCandidat().getTime());
-        values.put("statut_candidature", candidature.getStatutCandidat());
+        values.put("statut_candidature", candidature.getStatutCandidature());
 
         long newRowId = db.insert("candidatures", null, values);
         db.close();
@@ -800,6 +800,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return candidatures;
+    }
+
+    public void updateStatutCandidature(int candidatureId, String nouveauStatut) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("statut_candidature", nouveauStatut);
+
+        db.update("candidatures", values, "id = ?", new String[]{String.valueOf(candidatureId)});
+        db.close();
     }
 
 }
