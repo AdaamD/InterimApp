@@ -743,9 +743,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 int offreId = cursorOffres.getInt(cursorOffres.getColumnIndex("id"));
 
-                // Récupérer toutes les candidatures pour chaque offre
-                String queryCandidatures = "SELECT * FROM candidatures WHERE id_offre = ?";
-                Cursor cursorCandidatures = db.rawQuery(queryCandidatures, new String[]{String.valueOf(offreId)});
+                // Récupérer toutes les candidatures pour chaque offre avec le statut "en attente"
+                String queryCandidatures = "SELECT * FROM candidatures WHERE id_offre = ? AND statut_candidature = ?";
+                Cursor cursorCandidatures = db.rawQuery(queryCandidatures, new String[]{String.valueOf(offreId), "en attente"});
 
                 if (cursorCandidatures.moveToFirst()) {
                     do {
