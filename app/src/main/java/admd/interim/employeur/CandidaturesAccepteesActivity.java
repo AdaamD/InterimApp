@@ -7,7 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.List;
+
 import admd.interim.R;
+import admd.interim.logic.Candidature;
+import admd.interim.logic.DatabaseHelper;
 import admd.interim.logic.DetailsCandidatActivity;
 
 public class CandidaturesAccepteesActivity extends AppCompatActivity {
@@ -15,6 +20,8 @@ public class CandidaturesAccepteesActivity extends AppCompatActivity {
     private TextView textViewNomPrenom;
     private TextView textViewEmail;
 
+    private DatabaseHelper databaseHelper;
+    private int employeurId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,14 +30,21 @@ public class CandidaturesAccepteesActivity extends AppCompatActivity {
         textViewNomPrenom = findViewById(R.id.textViewNomPrenom);
         textViewEmail = findViewById(R.id.textViewEmail);
 
-        // Récupérer les informations du candidat accepté depuis l'Intent
-        Intent intent = getIntent();
-        String nomPrenom = intent.getStringExtra("NOM_PRENOM");
-        String email = intent.getStringExtra("EMAIL");
+        employeurId = getIntent().getIntExtra("EMPLOYEUR_ID", 0);
 
-        // Afficher les informations du candidat dans les TextView
-        textViewNomPrenom.setText(nomPrenom);
-        textViewEmail.setText(email);
+        databaseHelper = new DatabaseHelper(this);
+
+        // Récupérer les candidatures acceptées pour l'employeur
+        List<Candidature> candidatures = databaseHelper.getCandidaturesParEmployeurAcceptee(employeurId);
+
+        if (!candidatures.isEmpty()) {
+            Candidature candidature = candidatures.get(0); // Afficher la première candidature acceptée
+            textViewNomPrenom.setText(candidature.getNomCandidat() + " " + candidature.getPrenomCandidat());
+            textViewEmail.setText(candidature.getEmailCandidat());
+        } else {
+            textViewNomPrenom.setText("Aucune candidature acceptée");
+            textViewEmail.setText("");
+        }
     }
 
     public void consulterCandidat(View view) {
@@ -77,4 +91,5 @@ public class CandidaturesAccepteesActivity extends AppCompatActivity {
 
         builder.show();
     }
+
 }

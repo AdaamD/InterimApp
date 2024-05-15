@@ -54,8 +54,8 @@ public class GestionCandidatureActivity extends AppCompatActivity {
 
                     // Passer les informations du candidat à l'activité CandidaturesAccepteesActivity
                     Intent intent = new Intent(GestionCandidatureActivity.this, CandidaturesAccepteesActivity.class);
-                    intent.putExtra("NOM_PRENOM", candidatureAcceptee.getNomCandidat() + " " + candidatureAcceptee.getPrenomCandidat());
-                    intent.putExtra("EMAIL", candidatureAcceptee.getEmailCandidat());
+                    intent.putExtra("EMPLOYEUR_ID", employeurId);
+
                     startActivity(intent);
                 }
 

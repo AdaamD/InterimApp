@@ -771,6 +771,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return candidatures;
     }
 
+    @SuppressLint("Range")
+    public List<Candidature> getCandidaturesParEmployeurAcceptee(int employeurId) {
+        List<Candidature> candidatures = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Récupérer toutes les offres créées par cet employeur
+        String queryOffres = "SELECT id FROM offres WHERE id_employeur = ?";
+        Cursor cursorOffres = db.rawQuery(queryOffres, new String[]{String.valueOf(employeurId)});
+
+        if (cursorOffres.moveToFirst()) {
+            do {
+                int offreId = cursorOffres.getInt(cursorOffres.getColumnIndex("id"));
+
+                // Récupérer toutes les candidatures pour chaque offre avec le statut "en attente"
+                String queryCandidatures = "SELECT * FROM candidatures WHERE id_offre = ? AND statut_candidature = ?";
+                Cursor cursorCandidatures = db.rawQuery(queryCandidatures, new String[]{String.valueOf(offreId), "acceptée"});
+
+                if (cursorCandidatures.moveToFirst()) {
+                    do {
+                        Candidature candidature = new Candidature(
+                                cursorCandidatures.getInt(cursorCandidatures.getColumnIndex("id_offre")),
+                                cursorCandidatures.getLong(cursorCandidatures.getColumnIndex("id_candidat")),
+                                cursorCandidatures.getString(cursorCandidatures.getColumnIndex("nom_candidat")),
+                                cursorCandidatures.getString(cursorCandidatures.getColumnIndex("prenom_candidat")),
+                                cursorCandidatures.getString(cursorCandidatures.getColumnIndex("email_candidat")),
+                                cursorCandidatures.getString(cursorCandidatures.getColumnIndex("cv_candidat")),
+                                new Date(cursorCandidatures.getLong(cursorCandidatures.getColumnIndex("date_candidature"))),
+                                cursorCandidatures.getString(cursorCandidatures.getColumnIndex("statut_candidature"))
+                        );
+                        candidature.setId(cursorCandidatures.getInt(cursorCandidatures.getColumnIndex("id")));
+                        candidatures.add(candidature);
+                        Log.d("DatabaseHelper", "Candidature loaded: " + candidature.getNomCandidat() + " " + candidature.getPrenomCandidat());
+                    } while (cursorCandidatures.moveToNext());
+                }
+                cursorCandidatures.close();
+            } while (cursorOffres.moveToNext());
+        }
+        cursorOffres.close();
+        return candidatures;
+    }
+
+
 
     @SuppressLint("Range")
     public List<Candidature> getCandidaturesParOffre(int offreId) {
