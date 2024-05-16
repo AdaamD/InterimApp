@@ -180,6 +180,83 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return isAuthenticated;
     }
 
+    public int updateEmployeur(int employeurId, String nouveauNom, String nouvelleEntreprise, String nouveauNumeroTelephone,
+                               String nouvelleAdresse, String nouveauLiensPublic, String nouveauEmail) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Récupérer les informations actuelles de l'employeur
+        Employeur employeurActuel = getEmployeurById(employeurId);
+
+        // Afficher toutes les nouvelles valeurs
+        System.out.println("Nouvelles valeurs :");
+        System.out.println("nom : " + nouveauNom);
+        System.out.println("entreprise : " + nouvelleEntreprise);
+        System.out.println("numero_telephone : " + nouveauNumeroTelephone);
+        System.out.println("adresse : " + nouvelleAdresse);
+        System.out.println("liens_public : " + nouveauLiensPublic);
+        System.out.println("email : " + nouveauEmail);
+
+        // Afficher toutes les anciennes valeurs
+        System.out.println("Anciennes valeurs :");
+        System.out.println("nom : " + employeurActuel.getNom());
+        System.out.println("entreprise : " + employeurActuel.getEntreprise());
+        System.out.println("numero_telephone : " + employeurActuel.getNumeroTelephone());
+        System.out.println("adresse : " + employeurActuel.getAdresse());
+        System.out.println("liens_public : " + employeurActuel.getLiensPublic());
+        System.out.println("email : " + employeurActuel.getEmail());
+
+        ContentValues values = new ContentValues();
+
+        // Mettre à jour uniquement les champs modifiés
+        if (!nouveauNom.isEmpty() && !nouveauNom.equals(employeurActuel.getNom())) {
+            values.put("nom", nouveauNom);
+        } else {
+            values.put("nom", employeurActuel.getNom());
+        }
+
+        if (!nouvelleEntreprise.isEmpty() && !nouvelleEntreprise.equals(employeurActuel.getEntreprise())) {
+            values.put("entreprise", nouvelleEntreprise);
+        } else {
+            values.put("entreprise", employeurActuel.getEntreprise());
+        }
+
+        if (!nouveauNumeroTelephone.isEmpty() && !nouveauNumeroTelephone.equals(employeurActuel.getNumeroTelephone())) {
+            values.put("numero_telephone", nouveauNumeroTelephone);
+        } else {
+            values.put("numero_telephone", employeurActuel.getNumeroTelephone());
+        }
+
+        if (!nouvelleAdresse.isEmpty() && !nouvelleAdresse.equals(employeurActuel.getAdresse())) {
+            values.put("adresse", nouvelleAdresse);
+        } else {
+            values.put("adresse", employeurActuel.getAdresse());
+        }
+
+        if (!nouveauLiensPublic.isEmpty() && !nouveauLiensPublic.equals(employeurActuel.getLiensPublic())) {
+            values.put("liens_public", nouveauLiensPublic);
+        } else {
+            values.put("liens_public", employeurActuel.getLiensPublic());
+        }
+
+        if (!nouveauEmail.isEmpty() && !nouveauEmail.equals(employeurActuel.getEmail())) {
+            values.put("email", nouveauEmail);
+        } else {
+            values.put("email", employeurActuel.getEmail());
+        }
+
+        int rowsUpdated = db.update("employeurs", values, "id = ?", new String[]{String.valueOf(employeurId)});
+        db.close();
+
+        if (rowsUpdated > 0) {
+            System.out.println("Mise à jour réussie pour l'employeur avec l'id : " + employeurId);
+        } else {
+            System.out.println("Mise à jour échouée pour l'employeur avec l'id : " + employeurId);
+        }
+
+        return rowsUpdated;
+    }
+
+
     // ======== CANDIDATS METHODS ========
 
     public boolean candidatExists(String nom, String prenom, String dateNaissance, String nationalite, String numeroTelephone, String email, String ville, String cv) {

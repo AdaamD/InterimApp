@@ -19,7 +19,7 @@ import admd.interim.logic.Offre;
 public class EspaceEmployeurActivity extends AppCompatActivity {
 
     private Button buttonCreerOffre, buttonGererOffre, buttonGererCandidatures, buttonGererCandidaturesAcceptes;
-    private TextView textViewEmployeurNom, textViewEmployeurDetails;
+    private TextView textViewEmployeurNom, textViewEmployeurDetails, textViewMonProfil,textViewDeconnexion;
     private ImageButton buttonDeconnexion, buttonMonProfil;
     private List<Offre> offres; // Liste pour stocker les offres
     private int selectedOffreId; // ID de l'offre sélectionnée
@@ -89,16 +89,29 @@ public class EspaceEmployeurActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        buttonDeconnexion = findViewById(R.id.buttonMesCandidatures);
+        buttonDeconnexion = findViewById(R.id.buttonDeconnexion);
         buttonDeconnexion.setOnClickListener(v -> {
+            finish();
+        });
+
+        textViewDeconnexion = findViewById(R.id.textViewDeconnexion);
+        textViewDeconnexion.setOnClickListener(v -> {
             finish();
         });
 
         buttonMonProfil = findViewById(R.id.buttonMonProfil);
         buttonMonProfil.setOnClickListener(v -> {
-            // Logique pour afficher le profil de l'employeur
             // Par exemple, ouvrir une nouvelle activité pour afficher les détails du profil
             Intent intent = new Intent(this, MonProfilEmployeurActivity.class);
+            intent.putExtra("EMPLOYEUR_ID", employeurId);
+            startActivity(intent);
+        });
+
+        textViewMonProfil = findViewById(R.id.textViewMonProfil);
+        textViewMonProfil.setOnClickListener(v -> {
+            // Par exemple, ouvrir une nouvelle activité pour afficher les détails du profil
+            Intent intent = new Intent(this, MonProfilEmployeurActivity.class);
+            intent.putExtra("EMPLOYEUR_ID", employeurId);
             startActivity(intent);
         });
     }

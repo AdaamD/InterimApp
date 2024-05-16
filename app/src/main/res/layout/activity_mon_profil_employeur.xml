@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    android:padding="16dp">
+
+    <FrameLayout
+        android:id="@+id/frameLayout_titre"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/lightblue"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Mon Profil Employeur"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout_profil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/frameLayout_titre"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/white"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/buttonModifier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@color/white"
+                android:src="@drawable/crayonmodifier" />
+
+            <TextView
+                android:id="@+id/textViewNomEmployeur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="Nom"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editTextNom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/grey_rounded_button"
+                android:hint=" Nom "
+                android:layout_marginBottom="5dp"
+                android:padding="8dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/textViewEntrepriseEmployeur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="5dp"
+                android:text="Entreprise"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/editTextEntreprise"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/grey_rounded_button"
+                android:hint=" Entreprise "
+                android:layout_marginBottom="5dp"
+                android:padding="8dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/textViewEmailEmployeur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="5dp"
+                android:text="Email"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/grey_rounded_button"
+                android:hint=" Email "
+                android:layout_marginBottom="5dp"
+                android:padding="8dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/textViewNumeroTelephoneEmployeur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="5dp"
+                android:text="Numéro de téléphone"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editTextNumeroTelephone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/grey_rounded_button"
+                android:hint=" Numéro de téléphone "
+                android:layout_marginBottom="5dp"
+                android:padding="8dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/textViewAdresseEmployeur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="5dp"
+                android:text="Adresse"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editTextAdresse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/grey_rounded_button"
+                android:hint=" Adresse "
+                android:layout_marginBottom="5dp"
+                android:padding="8dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/textViewLiensPublicEmployeur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="5dp"
+                android:text="Liens public"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editTextLiensPublic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/grey_rounded_button"
+                android:hint=" Liens public "
+                android:layout_marginBottom="5dp"
+                android:padding="8dp"
+                android:visibility="gone" />
+
+
+
+            <Button
+                android:id="@+id/buttonEnregistrer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/lightblue"
+                android:text="Enregistrer"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</RelativeLayout>
