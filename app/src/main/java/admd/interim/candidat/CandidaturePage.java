@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +69,25 @@ public class CandidaturePage extends AppCompatActivity {
                 finish();
             }
         });
+
+        ImageButton buttonToggleDetails = findViewById(R.id.buttonToggleDetails);
+        LinearLayout layoutDetailsOffre = findViewById(R.id.layoutDetailsOffre);
+        TextView textViewResumeOffre = findViewById(R.id.textViewResumeOffre);
+
+        buttonToggleDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (layoutDetailsOffre.getVisibility() == View.VISIBLE) {
+                    layoutDetailsOffre.setVisibility(View.GONE);
+                    buttonToggleDetails.setImageResource(R.drawable.plus);
+                } else {
+                    layoutDetailsOffre.setVisibility(View.VISIBLE);
+                    buttonToggleDetails.setImageResource(R.drawable.moins);
+                }
+            }
+        });
+
+
     }
 
     private void afficherDetailsOffre(Offre offre) {
@@ -139,6 +160,8 @@ public class CandidaturePage extends AppCompatActivity {
         notifierEmployeur(offre, candidature);
         Toast.makeText(this, "Candidature envoyée avec succès", Toast.LENGTH_SHORT).show();
     }
+
+
 
     private void notifierEmployeur(Offre offre, Candidature candidature) {
         // Implémentez la logique d'envoi de notification à l'employeur
