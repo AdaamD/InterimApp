@@ -42,7 +42,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "numero_telephone TEXT," +
                 "email TEXT," +
                 "ville TEXT," +
-                "cv TEXT" +
+                "cv TEXT," +
+                "password TEXT" +
                 ")";
         db.execSQL(createCandidatsTable);
 
@@ -270,7 +271,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count > 0;
     }
 
-    public long insertCandidat(String nom, String prenom, String dateNaissance, String nationalite, String numeroTelephone, String email, String ville, String cv) {
+    public long insertCandidat(String nom, String prenom, String dateNaissance, String nationalite, String numeroTelephone, String email, String ville, String cv, String password) {
         if (candidatExists(nom, prenom, dateNaissance, nationalite, numeroTelephone, email, ville, cv)) {
             return -1;
         }
@@ -285,6 +286,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("email", email);
         values.put("ville", ville);
         values.put("cv", cv);
+        values.put("password", password);
+
 
         long newRowId = db.insert("candidats", null, values);
         db.close();
@@ -294,7 +297,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean candidatExistsByEmail(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT COUNT(*) FROM candidats WHERE email = ?";
+        String query = "SELECT COUNT(*) FROM candidats WHERE email = ? ";
         Cursor cursor = db.rawQuery(query, new String[]{email});
         cursor.moveToFirst();
         int count = cursor.getInt(0);
@@ -304,10 +307,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    public Candidat getCandidatByEmail(String email) {
+    public Candidat getCandidatByEmailAndPassword(String email, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM candidats WHERE email = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{email});
+        String query = "SELECT * FROM candidats WHERE email = ? AND password = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{email, password});
         Candidat candidat = null;
         if (cursor.moveToFirst()) {
             candidat = new Candidat();
@@ -320,10 +323,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             candidat.setEmail(cursor.getString(cursor.getColumnIndex("email")));
             candidat.setVille(cursor.getString(cursor.getColumnIndex("ville")));
             candidat.setCv(cursor.getString(cursor.getColumnIndex("cv")));
+            candidat.setPassword(cursor.getString(cursor.getColumnIndex("password")));
         }
         cursor.close();
         return candidat;
     }
+
 
     public int updateCandidat(int candidatId, String nouveauNom, String nouveauPrenom, String nouveaueDateNaissance, String nouvelleNationalite, String nouveauNumeroTelephone, String nouveauEmail, String nouvelleVille, String nouveauCV) {
         SQLiteDatabase db = this.getWritableDatabase();

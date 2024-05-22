@@ -10,10 +10,11 @@ public class Candidat {
     private String email;
     private String ville;
     private String cv;
+    private  String password;
 
     // Constructeurs
 
-    public Candidat(String nom, String prenom, String dateNaissance, String nationalite, String numeroTelephone, String email, String ville, String cv) {
+    public Candidat(String nom, String prenom, String dateNaissance, String nationalite, String numeroTelephone, String email, String ville, String cv, String password) {
         this.nom = nom;
         this.prenom = prenom;
         this.dateNaissance = dateNaissance;
@@ -22,6 +23,7 @@ public class Candidat {
         this.email = email;
         this.ville = ville;
         this.cv = cv;
+        this.password = password;
     }
 
     public Candidat() {
@@ -101,5 +103,13 @@ public class Candidat {
 
     public void setCv(String cv) {
         this.cv = cv;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

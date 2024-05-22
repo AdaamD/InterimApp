@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
         // Insérer un nouvel candidat
-        long Candidat1 = databaseHelper.insertCandidat("ADAM", "D", "01/01/2001", "francaise", "0611111111", "adam@mail.fr", "Montpellier", "CV-Adam");
+        long Candidat1 = databaseHelper.insertCandidat("ADAM", "D", "01/01/2001", "francaise", "0611111111", "adam@mail.fr", "Montpellier", "CV-Adam","Adam");
 
         if (Candidat1 == -1) {
             // Le candidat existe déjà, afficher un message
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Nouvel candidat inséré avec l'ID : " + Candidat1, Toast.LENGTH_SHORT).show();
         }
 
-        long Candidat2 = databaseHelper.insertCandidat("Nabil", "Da", "10/10/2001", "marocain", "0622222222", "nabil@mail.fr", "Montpellier", "CV-Nabil");
+        long Candidat2 = databaseHelper.insertCandidat("Nabil", "Da", "10/10/2001", "marocain", "0622222222", "nabil@mail.fr", "Montpellier", "CV-Nabil", "Nabil");
 
 
         // Insérer un nouvel employeur

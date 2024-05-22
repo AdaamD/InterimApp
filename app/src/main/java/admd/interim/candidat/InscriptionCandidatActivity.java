@@ -16,7 +16,7 @@ import admd.interim.logic.DatabaseHelper;
 
 public class InscriptionCandidatActivity extends AppCompatActivity {
 
-    private EditText editTextNom, editTextPrenom, editTextDateNaissance, editTextNationalite, editTextNumeroTelephone, editTextEmail, editTextVille, editTextCV;
+    private EditText editTextNom, editTextPrenom, editTextDateNaissance, editTextNationalite, editTextNumeroTelephone, editTextEmail, editTextVille, editTextCV,editTextPassword;
     private DatabaseHelper databaseHelper;
 
     @Override
@@ -32,6 +32,7 @@ public class InscriptionCandidatActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editText_email);
         editTextVille = findViewById(R.id.editText_ville);
         editTextCV = findViewById(R.id.editText_cv);
+        editTextPassword = findViewById(R.id.editText_password);
 
         Button buttonInscrire = findViewById(R.id.button_inscrire);
         buttonInscrire.setOnClickListener(new View.OnClickListener() {
@@ -53,14 +54,15 @@ public class InscriptionCandidatActivity extends AppCompatActivity {
         String email = editTextEmail.getText().toString().trim();
         String ville = editTextVille.getText().toString().trim();
         String cv = editTextCV.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
 
         // Vérifier si les champs obligatoires sont remplis
-        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty()) {
+        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || password.isEmpty()) {
             showMissingFieldsDialog();
             return;
         }
 
-        long candidatId = databaseHelper.insertCandidat(nom, prenom, dateNaissance, nationalite, numeroTelephone, email, ville, cv);
+        long candidatId = databaseHelper.insertCandidat(nom, prenom, dateNaissance, nationalite, numeroTelephone, email, ville, cv, password);
 
         if (candidatId == -1) {
             showCandidatExistsDialog();

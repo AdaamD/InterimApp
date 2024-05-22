@@ -101,6 +101,16 @@
                 android:padding="12dp" />
 
             <EditText
+                android:id="@+id/editText_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rounded_edittext_background"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:padding="12dp" />
+
+            <EditText
                 android:id="@+id/editText_ville"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -128,9 +138,9 @@
         android:id="@+id/button_inscrire"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:backgroundTint="@color/lightblue"
         android:padding="16dp"
-        android:layout_gravity="center"
         android:text="S'inscrire"
         android:textColor="@android:color/white" />
 

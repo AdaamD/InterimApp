@@ -16,7 +16,7 @@ import admd.interim.logic.DatabaseHelper;
 
 public class ConnexionCandidatActivity extends AppCompatActivity {
 
-    private EditText editTextEmail;
+    private EditText editTextEmail, editTextPassword;
     private DatabaseHelper databaseHelper;
 
     @Override
@@ -25,6 +25,7 @@ public class ConnexionCandidatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_connexion_candidat);
 
         editTextEmail = findViewById(R.id.editText_email);
+        editTextPassword = findViewById(R.id.editText_password);
         Button buttonConnexion = findViewById(R.id.button_connexion);
 
         databaseHelper = new DatabaseHelper(this);
@@ -33,9 +34,10 @@ public class ConnexionCandidatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = editTextEmail.getText().toString().trim();
+                String password = editTextPassword.getText().toString().trim();
 
                 // Récupérer les informations du candidat depuis la base de données
-                Candidat candidat = databaseHelper.getCandidatByEmail(email);
+                Candidat candidat = databaseHelper.getCandidatByEmailAndPassword(email,password);
 
                 if (candidat != null) {
                     // Connexion réussie
