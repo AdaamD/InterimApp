@@ -71,7 +71,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Entrez un numéro avec l'indicatif pays suivi de 10 chiffres."
+                android:text="Entrez un numéro avec l'indicatif pays."
                 android:textSize="12sp"
                 android:textColor="@android:color/darker_gray"
                 android:padding="4dp"
@@ -92,7 +92,7 @@
                 android:id="@+id/editTextLienPublic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Lien public (http://www.exemple.com)"
+                android:hint="Liens Publics"
                 android:inputType="text"
                 android:padding="12dp"
                 android:background="@drawable/rounded_edittext_background"
@@ -111,7 +111,7 @@
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email (exemple : utilisateur@domaine.com)"
+                android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:padding="12dp"
                 android:background="@drawable/rounded_edittext_background"
@@ -129,7 +129,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="12dp"
                 android:background="@drawable/rounded_edittext_background"
                 android:layout_marginBottom="10dp">
 
