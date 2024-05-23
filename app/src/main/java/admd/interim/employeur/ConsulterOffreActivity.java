@@ -7,12 +7,16 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import admd.interim.R;
 import admd.interim.logic.DatabaseHelper;
 import admd.interim.logic.Offre;
 
 public class ConsulterOffreActivity extends AppCompatActivity {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +50,18 @@ public class ConsulterOffreActivity extends AppCompatActivity {
 
                 lieuTextView.setText(offre.getLieu() != null ? offre.getLieu() : "Lieu Unavailable");
                 descriptionTextView.setText(offre.getDescription() != null ? offre.getDescription() : "Description Unavailable");
-                dateDebutTextView.setText(offre.getDateDebut() != null ? offre.getDateDebut().toString() : "Start Date Unavailable");
-                dateFinTextView.setText(offre.getDateFin() != null ? offre.getDateFin().toString() : "End Date Unavailable");
+
+
+
+
+                // Format the dates to "AAAA-MM-JJ" string
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                String dateDebutString = offre.getDateDebut() != null ? dateFormat.format(offre.getDateDebut()) : "Start Date Unavailable";
+                String dateFinString = offre.getDateFin() != null ? dateFormat.format(offre.getDateFin()) : "End Date Unavailable";
+
+                dateDebutTextView.setText(dateDebutString);
+                dateFinTextView.setText(dateFinString);
             } else {
                 Log.d("ConsulterOffreActivity", "No offer details found for ID: " + offreId);
             }

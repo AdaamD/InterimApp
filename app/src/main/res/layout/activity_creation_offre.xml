@@ -1,73 +1,141 @@
-<!-- activity_creation_offre.xml -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/grey">
 
-    <EditText
-        android:id="@+id/editTextTitre"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Titre de l'offre"
-        android:inputType="text"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp" />
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/editTextDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Description détaillée du poste"
-        android:inputType="textMultiLine"
-        android:minLines="3"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="@color/lightblue"
+            android:padding="16dp">
 
-    <EditText
-        android:id="@+id/editTextMetier"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Métier ciblé"
-        android:inputType="text"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Création d'une offre"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/editTextLieu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Lieu de travail"
-        android:inputType="text"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp" />
+        </FrameLayout>
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/editTextDateDebut"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Date de début (AAAA-MM-JJ)"
-        android:inputType="text"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp">
 
-    <EditText
-        android:id="@+id/editTextDateFin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Date de fin (AAAA-MM-JJ)"
-        android:inputType="text"
-        android:padding="12dp"
-        android:layout_marginBottom="24dp" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
-    <Button
-        android:id="@+id/buttonEnregistrerOffre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Enregistrer l'offre"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@color/lightblue"
-        android:padding="16dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_button"
+                    android:backgroundTint="@color/white"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/editTextTitre"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="25dp"
+                            android:background="@drawable/rounded_edittext_background"
+                            android:hint="Titre de l'offre"
+                            android:inputType="text"
+                            android:padding="12dp" />
+
+                        <EditText
+                            android:id="@+id/editTextDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="25dp"
+                            android:background="@drawable/rounded_edittext_background"
+                            android:hint="Description détaillée du poste"
+                            android:inputType="textMultiLine"
+                            android:padding="12dp" />
+
+                        <EditText
+                            android:id="@+id/editTextMetier"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="25dp"
+                            android:background="@drawable/rounded_edittext_background"
+                            android:hint="Métier ciblé"
+                            android:inputType="text"
+                            android:padding="12dp" />
+
+                        <EditText
+                            android:id="@+id/editTextLieu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="25dp"
+                            android:background="@drawable/rounded_edittext_background"
+                            android:hint="Lieu de travail"
+                            android:inputType="text"
+                            android:padding="12dp" />
+
+                        <EditText
+                            android:id="@+id/editTextDateDebut"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="25dp"
+                            android:background="@drawable/rounded_edittext_background"
+                            android:hint="Date de début (AAAA-MM-JJ)"
+                            android:inputType="text"
+                            android:padding="12dp" />
+
+                        <EditText
+                            android:id="@+id/editTextDateFin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="25dp"
+                            android:background="@drawable/rounded_edittext_background"
+                            android:hint="Date de fin (AAAA-MM-JJ)"
+                            android:inputType="text"
+                            android:padding="12dp" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/buttonEnregistrerOffre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Enregistrer l'offre"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="@color/lightblue"
+                    android:layout_marginTop="30dp"
+                    android:padding="16dp" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
 
 </LinearLayout>
