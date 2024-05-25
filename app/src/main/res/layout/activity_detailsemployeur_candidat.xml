@@ -1,133 +1,219 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/grey"
     android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Détails du Candidat"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="@color/lightblue"
+            android:layout_marginBottom="20dp"
+            android:padding="16dp">
 
-        <TextView
-            android:id="@+id/textViewNomPrenom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nom Prénom"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Détails de la Candidature"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textViewEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Email"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
-
-        <TextView
-            android:id="@+id/textViewNumeroTelephone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Numéro de Téléphone"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
-
-        <TextView
-            android:id="@+id/textViewDateNaissance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date de Naissance"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
-
-        <TextView
-            android:id="@+id/textViewNationalite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nationalité"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
-
-        <TextView
-            android:id="@+id/textViewVille"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ville"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
-
-        <TextView
-            android:id="@+id/textViewCV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="CV"
-            android:textSize="16sp"
-            android:layout_marginBottom="16dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Détails de l'Offre"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
-
-        <TextView
-            android:id="@+id/textViewTitreOffre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Titre de l'Offre"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
-
-        <TextView
-            android:id="@+id/textViewDescriptionOffre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Description de l'Offre"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
-
-        <TextView
-            android:id="@+id/textViewMetier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Métier"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
-
-        <TextView
-            android:id="@+id/textViewLieu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lieu"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
-
-        <TextView
-            android:id="@+id/textViewDateDebut"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date de Début"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
-
-        <TextView
-            android:id="@+id/textViewDateFin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date de Fin"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
-
+        </FrameLayout>
     </LinearLayout>
-</ScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="@color/white"
+                android:padding="16dp"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Détails du Candidat"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary_text"
+                            android:layout_marginBottom="16dp"/>
+
+                        <TextView
+                            android:id="@+id/textViewNomPrenom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nom Prénom"
+                            android:textSize="16sp"
+                            android:layout_marginBottom="8dp"/>
+
+                        <TextView
+                            android:id="@+id/textViewEmail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Email"
+                            android:textSize="16sp"
+                            android:layout_marginBottom="8dp"/>
+
+                        <TextView
+                            android:id="@+id/textViewNumeroTelephone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Numéro de Téléphone"
+                            android:textSize="16sp"
+                            android:layout_marginBottom="8dp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textViewDateNaissance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Date de Naissance"
+                            android:textSize="16sp"
+                            android:layout_marginBottom="8dp"/>
+
+                        <TextView
+                            android:id="@+id/textViewNationalite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nationalité"
+                            android:textSize="16sp"
+                            android:layout_marginBottom="8dp"/>
+
+                        <TextView
+                            android:id="@+id/textViewVille"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ville"
+                            android:textSize="16sp"
+                            android:layout_marginBottom="8dp"/>
+
+                        <TextView
+                            android:id="@+id/textViewCV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CV"
+                            android:textSize="16sp"
+                            android:layout_marginBottom="8dp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="@color/white"
+                android:padding="16dp"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Détails de l'Offre"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="16dp"/>
+
+                    <TextView
+                        android:id="@+id/textViewTitreOffre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Titre de l'Offre"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:id="@+id/textViewDescriptionOffre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Description de l'Offre"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:id="@+id/textViewMetier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Métier"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:id="@+id/textViewLieu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lieu"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:id="@+id/textViewDateDebut"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date de Début"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:id="@+id/textViewDateFin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date de Fin"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="8dp"/>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

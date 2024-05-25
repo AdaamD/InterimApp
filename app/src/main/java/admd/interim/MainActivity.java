@@ -118,74 +118,88 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Nouvel employeur inséré avec l'ID : " + employeurId, Toast.LENGTH_LONG).show();
         }
 
-        // Création des objets Date pour les dates de début et de fin de chaque offre
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        // Employeur 1 (John Doe existant)
 
-// Offre 1
-        Date dateDebutOffre1;
-        try {
-            dateDebutOffre1 = sdf.parse("01/06/2023");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        Date dateFinOffre1;
-        try {
-            dateFinOffre1 = sdf.parse("31/12/2023");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+// Insérer un nouvel employeur (employeur 2)
+        long employeurId2 = databaseHelper.insertEmployeur(
+                "Sophie Lefebvre",
+                "InnovaConseil",
+                "0678901234",
+                "27 Avenue des Champs-Élysées, 34000 Toulouse, France",
+                "https://www.innovaconseil.fr",
+                "sophie.lefebvre@innovaconseil.fr",
+                "Sophie"
+        );
 
-// Offre 2
-        Date dateDebutOffre2;
-        try {
-            dateDebutOffre2 = sdf.parse("01/07/2023");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        Date dateFinOffre2;
-        try {
-            dateFinOffre2 = sdf.parse("31/12/2023");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+        if (employeurId2 == -1) {
+            Toast.makeText(this, "L'employeur Sophie Lefebvre existe déjà dans la base de données", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Nouvel employeur Sophie Lefebvre inséré avec l'ID : " + employeurId2, Toast.LENGTH_LONG).show();
         }
 
-// Offre 3
-        Date dateDebutOffre3;
-        try {
-            dateDebutOffre3 = sdf.parse("15/06/2023");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        Date dateFinOffre3;
-        try {
-            dateFinOffre3 = sdf.parse("31/06/2023");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+// Insérer un nouvel employeur (employeur 3)
+        long employeurId3 = databaseHelper.insertEmployeur(
+                "Marc Girard",
+                "CyberTech Solutions",
+                "0612345678",
+                "5 Place Bellecour, 3400 Toulouse, France",
+                "https://www.cybertechsolutions.fr",
+                "marc.girard@cybertechsolutions.fr",
+                "Marc"
+        );
+
+        if (employeurId3 == -1) {
+            Toast.makeText(this, "L'employeur Marc Girard existe déjà dans la base de données", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Nouvel employeur Marc Girard inséré avec l'ID : " + employeurId3, Toast.LENGTH_LONG).show();
         }
 
-// Offre 4
-        Date dateDebutOffre4;
-        try {
-            dateDebutOffre4 = sdf.parse("01/08/2023");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        Date dateFinOffre4;
-        try {
-            dateFinOffre4 = sdf.parse("31/12/2023");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+// Insérer un nouvel employeur (employeur 4)
+        long employeurId4 = databaseHelper.insertEmployeur(
+                "Isabelle Mercier",
+                "ConseilPro",
+                "0687654321",
+                "8 Rue du Jardin Public, 94000 Paris, France",
+                "https://www.conseilpro.fr",
+                "isabelle.mercier@conseilpro.fr",
+                "Isabelle"
+        );
+
+        if (employeurId4 == -1) {
+            Toast.makeText(this, "L'employeur Isabelle Mercier existe déjà dans la base de données", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Nouvel employeur Isabelle Mercier inséré avec l'ID : " + employeurId4, Toast.LENGTH_LONG).show();
         }
 
-        // Insérer une nouvelle offre
+// Insérer un nouvel employeur (employeur 5)
+        long employeurId5 = databaseHelper.insertEmployeur(
+                "Pierre Dubois",
+                "TechSolutions",
+                "0676543210",
+                "12 Rue de la Paix, 75002 Paris, France",
+                "https://www.techsolutions.fr",
+                "pierre.dubois@techsolutions.fr",
+                "Pierre"
+        );
+
+        if (employeurId5 == -1) {
+            Toast.makeText(this, "L'employeur Pierre Dubois existe déjà dans la base de données", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Nouvel employeur Pierre Dubois inséré avec l'ID : " + employeurId5, Toast.LENGTH_LONG).show();
+        }
+
+
+
+
+// Insérer une nouvelle offre
         long offreId = databaseHelper.insertOffre(
                 "Developpeur Web",
                 "Nous recherchons un développeur web expérimenté pour rejoindre notre équipe dynamique. Vous serez responsable de la conception, du développement et de la maintenance de nos applications web.",
                 "Développement Web",
                 "Montpellier",
-                dateDebutOffre1,
-                dateFinOffre1,
-                1
+                getDateFromString("01/06/2023"), // Date de début
+                getDateFromString("31/12/2023"), // Date de fin
+                1 // ID de l'employeur Acme Inc.
         );
 
         if (offreId == -1) {
@@ -196,14 +210,14 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Nouvelle offre insérée avec l'ID : " + offreId, Toast.LENGTH_SHORT).show();
         }
 
-        // Insérer une nouvelle offre
+// Insérer une nouvelle offre
         long offreId2 = databaseHelper.insertOffre(
                 "Gestionnaire de Projet",
                 "Nous recherchons un gestionnaire de projet expérimenté pour superviser et coordonner nos projets de développement logiciel. Vous serez responsable de la planification, de l'organisation et du suivi des projets, ainsi que de la gestion de l'équipe et de la communication avec les parties prenantes.",
                 "Gestion de Projet",
                 "Montpellier",
-                dateDebutOffre2,
-                dateFinOffre2,
+                getDateFromString("01/07/2023"), // Date de début
+                getDateFromString("31/12/2023"), // Date de fin
                 1 // ID de l'employeur Acme Inc.
         );
 
@@ -214,14 +228,15 @@ public class MainActivity extends AppCompatActivity {
             // L'offre a été insérée avec succès, afficher un message
             Toast.makeText(this, "Nouvelle offre insérée avec l'ID : " + offreId2, Toast.LENGTH_SHORT).show();
         }
+
 // Insérer une nouvelle offre
         long offreId3 = databaseHelper.insertOffre(
                 "Analyste Commercial",
                 "Nous recherchons un analyste commercial expérimenté pour rejoindre notre équipe de vente. Vous serez responsable de l'analyse des données de vente, de l'identification des tendances et des opportunités, ainsi que de la présentation des rapports aux équipes de direction et de vente.",
                 "Analyse Commerciale",
                 "Montpellier",
-                dateDebutOffre3,
-                dateFinOffre3,
+                getDateFromString("15/06/2023"), // Date de début
+                getDateFromString("31/06/2023"), // Date de fin
                 1 // ID de l'employeur Acme Inc.
         );
 
@@ -239,8 +254,8 @@ public class MainActivity extends AppCompatActivity {
                 "Nous recherchons un responsable des ressources humaines expérimenté pour gérer et développer notre équipe. Vous serez responsable du recrutement, de la formation, de la gestion des performances et de la conformité aux réglementations en matière d'emploi.",
                 "Ressources Humaines",
                 "Paris",
-                dateDebutOffre4,
-                dateFinOffre4,
+                getDateFromString("01/08/2023"), // Date de début
+                getDateFromString("31/12/2023"), // Date de fin
                 1 // ID de l'employeur Acme Inc.
         );
 
@@ -252,7 +267,87 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Nouvelle offre insérée avec l'ID : " + offreId4, Toast.LENGTH_SHORT).show();
         }
 
+// Offre pour l'employeur 2 (Sophie Lefebvre)
+        long offreId5 = databaseHelper.insertOffre(
+                "Développeur Mobile",
+                "Nous recherchons un développeur mobile expérimenté pour rejoindre notre équipe. Vous serez responsable de la conception, du développement et de la maintenance de nos applications mobiles pour iOS et Android.",
+                "Développement Mobile",
+                "Toulouse",
+                getDateFromString("01/06/2023"), // Date de début
+                getDateFromString("31/12/2023"), // Date de fin
+                2 // ID de l'employeur Sophie Lefebvre
+        );
 
+        if (offreId5 == -1) {
+            Toast.makeText(this, "L'offre existe déjà dans la base de données", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Nouvelle offre insérée avec l'ID : " + offreId5, Toast.LENGTH_SHORT).show();
+        }
+
+// Offre pour l'employeur 3 (Marc Girard)
+        long offreId6 = databaseHelper.insertOffre(
+                "Analyste Cybersécurité",
+                "Nous recherchons un analyste cybersécurité expérimenté pour rejoindre notre équipe. Vous serez responsable de l'analyse des risques de sécurité, de la mise en place de mesures de protection et de la gestion des incidents de sécurité.",
+                "Cybersécurité",
+                "Toulouse",
+                getDateFromString("15/07/2023"), // Date de début
+                getDateFromString("31/12/2023"), // Date de fin
+                3 // ID de l'employeur Marc Girard
+        );
+
+        if (offreId6 == -1) {
+            Toast.makeText(this, "L'offre existe déjà dans la base de données", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Nouvelle offre insérée avec l'ID : " + offreId6, Toast.LENGTH_SHORT).show();
+        }
+
+// Offre pour l'employeur 4 (Isabelle Mercier)
+        long offreId7 = databaseHelper.insertOffre(
+                "Consultant en Stratégie Digitale",
+                "Nous recherchons un consultant en stratégie digitale expérimenté pour rejoindre notre équipe. Vous serez responsable de l'élaboration de stratégies digitales pour nos clients, de l'analyse des données et de la recommandation de solutions innovantes.",
+                "Conseil en Stratégie Digitale",
+                "Paris",
+                getDateFromString("01/08/2023"), // Date de début
+                getDateFromString("31/12/2023"), // Date de fin
+                4 // ID de l'employeur Isabelle Mercier
+        );
+
+        if (offreId7 == -1) {
+            Toast.makeText(this, "L'offre existe déjà dans la base de données", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Nouvelle offre insérée avec l'ID : " + offreId7, Toast.LENGTH_SHORT).show();
+        }
+
+// Offre pour l'employeur 5 (Pierre Dubois)
+        long offreId8 = databaseHelper.insertOffre(
+                "Ingénieur DevOps",
+                "Nous recherchons un ingénieur DevOps expérimenté pour rejoindre notre équipe. Vous serez responsable de la mise en place et de la gestion des processus d'intégration continue et de déploiement automatisé pour nos applications.",
+                "DevOps",
+                "Paris",
+                getDateFromString("15/06/2023"), // Date de début
+                getDateFromString("30/09/2023"), // Date de fin
+                5 // ID de l'employeur Pierre Dubois
+        );
+
+        if (offreId8 == -1) {
+            Toast.makeText(this, "L'offre existe déjà dans la base de données", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Nouvelle offre insérée avec l'ID : " + offreId8, Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+
+    // Création du format de date
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+    // Méthode pour convertir une chaîne de caractères en objet Date
+    private Date getDateFromString(String dateString) {
+        try {
+            return sdf.parse(dateString);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void showLocationPermissionDialog() {

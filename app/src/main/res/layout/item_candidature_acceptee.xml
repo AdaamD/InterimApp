@@ -1,41 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/grey">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:padding="16dp"
-        >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@drawable/rounded_button"
-                android:backgroundTint="@color/lightblue"
-                android:layout_marginBottom="20dp"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Candidatures Acceptées"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-            </FrameLayout>
-        </LinearLayout>
+    android:padding="16dp">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -108,6 +76,5 @@
 
         </FrameLayout>
 
-    </LinearLayout>
 
 </LinearLayout>
