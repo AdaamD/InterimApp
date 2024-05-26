@@ -55,7 +55,6 @@ public class ConsulterOffreActivity extends AppCompatActivity {
 
 
                 // Format the dates to "AAAA-MM-JJ" string
-
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 String dateDebutString = offre.getDateDebut() != null ? dateFormat.format(offre.getDateDebut()) : "Start Date Unavailable";
                 String dateFinString = offre.getDateFin() != null ? dateFormat.format(offre.getDateFin()) : "End Date Unavailable";

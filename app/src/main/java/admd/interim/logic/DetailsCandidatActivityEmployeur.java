@@ -22,7 +22,6 @@ public class DetailsCandidatActivityEmployeur extends AppCompatActivity {
         String dateNaissance = getIntent().getStringExtra("DATE_NAISSANCE");
         String nationalite = getIntent().getStringExtra("NATIONALITE");
         String ville = getIntent().getStringExtra("VILLE");
-        String cv = getIntent().getStringExtra("CV");
 
         String titreOffre = getIntent().getStringExtra("TITRE_OFFRE");
         String descriptionOffre = getIntent().getStringExtra("DESCRIPTION_OFFRE");
@@ -38,7 +37,6 @@ public class DetailsCandidatActivityEmployeur extends AppCompatActivity {
         TextView textViewDateNaissance = findViewById(R.id.textViewDateNaissance);
         TextView textViewNationalite = findViewById(R.id.textViewNationalite);
         TextView textViewVille = findViewById(R.id.textViewVille);
-        TextView textViewCV = findViewById(R.id.textViewCV);
 
         textViewNomPrenom.setText(nom + " " + prenom);
         textViewEmail.setText(email);
@@ -46,7 +44,6 @@ public class DetailsCandidatActivityEmployeur extends AppCompatActivity {
         textViewDateNaissance.setText(dateNaissance);
         textViewNationalite.setText(nationalite);
         textViewVille.setText(ville);
-        textViewCV.setText(cv);
 
         // Afficher les informations de l'offre
         TextView textViewTitreOffre = findViewById(R.id.textViewTitreOffre);

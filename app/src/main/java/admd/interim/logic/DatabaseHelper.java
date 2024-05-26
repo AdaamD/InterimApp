@@ -503,8 +503,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             offre.setMetier(cursor.getString(cursor.getColumnIndex("metier")));
             offre.setLieu(cursor.getString(cursor.getColumnIndex("lieu")));
             offre.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-            offre.setDateDebut(new Date(cursor.getLong(cursor.getColumnIndex("date_debut"))));
-            offre.setDateFin(new Date(cursor.getLong(cursor.getColumnIndex("date_fin"))));
+
+            // Récupérer les dates de début et de fin sous forme de chaînes de caractères
+            String dateDebutStr = cursor.getString(cursor.getColumnIndex("date_debut"));
+            String dateFinStr = cursor.getString(cursor.getColumnIndex("date_fin"));
+
+            // Convertir les chaînes de caractères en objets Date
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            try {
+                Date dateDebut = dateFormat.parse(dateDebutStr);
+                Date dateFin = dateFormat.parse(dateFinStr);
+                offre.setDateDebut(dateDebut);
+                offre.setDateFin(dateFin);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             offre.setIdEmployeur(cursor.getInt(cursor.getColumnIndex("id_employeur")));
 
             Log.d("DatabaseHelper", "Offre loaded: " + offre.toString()); // Make sure Offre has a proper toString() method
@@ -515,6 +529,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return offre;
     }
+
 
 
     @SuppressLint("Range")
