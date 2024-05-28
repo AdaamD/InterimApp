@@ -37,7 +37,7 @@ public class MonProfilEmployeurActivity extends AppCompatActivity {
 
         // Récupérer l'ID de l'employeur à partir de l'Intent
         employeurId = getIntent().getIntExtra("EMPLOYEUR_ID", 0);
-System.out.println("MonProfilEmployeurActivity: Employeur ID: " + employeurId);
+        System.out.println("MonProfilEmployeurActivity: Employeur ID: " + employeurId);
 
 
         // Initialiser les TextView et EditText

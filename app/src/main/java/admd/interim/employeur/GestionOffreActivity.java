@@ -42,7 +42,7 @@ public class GestionOffreActivity extends AppCompatActivity {
 
         // Récupérer les offres de l'employeur depuis la base de données
         List<Offre> offres = dbHelper.getOffresByEmployeurId(employeurId);
-
+/*
         // Afficher les informations des offres récupérées dans le LogCat
         for (Offre offre : offres) {
             System.out.println("Offre ID: " + offre.getId());
@@ -55,7 +55,7 @@ public class GestionOffreActivity extends AppCompatActivity {
             System.out.println("ID Employeur: " + offre.getIdEmployeur());
             System.out.println("-------------------");
         }
-
+*/
         return offres;
     }
 

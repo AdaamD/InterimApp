@@ -55,16 +55,6 @@ public class ModifierOffreActivity extends AppCompatActivity {
             editTextDateFin.setText(offre.getDateFin().toString());
 
 
-            // Afficher les informations de l'offre récupérée
-            System.out.println("Offre ID : " + offre.getId());
-            System.out.println("Titre : " + offre.getTitre());
-            System.out.println("Description : " + offre.getDescription());
-            System.out.println("Métier : " + offre.getMetier());
-            System.out.println("Lieu : " + offre.getLieu());
-            System.out.println("Date de début : " + offre.getDateDebut());
-            System.out.println("Date de fin : " + offre.getDateFin());
-            System.out.println("Employeur ID : " + offre.getIdEmployeur());
-
             // Ajouter un OnClickListener pour le bouton "Modifier"
             buttonModifier.setOnClickListener(new View.OnClickListener() {
                 @Override

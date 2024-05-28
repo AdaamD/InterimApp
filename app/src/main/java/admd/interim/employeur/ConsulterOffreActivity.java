@@ -2,14 +2,11 @@ package admd.interim.employeur;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import admd.interim.R;
@@ -50,9 +47,6 @@ public class ConsulterOffreActivity extends AppCompatActivity {
 
                 lieuTextView.setText(offre.getLieu() != null ? offre.getLieu() : "Lieu Unavailable");
                 descriptionTextView.setText(offre.getDescription() != null ? offre.getDescription() : "Description Unavailable");
-
-
-
 
                 // Format the dates to "AAAA-MM-JJ" string
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
