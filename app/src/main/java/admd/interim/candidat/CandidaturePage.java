@@ -1,6 +1,5 @@
 package admd.interim.candidat;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +18,6 @@ import java.util.Date;
 import java.util.Locale;
 
 import admd.interim.R;
-import admd.interim.logic.Candidat;
 import admd.interim.logic.Candidature;
 import admd.interim.logic.DatabaseHelper;
 import admd.interim.logic.Offre;
@@ -157,14 +155,7 @@ public class CandidaturePage extends AppCompatActivity {
         databaseHelper.insertCandidature(candidature);
 
         // Envoyer une notification à l'employeur
-        notifierEmployeur(offre, candidature);
         Toast.makeText(this, "Candidature envoyée avec succès", Toast.LENGTH_SHORT).show();
     }
 
-
-
-    private void notifierEmployeur(Offre offre, Candidature candidature) {
-        // Implémentez la logique d'envoi de notification à l'employeur
-        // (e-mail, notification push, mise à jour dans une interface dédiée, etc.)
-    }
 }

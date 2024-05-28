@@ -22,7 +22,6 @@ public class MesCandidaturesActivity extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
     private RecyclerView recyclerViewCandidatures;
     private CandidatureAdapter candidatureAdapter;
-    private TextView textViewCandidatId;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
