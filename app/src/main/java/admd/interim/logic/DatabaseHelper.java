@@ -99,17 +99,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // ======== EMPLOYEURS METHODS ========
 
-    private boolean employeurExists(String email) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT COUNT(*) FROM employeurs WHERE email = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{email});
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-        db.close();
-        return count > 0;
-    }
-
     @SuppressLint("Range")
     public Employeur getEmployeurByEmail(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -187,24 +176,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Récupérer les informations actuelles de l'employeur
         Employeur employeurActuel = getEmployeurById(employeurId);
-
-        // Afficher toutes les nouvelles valeurs
-        System.out.println("Nouvelles valeurs :");
-        System.out.println("nom : " + nouveauNom);
-        System.out.println("entreprise : " + nouvelleEntreprise);
-        System.out.println("numero_telephone : " + nouveauNumeroTelephone);
-        System.out.println("adresse : " + nouvelleAdresse);
-        System.out.println("liens_public : " + nouveauLiensPublic);
-        System.out.println("email : " + nouveauEmail);
-
-        // Afficher toutes les anciennes valeurs
-        System.out.println("Anciennes valeurs :");
-        System.out.println("nom : " + employeurActuel.getNom());
-        System.out.println("entreprise : " + employeurActuel.getEntreprise());
-        System.out.println("numero_telephone : " + employeurActuel.getNumeroTelephone());
-        System.out.println("adresse : " + employeurActuel.getAdresse());
-        System.out.println("liens_public : " + employeurActuel.getLiensPublic());
-        System.out.println("email : " + employeurActuel.getEmail());
 
         ContentValues values = new ContentValues();
 
@@ -295,16 +266,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return newRowId;
     }
 
-    public boolean candidatExistsByEmail(String email) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT COUNT(*) FROM candidats WHERE email = ? ";
-        Cursor cursor = db.rawQuery(query, new String[]{email});
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-        db.close();
-        return count > 0;
-    }
 
     @SuppressLint("Range")
     public Candidat getCandidatByEmailAndPassword(String email, String password) {
@@ -336,27 +297,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Récupérer les informations actuelles du candidat
         Candidat candidatActuel = getCandidatByID(candidatId);
 
-        // Afficher toutes les nouvelles valeurs
-        System.out.println("Nouvelles valeurs :");
-        System.out.println("nom : " + nouveauNom);
-        System.out.println("prenom : " + nouveauPrenom);
-        System.out.println("date_naissance : " + nouveaueDateNaissance);
-        System.out.println("nationalite : " + nouvelleNationalite);
-        System.out.println("numero_telephone : " + nouveauNumeroTelephone);
-        System.out.println("email : " + nouveauEmail);
-        System.out.println("ville : " + nouvelleVille);
-        System.out.println("cv : " + nouveauCV);
-
-        // Afficher toutes les anciennes valeurs
-        System.out.println("Anciennes valeurs :");
-        System.out.println("nom : " + candidatActuel.getNom());
-        System.out.println("prenom : " + candidatActuel.getPrenom());
-        System.out.println("date_naissance : " + candidatActuel.getDateNaissance());
-        System.out.println("nationalite : " + candidatActuel.getNationalite());
-        System.out.println("numero_telephone : " + candidatActuel.getNumeroTelephone());
-        System.out.println("email : " + candidatActuel.getEmail());
-        System.out.println("ville : " + candidatActuel.getVille());
-        System.out.println("cv : " + candidatActuel.getCv());
 
         ContentValues values = new ContentValues();
 
@@ -909,37 +849,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return candidatures;
     }
 
-
-
-    @SuppressLint("Range")
-    public List<Candidature> getCandidaturesParOffre(int offreId) {
-        List<Candidature> candidatures = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM candidatures WHERE id_offre = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(offreId)});
-
-        if (cursor.moveToFirst()) {
-            do {
-                Candidature candidature = new Candidature(
-                        cursor.getInt(cursor.getColumnIndex("id_offre")),
-                        cursor.getLong(cursor.getColumnIndex("id_candidat")),
-                        cursor.getString(cursor.getColumnIndex("nom_candidat")),
-                        cursor.getString(cursor.getColumnIndex("prenom_candidat")),
-                        cursor.getString(cursor.getColumnIndex("email_candidat")),
-                        cursor.getString(cursor.getColumnIndex("cv_candidat")),
-                        new Date(cursor.getLong(cursor.getColumnIndex("date_candidature"))),
-                        cursor.getString(cursor.getColumnIndex("statut_candidature"))
-                );
-                candidature.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                candidatures.add(candidature);
-                Log.d("DatabaseHelper", "Candidature loaded: " + candidature.getNomCandidat() + " " + candidature.getPrenomCandidat());
-            } while (cursor.moveToNext());
-        } else {
-            Log.d("DatabaseHelper", "No candidatures found for offer ID: " + offreId);
-        }
-        cursor.close();
-        return candidatures;
-    }
 
     public void updateStatutCandidature(int candidatureId, String nouveauStatut) {
         SQLiteDatabase db = this.getWritableDatabase();
